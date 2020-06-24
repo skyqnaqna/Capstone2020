@@ -4,17 +4,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
-
-    <ScrollView
+    tools:context=".su_CategoryActivity">
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/CategoryRecycle"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical" />
-    </ScrollView>
+        android:layout_height="match_parent" />
+    //app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+    app:spanCount="2"
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/categoryNavigationView"
