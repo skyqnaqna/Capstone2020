@@ -2,8 +2,9 @@ package com.cs2020.capstone;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -12,14 +13,10 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class su_CategoryActivity extends AppCompatActivity
 {
-    private RecyclerView rv;
-    private GridLayoutManager glm;
-    private List<Integer> count;
+    //RvAdapter rvAdapter;
+    //private List<Integer> count;
     private int i = 0;
 
     @Override
@@ -28,13 +25,35 @@ public class su_CategoryActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.su_category_main);
 
-        rv = (RecyclerView) findViewById(R.id.CategoryRecycle);
-        glm = new GridLayoutManager(this, 2);
-
-        count = new ArrayList<>();
-
-        rv.setHasFixedSize(true);
+        RecyclerView rv = findViewById(R.id.CategoryRecycle);
+        GridLayoutManager glm = new GridLayoutManager(this, 2);
         rv.setLayoutManager(glm);
+        //count = new ArrayList<>();
+
+        //rv.setHasFixedSize(true);
+        //rv.setLayoutManager(glm);
+
+        final su_CategoryAdapter adapter = new su_CategoryAdapter();
+
+        adapter.addItem(new su_Category("육류"));
+        adapter.addItem(new su_Category("해산물"));
+        adapter.addItem(new su_Category("음료"));
+        adapter.addItem(new su_Category("조미료"));
+        adapter.addItem(new su_Category("야채"));
+        adapter.addItem(new su_Category("냉동식품"));
+
+        rv.setAdapter(adapter);
+
+        adapter.setOnItemClickListener(new OnCategoryItemClickListener()
+        {
+            @Override
+            public void onItemClick(su_CategoryAdapter.ViewHolder holder, View view, int position)
+            {
+                su_Category item = adapter.getItem(position);
+                Toast.makeText(getApplicationContext(), "카테고리 선택됨 : " + item.getName()
+                        , Toast.LENGTH_LONG).show();
+            }
+        });
 
 
         BottomNavigationView bottomNavigationView = findViewById(R.id.categoryNavigationView);
@@ -57,7 +76,7 @@ public class su_CategoryActivity extends AppCompatActivity
                     }
                     case R.id.addCategory:
                     {
-                        AddCategory();
+                        //AddCategory();
                         break;
                     }
                     case R.id.graph:
@@ -71,12 +90,12 @@ public class su_CategoryActivity extends AppCompatActivity
         });
     }
 
-    public void AddCategory()
-    {
-        i++;
-        count.add(i);
-        RvAdapter adapter = new RvAdapter(getApplication(), count, i);
-        rv.setAdapter(adapter);
-        Log.d("Count", count + "");
-    }
+//    public void AddCategory()
+//    {
+//        i++;
+//        count.add(i);
+//        RvAdapter adapter = new RvAdapter(getApplication(), count, i);
+//        rv.setAdapter(adapter);
+//        Log.d("Count", count + "");
+//    }
 }
