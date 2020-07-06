@@ -43,7 +43,7 @@ public class su_CategoryAdapter extends RecyclerView.Adapter<su_CategoryAdapter.
         public void setItem(su_Category item)
         {
             textView1.setText(item.getName());
-            textView2.setText(item.getCount());
+            textView2.setText(String.valueOf(item.getCount()));
         }
     }
 
