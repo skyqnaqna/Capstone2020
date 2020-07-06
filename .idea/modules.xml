@@ -2,7 +2,10 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/Capstone.iml" filepath="$PROJECT_DIR$/.idea/Capstone.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/Capstone2020.iml" filepath="$PROJECT_DIR$/.idea/modules/Capstone2020.iml" group="Capstone2020" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/MPAndroidChart-master/MPChartExample/MPChartExample.iml" filepath="$PROJECT_DIR$/.idea/modules/MPAndroidChart-master/MPChartExample/MPChartExample.iml" group="Capstone2020/MPChartExample" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/MPAndroidChart-master/MPChartLib/MPChartLib.iml" filepath="$PROJECT_DIR$/.idea/modules/MPAndroidChart-master/MPChartLib/MPChartLib.iml" group="Capstone2020/MPChartLib" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/app.iml" filepath="$PROJECT_DIR$/.idea/modules/app/app.iml" group="Capstone2020/app" />
     </modules>
   </component>
 </project>
