@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".su_CategoryActivity">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/CategoryRecycle"
@@ -12,11 +12,11 @@
         android:layout_height="wrap_content" />
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
-        android:id="@+id/mainNavigationView"
+        android:id="@+id/categoryNavigationView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="?android:attr/windowBackground"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:menu="@menu/main_bottom" />
+        app:menu="@menu/su_category_bottom" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
