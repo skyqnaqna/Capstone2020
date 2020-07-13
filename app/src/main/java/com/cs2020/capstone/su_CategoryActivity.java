@@ -2,6 +2,8 @@ package com.cs2020.capstone;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.ContextMenu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
@@ -51,6 +53,7 @@ public class su_CategoryActivity extends AppCompatActivity
                         , Toast.LENGTH_LONG).show();
             }
         });
+
 
         BottomNavigationView bottomNavigationView = findViewById(R.id.categoryNavigationView);
 
@@ -115,7 +118,33 @@ public class su_CategoryActivity extends AppCompatActivity
 //        });
     }
 
-//    public void AddCategory()
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo)
+    {
+        super.onCreateContextMenu(menu, v, menuInfo);
+
+        MenuInflater menuInflater = getMenuInflater();
+        menuInflater.inflate(R.menu.su_category_item_menu, menu);
+    }
+
+    @Override
+    public boolean onContextItemSelected(@NonNull MenuItem item)
+    {
+        switch (item.getItemId())
+        {
+            case R.id.modify:
+                Toast.makeText(this, "수정", Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.delete:
+                Toast.makeText(this, "삭제", Toast.LENGTH_SHORT).show();
+                break;
+        }
+        return super.onContextItemSelected(item);
+    }
+
+
+
+    //    public void AddCategory()
 //    {
 //        i++;
 //        count.add(i);

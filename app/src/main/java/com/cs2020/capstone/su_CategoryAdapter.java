@@ -1,6 +1,9 @@
 package com.cs2020.capstone;
 
+import android.content.Context;
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -9,14 +12,29 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class su_CategoryAdapter extends RecyclerView.Adapter<su_CategoryAdapter.ViewHolder>
         implements OnCategoryItemClickListener
 {
+//    Context mContext;
+//    List<String> mdata;
+//
+//    public su_CategoryAdapter(Context context)
+//    {
+//        this.mContext = context;
+//    }
+//
+//    public void setDate(List<String> data)
+//    {
+//        mdata = data;
+//        notifyDataSetChanged();
+//    }
+
     ArrayList<su_Category> items = new ArrayList<>();
     OnCategoryItemClickListener listener;
 
-    static class ViewHolder extends RecyclerView.ViewHolder
+    static class ViewHolder extends RecyclerView.ViewHolder implements View.OnCreateContextMenuListener
     {
         TextView textView1;
         TextView textView2;
@@ -38,6 +56,8 @@ public class su_CategoryAdapter extends RecyclerView.Adapter<su_CategoryAdapter.
                         listener.onItemClick(ViewHolder.this, v, position);
                 }
             });
+
+            itemView.setOnCreateContextMenuListener(this);
         }
 
         public void setItem(su_Category item)
