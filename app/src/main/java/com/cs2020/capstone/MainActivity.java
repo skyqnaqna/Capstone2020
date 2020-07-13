@@ -3,6 +3,7 @@ package com.cs2020.capstone;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -29,8 +30,8 @@ public class MainActivity extends AppCompatActivity
                 {
                     case R.id.category:
                     {
-                        Intent intent = new Intent(getApplicationContext(), su_CategoryActivity.class);
-                        startActivityForResult(intent, 101);
+                        Intent intent2 = new Intent(getApplicationContext(), su_CategoryActivity.class);
+                        startActivityForResult(intent2, 101);
                         break;
                     }
                     case R.id.addProduct:
@@ -40,6 +41,8 @@ public class MainActivity extends AppCompatActivity
                     }
                     case R.id.graph:
                     {
+                        Intent intent2 = new Intent(getApplicationContext(), GraphActivity.class);
+                        startActivityForResult(intent2, 101);
 
                         break;
                     }
@@ -47,5 +50,19 @@ public class MainActivity extends AppCompatActivity
                 return true;
             }
         });
+    }
+
+    private long time = 0;
+
+    @Override
+    public void onBackPressed()
+    {
+        if (System.currentTimeMillis() - time >= 2000)
+        {
+            time = System.currentTimeMillis();
+            Toast.makeText(getApplicationContext(), "한번 더 누르면 종료됩니다.", Toast.LENGTH_SHORT).show();
+        }
+        else if (System.currentTimeMillis() - time < 2000)
+            finish();
     }
 }

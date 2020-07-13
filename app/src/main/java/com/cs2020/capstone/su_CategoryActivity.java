@@ -69,6 +69,8 @@ public class su_CategoryActivity extends AppCompatActivity
                         setResult(RESULT_OK, intent);
                         finish();
 
+                        Intent intent2 = new Intent(getApplicationContext(), MainActivity.class);
+                        startActivityForResult(intent2, 101);
                         break;
                     }
                     case R.id.addCategory:
@@ -78,6 +80,12 @@ public class su_CategoryActivity extends AppCompatActivity
                     }
                     case R.id.graph:
                     {
+                        Intent intent = new Intent();
+                        setResult(RESULT_OK, intent);
+                        finish();
+
+                        Intent intent2 = new Intent(getApplicationContext(), GraphActivity.class);
+                        startActivityForResult(intent2, 101);
 
                         break;
                     }
