@@ -52,7 +52,6 @@ public class su_CategoryActivity extends AppCompatActivity
             }
         });
 
-
         BottomNavigationView bottomNavigationView = findViewById(R.id.categoryNavigationView);
 
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener()
@@ -93,6 +92,27 @@ public class su_CategoryActivity extends AppCompatActivity
                 return true;
             }
         });
+
+//        ImageButton imageButton = findViewById(R.id.imageButton);
+//        imageButton.setOnClickListener(new onClickListener()
+//        {
+//            public void onClick(View view)
+//            {
+//                PopupMenu popupMenu = new PopupMenu(getApplicationContext(), view);
+//                getMenuInflater().inflate(R.menu.su_category_item_menu, popupMenu.getMenu());
+//
+//                popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener()
+//                {
+//                    @Override
+//                    public boolean onMenuItemClick(MenuItem item)
+//                    {
+//                        Toast.makeText(getApplicationContext(), "팝업메뉴", Toast.LENGTH_SHORT).show();
+//                        return false;
+//                    }
+//                });
+//                popupMenu.show();
+//            }
+//        });
     }
 
 //    public void AddCategory()
