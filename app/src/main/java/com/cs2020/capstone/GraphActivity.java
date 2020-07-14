@@ -67,7 +67,8 @@ public class GraphActivity extends AppCompatActivity
                         finish();
 
                         Intent intent2 = new Intent(getApplicationContext(), MainActivity.class);
-                        startActivityForResult(intent2, 101);
+                        intent2.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                        startActivityForResult(intent2, 105);
                         break;
                     }
                     case R.id.addCategory:
@@ -78,7 +79,8 @@ public class GraphActivity extends AppCompatActivity
                     case R.id.category:
                     {
                         Intent intent = new Intent(getApplicationContext(), su_CategoryActivity.class);
-                        startActivityForResult(intent, 101);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                        startActivityForResult(intent, 106);
 
                         break;
                     }

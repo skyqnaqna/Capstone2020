@@ -31,6 +31,7 @@ public class MainActivity extends AppCompatActivity
                     case R.id.category:
                     {
                         Intent intent2 = new Intent(getApplicationContext(), su_CategoryActivity.class);
+                        intent2.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
                         startActivityForResult(intent2, 101);
                         break;
                     }
@@ -42,7 +43,8 @@ public class MainActivity extends AppCompatActivity
                     case R.id.graph:
                     {
                         Intent intent2 = new Intent(getApplicationContext(), GraphActivity.class);
-                        startActivityForResult(intent2, 101);
+                        intent2.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                        startActivityForResult(intent2, 102);
 
                         break;
                     }

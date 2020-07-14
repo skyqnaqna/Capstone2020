@@ -2,8 +2,6 @@ package com.cs2020.capstone;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.ContextMenu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
@@ -27,19 +25,15 @@ public class su_CategoryActivity extends AppCompatActivity
         RecyclerView rv = findViewById(R.id.CategoryRecycle);
         GridLayoutManager glm = new GridLayoutManager(this, 2);
         rv.setLayoutManager(glm);
-        //count = new ArrayList<>();
 
-        //rv.setHasFixedSize(true);
-        //rv.setLayoutManager(glm);
+        final su_CategoryAdapter adapter = new su_CategoryAdapter(this);
 
-        final su_CategoryAdapter adapter = new su_CategoryAdapter();
-
-        adapter.addItem(new su_Category("육류"));
-        adapter.addItem(new su_Category("해산물"));
-        adapter.addItem(new su_Category("음료"));
-        adapter.addItem(new su_Category("조미료"));
-        adapter.addItem(new su_Category("야채"));
-        adapter.addItem(new su_Category("냉동식품"));
+        adapter.addCategory(new su_Category("육류"));
+        adapter.addCategory(new su_Category("해산물"));
+        adapter.addCategory(new su_Category("음료"));
+        adapter.addCategory(new su_Category("조미료"));
+        adapter.addCategory(new su_Category("야채"));
+        adapter.addCategory(new su_Category("냉동식품"));
 
         rv.setAdapter(adapter);
 
@@ -67,12 +61,13 @@ public class su_CategoryActivity extends AppCompatActivity
                 {
                     case R.id.home:
                     {
-                        Intent intent = new Intent();
-                        setResult(RESULT_OK, intent);
-                        finish();
+//                        Intent intent = new Intent();
+//                        setResult(RESULT_OK, intent);
+//                        finish();
 
                         Intent intent2 = new Intent(getApplicationContext(), MainActivity.class);
-                        startActivityForResult(intent2, 101);
+                        intent2.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                        startActivityForResult(intent2, 103);
                         break;
                     }
                     case R.id.addCategory:
@@ -87,7 +82,8 @@ public class su_CategoryActivity extends AppCompatActivity
                         finish();
 
                         Intent intent2 = new Intent(getApplicationContext(), GraphActivity.class);
-                        startActivityForResult(intent2, 101);
+                        intent2.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                        startActivityForResult(intent2, 104);
 
                         break;
                     }
@@ -96,51 +92,10 @@ public class su_CategoryActivity extends AppCompatActivity
             }
         });
 
-//        ImageButton imageButton = findViewById(R.id.imageButton);
-//        imageButton.setOnClickListener(new onClickListener()
-//        {
-//            public void onClick(View view)
-//            {
-//                PopupMenu popupMenu = new PopupMenu(getApplicationContext(), view);
-//                getMenuInflater().inflate(R.menu.su_category_item_menu, popupMenu.getMenu());
-//
-//                popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener()
-//                {
-//                    @Override
-//                    public boolean onMenuItemClick(MenuItem item)
-//                    {
-//                        Toast.makeText(getApplicationContext(), "팝업메뉴", Toast.LENGTH_SHORT).show();
-//                        return false;
-//                    }
-//                });
-//                popupMenu.show();
-//            }
-//        });
+
     }
 
-    @Override
-    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo)
-    {
-        super.onCreateContextMenu(menu, v, menuInfo);
 
-        MenuInflater menuInflater = getMenuInflater();
-        menuInflater.inflate(R.menu.su_category_item_menu, menu);
-    }
-
-    @Override
-    public boolean onContextItemSelected(@NonNull MenuItem item)
-    {
-        switch (item.getItemId())
-        {
-            case R.id.modify:
-                Toast.makeText(this, "수정", Toast.LENGTH_SHORT).show();
-                break;
-            case R.id.delete:
-                Toast.makeText(this, "삭제", Toast.LENGTH_SHORT).show();
-                break;
-        }
-        return super.onContextItemSelected(item);
-    }
 
 
 
