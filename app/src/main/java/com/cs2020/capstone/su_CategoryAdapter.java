@@ -12,6 +12,7 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.PopupMenu;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -147,6 +148,50 @@ public class su_CategoryAdapter extends RecyclerView.Adapter<su_CategoryAdapter.
     public void setItem(int position, su_Category item)
     {
         items.set(position, item);
+    }
+
+    public void showAddDialog()
+    {
+        AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
+        View view = LayoutInflater.from(mContext).inflate(R.layout.category_add_box, null, false);
+        builder.setView(view);
+
+        final EditText editText = (EditText) view.findViewById(R.id.add_category_name);
+        final Button addOk = (Button) view.findViewById(R.id.add_ok_btn);
+        final Button addCancel = (Button) view.findViewById(R.id.add_cancel_btn);
+
+        final AlertDialog dialog = builder.create();
+
+        addOk.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                if (editText.getText().toString().equals(""))
+                {
+                    Toast.makeText(mContext, "카테고리명을 입력하세요", Toast.LENGTH_SHORT).show();
+                    //dialog.dismiss();
+                }
+                else
+                {
+                    addCategory(new su_Category(editText.getText().toString()));
+                    notifyDataSetChanged();
+                    dialog.dismiss();
+                }
+
+            }
+        });
+
+        addCancel.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                dialog.dismiss();
+            }
+        });
+
+        dialog.show();
     }
 
     private void showEditDialog(final int position, final su_Category item)

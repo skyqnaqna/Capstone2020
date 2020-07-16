@@ -1,6 +1,8 @@
 package com.cs2020.capstone;
 
+import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -15,6 +17,33 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class su_CategoryActivity extends AppCompatActivity
 {
+
+    @Override
+    protected void onPause()
+    {
+        super.onPause();
+
+        saveState();
+    }
+
+    @Override
+    protected void onResume()
+    {
+        super.onResume();
+
+        restoreState();
+    }
+
+    protected void saveState()
+    {
+        SharedPreferences pref = getSharedPreferences("cate", Activity.MODE_PRIVATE);
+    }
+
+    protected void restoreState()
+    {
+        SharedPreferences pref = getSharedPreferences("cate", Activity.MODE_PRIVATE);
+    }
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -73,6 +102,7 @@ public class su_CategoryActivity extends AppCompatActivity
                     case R.id.addCategory:
                     {
                         //AddCategory();
+                        adapter.showAddDialog();
                         break;
                     }
                     case R.id.graph:
@@ -91,6 +121,7 @@ public class su_CategoryActivity extends AppCompatActivity
                 return true;
             }
         });
+
 
 
     }
