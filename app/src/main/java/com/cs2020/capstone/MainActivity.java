@@ -52,6 +52,12 @@ public class MainActivity extends AppCompatActivity
                 return true;
             }
         });
+
+        DBActivityHelper mDbOpenHelper = new DBActivityHelper(this);
+        mDbOpenHelper.open();
+        mDbOpenHelper.create();
+
+
     }
 
     private long time = 0;
