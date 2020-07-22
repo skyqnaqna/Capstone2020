@@ -1,6 +1,7 @@
 package com.cs2020.capstone;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.Menu;
@@ -15,12 +16,17 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
+import java.util.List;
+
 public class MainActivity extends AppCompatActivity
 {
+    MainAdapter adapter;
+    ItemTouchHelper itemTouchHelper;
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
@@ -38,12 +44,17 @@ public class MainActivity extends AppCompatActivity
         GridLayoutManager layoutManager = new GridLayoutManager(this, 1);
         rv.setLayoutManager(layoutManager);
 
-        final MainAdapter adapter = new MainAdapter(this);
+        adapter = new MainAdapter(this);
 
         adapter.addProduct(new Product("초코파이", "과자", "빙그레", 2020, 12, 12));
         adapter.addProduct(new Product("초코", "과자", "빙그레", 2020, 12, 12));
         adapter.addProduct(new Product("파이", "과자", "빙그레", 2020, 12, 12));
         adapter.addProduct(new Product("초파", "과자", "빙그레", 2020, 12, 12));
+
+        // 아이템 드래그 적용
+        ItemTouchHelperCallback callback = new ItemTouchHelperCallback((ItemTouchHelperCallback.OnItemMoveListener)adapter);
+        itemTouchHelper = new ItemTouchHelper(callback);
+        itemTouchHelper.attachToRecyclerView(rv);
 
         rv.setAdapter(adapter);
 
@@ -57,6 +68,27 @@ public class MainActivity extends AppCompatActivity
                         Toast.LENGTH_SHORT).show();
             }
         });
+
+        SwipeHelper swipeHelper = new SwipeHelper(MainActivity.this, rv, 300)
+        {
+            @Override
+            public void instantiatrMyButton(RecyclerView.ViewHolder viewHolder, List<SwipeHelper.MyButton> buffer)
+            {
+                buffer.add(new MyButton(MainActivity.this,
+                        "Delete", 30, R.drawable.ic_baseline_delete_24,
+                        Color.parseColor("#FF3C30"),
+                        new MyButtonClickListener()
+                        {
+                            @Override
+                            public void onClick(int pos)
+                            {
+                                Toast.makeText(MainActivity.this, "Delete click",Toast.LENGTH_SHORT).show();
+                                adapter.removeItem(pos);
+                            }
+                        }));
+            }
+        };
+
 
         // 하단 메뉴
         BottomNavigationView bottomNavigationView = findViewById(R.id.mainNavigationView);

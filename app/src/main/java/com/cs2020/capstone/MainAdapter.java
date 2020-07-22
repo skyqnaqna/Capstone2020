@@ -11,22 +11,27 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Locale;
 
 public class MainAdapter extends RecyclerView.Adapter<MainAdapter.ViewHolder>
-    implements OnProductItemClickListener
+    implements OnProductItemClickListener, ItemTouchHelperCallback.OnItemMoveListener
 {
     ArrayList<Product> items = new ArrayList<>();
     OnProductItemClickListener listener;
     Context mContext;
 
-    public MainAdapter(Context context) { mContext = context; }
+    public MainAdapter(Context context)
+    {
+        mContext = context;
+    }
 
     static class ViewHolder extends RecyclerView.ViewHolder
     {
         ImageView imageView;
         TextView textView1;
         TextView textView2;
+        ImageView drag;
 
         public ViewHolder(View itemView, final OnProductItemClickListener listener)
         {
@@ -35,6 +40,7 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.ViewHolder>
             imageView = itemView.findViewById(R.id.product_image);
             textView1 = itemView.findViewById(R.id.product_name);
             textView2 = itemView.findViewById(R.id.product_date);
+            drag = itemView.findViewById(R.id.drag);
 
             itemView.setOnClickListener(new View.OnClickListener()
             {
@@ -51,7 +57,7 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.ViewHolder>
         public void setItem(Product item)
         {
             textView1.setText(item.getName());
-            textView2.setText(String.format(Locale.KOREA,"유통기한 %d-%d-%d", item.getYear(), item.getMonth(), item.getDay()));
+            textView2.setText(String.format(Locale.KOREA, "유통기한 %d-%d-%d", item.getYear(), item.getMonth(), item.getDay()));
         }
     }
 
@@ -68,7 +74,7 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.ViewHolder>
     @Override
     public void onBindViewHolder(@NonNull final ViewHolder holder, final int position)
     {
-        final Product item = items.get(position);
+        Product item = items.get(position);
         holder.setItem(item);
 
     }
@@ -76,6 +82,20 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.ViewHolder>
     public void addProduct(Product item)
     {
         items.add(item);
+    }
+
+    public void removeItem(int position)
+    {
+        items.remove(position);
+        notifyItemRemoved(position);
+        notifyDataSetChanged();
+    }
+
+    // 드래그 아이템 이동
+    public void onItemMove(int fromPos, int toPos)
+    {
+        Collections.swap(items, fromPos, toPos);
+        notifyItemMoved(fromPos, toPos);
     }
 
     public void setOnItemClickListener(OnProductItemClickListener listener)
