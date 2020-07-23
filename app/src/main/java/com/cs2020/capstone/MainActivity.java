@@ -46,10 +46,10 @@ public class MainActivity extends AppCompatActivity
 
         adapter = new MainAdapter(this);
 
-        adapter.addProduct(new Product("초코파이", "과자", "빙그레", 2020, 12, 12));
-        adapter.addProduct(new Product("초코", "과자", "빙그레", 2020, 12, 12));
-        adapter.addProduct(new Product("파이", "과자", "빙그레", 2020, 12, 12));
-        adapter.addProduct(new Product("초파", "과자", "빙그레", 2020, 12, 12));
+        adapter.addProduct(new Product("초코파이", "과자", "빙그레", 2020, 12, 12, R.drawable.chocopie));
+        adapter.addProduct(new Product("초코", "과자", "빙그레", 2020, 12, 12, R.drawable.add));
+        adapter.addProduct(new Product("파이", "과자", "빙그레", 2020, 12, 12, R.drawable.home));
+        adapter.addProduct(new Product("초파", "과자", "빙그레", 2020, 12, 12, R.drawable.edit));
 
         // 아이템 드래그 적용
         ItemTouchHelperCallback callback = new ItemTouchHelperCallback((ItemTouchHelperCallback.OnItemMoveListener)adapter);
@@ -66,6 +66,16 @@ public class MainActivity extends AppCompatActivity
                 Product item = adapter.getItem(position);
                 Toast.makeText(getApplicationContext(), "제품 선택됨 : " + item.getName(),
                         Toast.LENGTH_SHORT).show();
+
+                Intent intent = new Intent(getApplicationContext(), InfoActivity.class);
+
+                intent.putExtra("name", adapter.getItem(position).name);
+                intent.putExtra("category", adapter.getItem(position).category);
+                intent.putExtra("date", adapter.getItem(position).day);
+                intent.putExtra("company", adapter.getItem(position).company);
+                intent.putExtra("img", adapter.getItem(position).image_src);
+
+                startActivityForResult(intent, 111);
             }
         });
 

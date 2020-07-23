@@ -79,6 +79,8 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.ViewHolder>
 
     }
 
+
+
     public void addProduct(Product item)
     {
         items.add(item);

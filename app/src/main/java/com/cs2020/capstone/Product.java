@@ -2,7 +2,7 @@ package com.cs2020.capstone;
 
 class Product
 {
-    String image_src;
+    Integer image_src;
     String name;
     String category;
     int year, month, day;
@@ -10,15 +10,16 @@ class Product
     String company;
     Boolean isPassed;
 
-    public Product(String name, String category, String company)
+    public Product(String name, String category, String company, Integer img)
     {
         this.name = name;
         this.category = category;
         this.company = company;
         this.isPassed = false;
+        this.image_src = img;
     }
 
-    public Product(String name, String category, String company, int year, int month, int day)
+    public Product(String name, String category, String company, int year, int month, int day, Integer img)
     {
         this.name = name;
         this.category = category;
@@ -27,6 +28,7 @@ class Product
         this.month = month;
         this.day = day;
         this.isPassed = false;
+        this.image_src = img;
     }
 
     public String getName() {return name;}
