@@ -1,5 +1,7 @@
 package com.cs2020.capstone;
 
+import java.util.Locale;
+
 class Product
 {
     Integer image_src;
@@ -9,6 +11,7 @@ class Product
     // 알림 추가
     String company;
     Boolean isPassed;
+    String date;
 
     public Product(String name, String category, String company, Integer img)
     {
@@ -29,6 +32,8 @@ class Product
         this.day = day;
         this.isPassed = false;
         this.image_src = img;
+
+        setDate();
     }
 
     public String getName() {return name;}
@@ -37,10 +42,15 @@ class Product
     public Integer getMonth() {return month;}
     public Integer getDay() {return day;}
     public Boolean getIsPassed() {return isPassed;}
+    public String getDate() {return this.date;}
 
     public void setName(String name) { this.name = name;}
     public void setCategory(String category) {this.category = category;}
     public void setCompany(String company) {this.company = company;}
     public void setIsPassed() {this.isPassed = true;}
+    public void setDate()
+    {
+        this.date = String.format(Locale.KOREA,"%d-%d-%d", this.year, this.month, this.day);
+    }
 
 }
