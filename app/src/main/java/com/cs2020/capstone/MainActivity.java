@@ -135,6 +135,12 @@ public class MainActivity extends AppCompatActivity
                 return true;
             }
         });
+
+        DBActivityHelper mDbOpenHelper = new DBActivityHelper(this);
+        mDbOpenHelper.open();
+        mDbOpenHelper.create();
+
+
     }
 
     // 상단 툴바
