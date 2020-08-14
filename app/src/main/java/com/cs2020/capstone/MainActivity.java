@@ -8,6 +8,9 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -27,6 +30,7 @@ public class MainActivity extends AppCompatActivity
 {
     MainAdapter adapter;
     ItemTouchHelper itemTouchHelper;
+    Spinner spinner;
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
@@ -35,10 +39,17 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        // 툴바
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayShowTitleEnabled(false);
+
+        // 정렬
+        final String[] sort_opt = getResources().getStringArray(R.array.sort_list);
+        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line, sort_opt);
+        spinner = (Spinner) findViewById(R.id.spinner);
+        spinner.setAdapter(arrayAdapter);
 
         RecyclerView rv = findViewById(R.id.ProductRecycle);
         GridLayoutManager layoutManager = new GridLayoutManager(this, 1);
@@ -46,13 +57,13 @@ public class MainActivity extends AppCompatActivity
 
         adapter = new MainAdapter(this);
 
-        adapter.addProduct(new Product("초코파이", "과자", "빙그레", 2020, 12, 12, R.drawable.chocopie));
-        adapter.addProduct(new Product("초코", "과자", "빙그레", 2020, 12, 12, R.drawable.add));
-        adapter.addProduct(new Product("파이", "과자", "빙그레", 2020, 12, 12, R.drawable.home));
-        adapter.addProduct(new Product("초파", "과자", "빙그레", 2020, 12, 12, R.drawable.edit));
+        adapter.addProduct(new Product("초코파이", "과자", "빙그레", 2021, 4, 5, R.drawable.chocopie));
+        adapter.addProduct(new Product("초코", "과자", "빙그레", 2022, 8, 1, R.drawable.add));
+        adapter.addProduct(new Product("파이", "과자", "빙그레", 2019, 12, 12, R.drawable.home));
+        adapter.addProduct(new Product("초파", "과자", "빙그레", 2019, 10, 17, R.drawable.edit));
 
         // 아이템 드래그 적용
-        ItemTouchHelperCallback callback = new ItemTouchHelperCallback((ItemTouchHelperCallback.OnItemMoveListener)adapter);
+        ItemTouchHelperCallback callback = new ItemTouchHelperCallback((ItemTouchHelperCallback.OnItemMoveListener) adapter);
         itemTouchHelper = new ItemTouchHelper(callback);
         itemTouchHelper.attachToRecyclerView(rv);
 
@@ -79,6 +90,7 @@ public class MainActivity extends AppCompatActivity
             }
         });
 
+        // 스와이프하여 삭제
         SwipeHelper swipeHelper = new SwipeHelper(MainActivity.this, rv, 300)
         {
             @Override
@@ -92,13 +104,42 @@ public class MainActivity extends AppCompatActivity
                             @Override
                             public void onClick(int pos)
                             {
-                                Toast.makeText(MainActivity.this, "Delete click",Toast.LENGTH_SHORT).show();
+                                Toast.makeText(MainActivity.this, "Delete click", Toast.LENGTH_SHORT).show();
                                 adapter.removeItem(pos);
                             }
                         }));
             }
         };
 
+        // spinner 옵션 선택시
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener()
+        {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id)
+            {
+                switch (position)
+                {
+                    case 0:
+                        adapter.nameAsc();
+                        break;
+                    case 1:
+                        adapter.nameDsc();
+                        break;
+                    case 2:
+                        adapter.dateAsc();
+                        break;
+                    case 3:
+                        adapter.dateDsc();
+                        break;
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent)
+            {
+
+            }
+        });
 
         // 하단 메뉴
         BottomNavigationView bottomNavigationView = findViewById(R.id.mainNavigationView);

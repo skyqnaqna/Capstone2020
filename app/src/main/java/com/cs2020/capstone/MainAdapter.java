@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.Locale;
 
 public class MainAdapter extends RecyclerView.Adapter<MainAdapter.ViewHolder>
@@ -57,7 +58,8 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.ViewHolder>
         public void setItem(Product item)
         {
             textView1.setText(item.getName());
-            textView2.setText(String.format(Locale.KOREA, "유통기한 %d-%d-%d", item.getYear(), item.getMonth(), item.getDay()));
+            textView2.setText(String.format(Locale.KOREA, "유통기한 %d-%d-%d 까지", item.getYear(), item.getMonth(), item.getDay()));
+            imageView.setImageResource(item.image_src);
         }
     }
 
@@ -79,8 +81,6 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.ViewHolder>
 
     }
 
-
-
     public void addProduct(Product item)
     {
         items.add(item);
@@ -90,6 +90,62 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.ViewHolder>
     {
         items.remove(position);
         notifyItemRemoved(position);
+        notifyDataSetChanged();
+    }
+
+    public void nameAsc()
+    {
+        Comparator<Product> nAsc = new Comparator<Product>()
+        {
+            @Override
+            public int compare(Product o1, Product o2)
+            {
+                return o1.getName().compareTo(o2.getName());
+            }
+        };
+        Collections.sort(items, nAsc);
+        notifyDataSetChanged();
+    }
+
+    public void nameDsc()
+    {
+        Comparator<Product> nDsc = new Comparator<Product>()
+        {
+            @Override
+            public int compare(Product o1, Product o2)
+            {
+                return o2.getName().compareTo(o1.getName());
+            }
+        };
+        Collections.sort(items, nDsc);
+        notifyDataSetChanged();
+    }
+
+    public void dateAsc()
+    {
+        Comparator<Product> dAsc = new Comparator<Product>()
+        {
+            @Override
+            public int compare(Product o1, Product o2)
+            {
+                return o1.getDate().compareTo(o2.getDate());
+            }
+        };
+        Collections.sort(items, dAsc);
+        notifyDataSetChanged();
+    }
+
+    public void dateDsc()
+    {
+        Comparator<Product> dDsc = new Comparator<Product>()
+        {
+            @Override
+            public int compare(Product o1, Product o2)
+            {
+                return o2.getDate().compareTo(o1.getDate());
+            }
+        };
+        Collections.sort(items, dDsc);
         notifyDataSetChanged();
     }
 

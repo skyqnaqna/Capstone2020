@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="sort_list">
+        <item>상품명 오름차순</item>
+        <item>상품명 내림차순</item>
+        <item>유통기한 오름차순</item>
+        <item>유통기한 내림차순</item>
+    </string-array>
+</resources>
