@@ -56,7 +56,8 @@ public class DBActivityHelper {
         values.put(DBActivity.COL_IMAGE, image);
         return mDB.insert(DBActivity._TABLENAME, null, values);
     }
-        public void create(){
+
+    public void create(){
         mDBHelper.onCreate(mDB);
     }
 
