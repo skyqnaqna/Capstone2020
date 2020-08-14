@@ -59,6 +59,7 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.ViewHolder>
         {
             textView1.setText(item.getName());
             textView2.setText(String.format(Locale.KOREA, "유통기한 %d-%d-%d 까지", item.getYear(), item.getMonth(), item.getDay()));
+            imageView.setImageResource(item.image_src);
         }
     }
 
