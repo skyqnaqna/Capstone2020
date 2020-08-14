@@ -15,6 +15,7 @@
         <activity android:name=".GraphActivity"></activity>
         <activity android:name=".su_CategoryActivity" />
         <activity android:name=".InfoActivity" />
+        <activity android:name=".AddActivity" />
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

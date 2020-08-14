@@ -161,6 +161,9 @@ public class MainActivity extends AppCompatActivity
                     }
                     case R.id.addProduct:
                     {
+                        Intent intent = new Intent(getApplicationContext(), AddActivity.class);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                        startActivityForResult(intent, 102);
 
                         break;
                     }
@@ -168,7 +171,7 @@ public class MainActivity extends AppCompatActivity
                     {
                         Intent intent2 = new Intent(getApplicationContext(), GraphActivity.class);
                         intent2.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
-                        startActivityForResult(intent2, 102);
+                        startActivityForResult(intent2, 103);
 
                         break;
                     }
