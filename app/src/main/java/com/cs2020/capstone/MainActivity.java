@@ -143,6 +143,7 @@ public class MainActivity extends AppCompatActivity
 
         // 하단 메뉴
         BottomNavigationView bottomNavigationView = findViewById(R.id.mainNavigationView);
+        bottomNavigationView.getMenu().getItem(0).setChecked(false);
 
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener()
         {
