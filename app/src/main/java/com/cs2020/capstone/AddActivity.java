@@ -270,10 +270,10 @@ public class AddActivity extends AppCompatActivity{
         if (resultCode == Activity.RESULT_OK)
         {
             IntentResult scanResult = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
-            String re = scanResult.getContents();
-            String message = re;
-            Log.d("onActivityResult", "onActivityResult: ." + re);
-            Toast.makeText(this, re, Toast.LENGTH_LONG).show();
+            String barcode = scanResult.getContents();
+            String message = barcode;
+            Log.d("onActivityResult", "onActivityResult: ." + barcode);
+            Toast.makeText(this, barcode, Toast.LENGTH_LONG).show();
 
         }
     }
