@@ -1,13 +1,7 @@
 package com.cs2020.capstone;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
-
 import android.Manifest;
+import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
@@ -31,13 +25,19 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
-import android.widget.TimePicker;
 import android.widget.Toast;
 
-import org.w3c.dom.Text;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+
+import com.google.zxing.integration.android.IntentIntegrator;
+import com.google.zxing.integration.android.IntentResult;
 
 import java.io.InputStream;
-import java.lang.reflect.Array;
 import java.util.Calendar;
 
 public class AddActivity extends AppCompatActivity{
@@ -195,15 +195,18 @@ public class AddActivity extends AppCompatActivity{
             }
         });
 
+        // 바코드 인식 버튼 누르면 스캐너 실행
         Button button = (Button)findViewById(R.id.button);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Toast.makeText(getApplicationContext(),name+"/"+company+"/"+memo,Toast.LENGTH_LONG).show();
+                IntentIntegrator integrator = new IntentIntegrator(AddActivity.this);
+                integrator.setBeepEnabled(false);
+                integrator.setCaptureActivity(CustomScannerActivity.class);
+                integrator.initiateScan();
             }
         });
-
-
     }
 
     //권한에 대한 응답이 있을때 작동하는 함수
@@ -261,6 +264,17 @@ public class AddActivity extends AppCompatActivity{
             }
         } else if (requestCode == 101 && resultCode == RESULT_CANCELED) {
             Toast.makeText(this, "취소", Toast.LENGTH_SHORT).show();
+        }
+
+        // 바코드 읽기 성공했을 때
+        if (resultCode == Activity.RESULT_OK)
+        {
+            IntentResult scanResult = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
+            String re = scanResult.getContents();
+            String message = re;
+            Log.d("onActivityResult", "onActivityResult: ." + re);
+            Toast.makeText(this, re, Toast.LENGTH_LONG).show();
+
         }
     }
 
