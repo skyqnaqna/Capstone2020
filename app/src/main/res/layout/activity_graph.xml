@@ -17,7 +17,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
-
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="80dp"
+                android:text="카테고리 별 비율"
+                android:textColor="#A4A4A4"
+                android:gravity="center"
+                android:textSize="30dp">
+            </TextView>
             <com.github.mikephil.charting.charts.PieChart
                 android:id="@+id/piechart"
                 android:layout_width="match_parent"
