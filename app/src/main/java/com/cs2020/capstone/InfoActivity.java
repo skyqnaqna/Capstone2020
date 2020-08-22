@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.method.ScrollingMovementMethod;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -18,10 +19,15 @@ public class InfoActivity extends AppCompatActivity
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_info);
-
+        //툴바
         Toolbar mToolbar = (Toolbar) findViewById(R.id.toolbar);
-        ImageView imageView = (ImageView)findViewById(R.id.imageView);
         setSupportActionBar(mToolbar);
+        //뒤로가기 버튼 생성
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+
+        ImageView imageView = (ImageView)findViewById(R.id.imageView);
+
         TextView name = (TextView) findViewById(R.id.pName);
         TextView cate = (TextView) findViewById(R.id.pCategory);
         TextView date = (TextView) findViewById(R.id.pDate);
@@ -36,7 +42,6 @@ public class InfoActivity extends AppCompatActivity
         date.setText(String.valueOf(intent.getIntExtra("date", 0)));
         alarm.setText(String.valueOf(intent.getStringExtra("alarm")));
 
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
     }
 
@@ -44,5 +49,17 @@ public class InfoActivity extends AppCompatActivity
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.info_menu, menu);
         return true;
+    }
+
+    //뒤로가기 버튼 누르면 홈화면으로 이동
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case android.R.id.home:{ //toolbar의 back키 눌렀을 때 동작
+                finish();
+                return true;
+            }
+        }
+        return super.onOptionsItemSelected(item);
     }
 }
