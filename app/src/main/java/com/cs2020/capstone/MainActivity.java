@@ -30,6 +30,7 @@ public class MainActivity extends AppCompatActivity
 {
     MainAdapter adapter;
     ItemTouchHelper itemTouchHelper;
+    RecyclerView rv;
     Spinner spinner;
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
@@ -51,7 +52,7 @@ public class MainActivity extends AppCompatActivity
         spinner = (Spinner) findViewById(R.id.spinner);
         spinner.setAdapter(arrayAdapter);
 
-        RecyclerView rv = findViewById(R.id.ProductRecycle);
+        rv = findViewById(R.id.ProductRecycle);
         GridLayoutManager layoutManager = new GridLayoutManager(this, 1);
         rv.setLayoutManager(layoutManager);
 
@@ -203,20 +204,20 @@ public class MainActivity extends AppCompatActivity
     {
         switch (item.getItemId())
         {
-            case R.id.sort:
-                Toast.makeText(getApplicationContext(), "정렬 클릭", Toast.LENGTH_SHORT).show();
-                break;
-            case R.id.edit_main:
-                Toast.makeText(getApplicationContext(), "편집 클릭", Toast.LENGTH_SHORT).show();
-                break;
             case R.id.show_all:
                 Toast.makeText(getApplicationContext(), "전체 클릭", Toast.LENGTH_SHORT).show();
+
+                adapter.setFlag(0);
                 break;
             case R.id.show_remain:
                 Toast.makeText(getApplicationContext(), "남은거 클릭", Toast.LENGTH_SHORT).show();
+                rv.removeAllViewsInLayout();
+                adapter.setFlag(1);
+                rv.setAdapter(adapter);
                 break;
             case R.id.show_pass:
                 Toast.makeText(getApplicationContext(), "지난거 클릭", Toast.LENGTH_SHORT).show();
+                adapter.setFlag(-1);
                 break;
         }
         return super.onOptionsItemSelected(item);
