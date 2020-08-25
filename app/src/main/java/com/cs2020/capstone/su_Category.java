@@ -11,9 +11,15 @@ class su_Category
         this.count = 0;
     }
 
+    public su_Category(String name, int count)
+    {
+        this.name = name;
+        this.count = count;
+    }
+
     public String getName()
     {
-        return name;
+        return this.name;
     }
 
     public void setName(String name)
@@ -23,11 +29,22 @@ class su_Category
 
     public int getCount()
     {
-        return count;
+        return this.count;
     }
 
-    public void addCount()
+    public void addCount(String namme)
     {
-        this.count++;
+        if (name.equals(this.name))
+            this.count++;
+        else
+            return;
+    }
+
+    public void setCount(String name, int count)
+    {
+        if (name.equals(this.name))
+            this.count = count;
+        else
+            return;
     }
 }

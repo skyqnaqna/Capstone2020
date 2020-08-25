@@ -65,6 +65,7 @@ public class MainActivity extends AppCompatActivity
 
         adapter = new MainAdapter(this);
 
+        // TODO : DB에서 제품들 추가하는 형식으로 변경하기 (카테고리 count++)
         adapter.addProduct(new Product("초코파이", "과자", "빙그레", 2021, 4, 5, R.drawable.chocopie));
         adapter.addProduct(new Product("초코", "과자", "빙그레", 2022, 8, 1, R.drawable.add));
         adapter.addProduct(new Product("파이", "과자", "빙그레", 2019, 12, 12, R.drawable.home));
@@ -77,6 +78,7 @@ public class MainActivity extends AppCompatActivity
 
         rv.setAdapter(adapter);
 
+        // 제품 선택 시 제품정보창으로 이동
         adapter.setOnItemClickListener(new OnProductItemClickListener()
         {
             @Override
@@ -90,7 +92,7 @@ public class MainActivity extends AppCompatActivity
 
                 intent.putExtra("name", adapter.getItem(position).name);
                 intent.putExtra("category", adapter.getItem(position).category);
-                intent.putExtra("date", adapter.getItem(position).day);
+                intent.putExtra("date", adapter.getItem(position).end_day);
                 intent.putExtra("company", adapter.getItem(position).company);
                 intent.putExtra("img", adapter.getItem(position).image_src);
 
@@ -151,7 +153,7 @@ public class MainActivity extends AppCompatActivity
 
         // 하단 메뉴
         BottomNavigationView bottomNavigationView = findViewById(R.id.mainNavigationView);
-        bottomNavigationView.getMenu().getItem(0).setChecked(false);
+        //bottomNavigationView.getMenu().getItem(0).setChecked(false);
 
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener()
         {
@@ -223,6 +225,7 @@ public class MainActivity extends AppCompatActivity
         return true;
     }
 
+    // 상단 정렬 메뉴 선택
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item)
     {

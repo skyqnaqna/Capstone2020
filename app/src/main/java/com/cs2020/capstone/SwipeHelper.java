@@ -139,7 +139,7 @@ public abstract class SwipeHelper extends ItemTouchHelper.SimpleCallback
         public void onDraw(Canvas c, RectF rectF, int pos){
             Paint p = new Paint();
             p.setColor(color);
-            c.drawRect(rectF,p);
+            c.drawRoundRect(rectF,25,25,p);
             //text
             p.setColor(Color.WHITE);
             p.setTextSize(textSize);
