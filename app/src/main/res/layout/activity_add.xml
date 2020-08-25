@@ -124,11 +124,14 @@
                 android:layout_height="match_parent"
                 android:gravity="center"
                 android:text="알람일" />
-            <Spinner
-                android:id="@+id/spinner2"
+
+            <Button
+                android:id="@+id/button2"
                 android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:paddingBottom="5dp" />
+                android:layout_height="match_parent"
+                android:layout_gravity="center_horizontal|center_vertical"
+                android:layout_weight="1"
+                android:text="알람일 설정" />
 
         </LinearLayout>
 

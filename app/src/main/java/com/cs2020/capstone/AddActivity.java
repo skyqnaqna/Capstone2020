@@ -46,9 +46,10 @@ public class AddActivity extends AppCompatActivity{
     private DatePicker dp;
     private Calendar cal;
     private EditText text1, text2, text3;
+    DBActivityHelper mDbOpenHelper;
 
     private int year = 0, month = 0, day = 0;
-    private int Aday = 0;
+    private int Ayear = 0, Amonth = 0, Aday = 0;
     private String category = null, name = null, company = null, memo = null;
     private String photoPath = null;
 
@@ -56,6 +57,8 @@ public class AddActivity extends AppCompatActivity{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add);
+        mDbOpenHelper = new DBActivityHelper(this);
+        mDbOpenHelper.open();
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
 
         Toolbar mToolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -152,34 +155,6 @@ public class AddActivity extends AppCompatActivity{
 
 
         final String[] alarms = {"7일 전", "5일 전", "3일 전", "2일 전", "1일 전", "유통기한 당일"};
-        spinner2 = (Spinner) findViewById(R.id.spinner2);
-        ArrayAdapter<String> adapter2 = new ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line, alarms);
-        spinner2.setAdapter(adapter2); // 배열과 어댑터 연결
-        spinner2.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                if (spinner2.getSelectedItem().equals(alarms[0])) {
-                    Aday = 7; //알람전 선택 요일 추출
-                } else if (spinner2.getSelectedItem().equals(alarms[1])) {
-                    Aday = 5;
-                } else if (spinner2.getSelectedItem().equals(alarms[2])) {
-                    Aday = 3;
-                } else if (spinner2.getSelectedItem().equals(alarms[3])) {
-                    Aday = 2;
-                } else if (spinner2.getSelectedItem().equals(alarms[4])) {
-                    Aday = 1;
-                } else if (spinner2.getSelectedItem().equals(alarms[5])) {
-                    Aday = 0;
-                }
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
-
-            }
-        });
-        String alarm = spinner2.getSelectedItem().toString();
-
         cal = Calendar.getInstance(); // 캘린더 객체를 통해 현재 년월일 추출
         year = cal.get(cal.YEAR);
         month = cal.get(cal.MONTH); //월은 0월 부터 11월까지
@@ -200,7 +175,6 @@ public class AddActivity extends AppCompatActivity{
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(getApplicationContext(),name+"/"+company+"/"+memo,Toast.LENGTH_LONG).show();
                 IntentIntegrator integrator = new IntentIntegrator(AddActivity.this);
                 integrator.setBeepEnabled(false);
                 integrator.setCaptureActivity(CustomScannerActivity.class);
@@ -292,7 +266,9 @@ public class AddActivity extends AppCompatActivity{
                 return true;
             }
             case R.id.complete :{
-                Toast.makeText(getApplicationContext(),Aday+"/"+category+"/",Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(),Aday+"/"+category+"/",Toast.LENGTH_LONG).show(); //toolbar의 완료키 눌렀을 때 동작
+                mDbOpenHelper.insertColumn(name, category, year, month, day, Ayear, Amonth, Aday, company, memo, photoPath);
+                finish();
                 return true;
             }
         }

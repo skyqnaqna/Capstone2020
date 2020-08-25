@@ -44,13 +44,17 @@ public class DBActivityHelper {
         return this;
     }
 
-    public long insertColumn(String name, String cate , String life, String alarm, String company,
-                             String memo, String image){
+    public long insertColumn(String name, String cate , int lyear, int lmonth, int lday, int ayear, int amonth, int aday,
+                             String company, String memo, String image){
         ContentValues values = new ContentValues();
         values.put(DBActivity.COL_NAME, name);
         values.put(DBActivity.COL_CATE, cate);
-        values.put(DBActivity.COL_LIFE, life);
-        values.put(DBActivity.COL_ALARM, alarm);
+        values.put(DBActivity.COL_LYEAR, lyear);
+        values.put(DBActivity.COL_LMONTH, lmonth);
+        values.put(DBActivity.COL_LDAY, lday);
+        values.put(DBActivity.COL_AYEAR, ayear);
+        values.put(DBActivity.COL_AMONTH, amonth);
+        values.put(DBActivity.COL_ADAY, aday);
         values.put(DBActivity.COL_COM, company);
         values.put(DBActivity.COL_MEMO, memo);
         values.put(DBActivity.COL_IMAGE, image);
@@ -81,13 +85,17 @@ public class DBActivityHelper {
                 orderby);
     }
     //갱신할 때 사용하는 갱신문입니다
-    public boolean updateColumn(long id, String name, String cate , String life, String alarm, String company,
-                                String memo, String image){
+    public boolean updateColumn(long id, String name, String cate , int lyear, int lmonth, int lday, int ayear, int amonth, int aday,
+                                String alarm, String company, String memo, String image){
         ContentValues values = new ContentValues();
         values.put(DBActivity.COL_NAME, name);
         values.put(DBActivity.COL_CATE, cate);
-        values.put(DBActivity.COL_LIFE, life);
-        values.put(DBActivity.COL_ALARM, alarm);
+        values.put(DBActivity.COL_LYEAR, lyear);
+        values.put(DBActivity.COL_LMONTH, lmonth);
+        values.put(DBActivity.COL_LDAY, lday);
+        values.put(DBActivity.COL_AYEAR, ayear);
+        values.put(DBActivity.COL_AMONTH, amonth);
+        values.put(DBActivity.COL_ADAY, aday);
         values.put(DBActivity.COL_COM, company);
         values.put(DBActivity.COL_MEMO, memo);
         values.put(DBActivity.COL_IMAGE, image);

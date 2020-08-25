@@ -1,15 +1,18 @@
 package com.cs2020.capstone;
 
 import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -31,6 +34,8 @@ public class MainActivity extends AppCompatActivity
     MainAdapter adapter;
     ItemTouchHelper itemTouchHelper;
     Spinner spinner;
+    DBActivityHelper mDbOpenHelper;
+    private String sel = null;
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
@@ -38,6 +43,9 @@ public class MainActivity extends AppCompatActivity
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        mDbOpenHelper = new DBActivityHelper(this);
+        mDbOpenHelper.open();
+        mDbOpenHelper.create();
 
         // 툴바
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -181,9 +189,26 @@ public class MainActivity extends AppCompatActivity
             }
         });
 
-        DBActivityHelper mDbOpenHelper = new DBActivityHelper(this);
-        mDbOpenHelper.open();
-        mDbOpenHelper.create();
+        Button button = (Button)findViewById(R.id.button3);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String[] columns = new String[] {DBActivity.COL_NAME, DBActivity.COL_COM};
+                String where = "_ID = 1";
+                Cursor cursor = mDbOpenHelper.select(columns, where, null, null, null, null);
+                if(cursor != null){
+                    while(cursor.moveToNext()){
+                        String name = cursor.getString(0);
+                        String com = cursor.getString(1);
+                        sel = name + "/"+ com;
+                    }
+                }
+                Toast.makeText(getApplicationContext(),sel,Toast.LENGTH_LONG).show();
+                Log.v("태그", sel);
+            }
+        });
+
+
 
 
     }
@@ -234,6 +259,7 @@ public class MainActivity extends AppCompatActivity
             Toast.makeText(getApplicationContext(), "한번 더 누르면 종료됩니다.", Toast.LENGTH_SHORT).show();
         }
         else if (System.currentTimeMillis() - time < 2000)
+            mDbOpenHelper.close();
             finish();
     }
 }
