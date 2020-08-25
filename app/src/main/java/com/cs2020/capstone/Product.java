@@ -21,6 +21,13 @@ class Product
         this.category = category;
     }
 
+    public Product(Integer ID, String name, String category)
+    {
+        this.primaryKey = ID;
+        this.name = name;
+        this.category = category;
+    }
+
     public Product(String name, String category, String company, Integer img)
     {
         this.name = name;
@@ -51,11 +58,13 @@ class Product
     public Integer getEnd_day() {return end_day;}
     public Boolean getIsPassed() {return isPassed;}
     public String getDate() {return this.date;}
+    public Integer getID() { return this.primaryKey;}
 
     public void setName(String name) { this.name = name;}
     public void setCategory(String category) {this.category = category;}
     public void setCompany(String company) {this.company = company;}
     public void setIsPassed() {this.isPassed = true;}
+    public void setID(Integer id) { this.primaryKey = id;}
     public void setDate(int end_year, int end_month, int end_day)
     {
         this.end_year = end_year;
