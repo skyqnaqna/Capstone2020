@@ -58,7 +58,7 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.ViewHolder>
         public void setItem(Product item)
         {
             textView1.setText(item.getName());
-            textView2.setText(String.format(Locale.KOREA, "유통기한 %d-%d-%d 까지", item.getYear(), item.getMonth(), item.getDay()));
+            textView2.setText(String.format(Locale.KOREA, "유통기한 %d-%d-%d 까지", item.getEnd_year(), item.getEnd_month(), item.getEnd_day()));
             imageView.setImageResource(item.image_src);
         }
     }
@@ -84,6 +84,7 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.ViewHolder>
     public void addProduct(Product item)
     {
         items.add(item);
+        notifyDataSetChanged();
     }
 
     public void removeItem(int position)

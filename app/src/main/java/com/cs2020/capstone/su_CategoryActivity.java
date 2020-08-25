@@ -58,6 +58,7 @@ public class su_CategoryActivity extends AppCompatActivity
 
         final su_CategoryAdapter adapter = new su_CategoryAdapter(this);
 
+        // TODO : DB에서 카테고리 읽어오도록 수정하기 / DB에 기본 카테고리 넣기
         adapter.addCategory(new su_Category("육류"));
         adapter.addCategory(new su_Category("해산물"));
         adapter.addCategory(new su_Category("음료"));
@@ -67,6 +68,7 @@ public class su_CategoryActivity extends AppCompatActivity
 
         rv.setAdapter(adapter);
 
+        // 카테고리 선택 시 해당 제품들 목록창으로 이동
         adapter.setOnItemClickListener(new OnCategoryItemClickListener()
         {
             @Override
@@ -75,6 +77,12 @@ public class su_CategoryActivity extends AppCompatActivity
                 su_Category item = adapter.getItem(position);
                 Toast.makeText(getApplicationContext(), "카테고리 선택됨 : " + item.getName()
                         , Toast.LENGTH_LONG).show();
+
+                Intent intent = new Intent(getApplicationContext(), SelectedCategoryActivity.class);
+
+                intent.putExtra("category_name", adapter.getItem(position).name);
+
+                startActivityForResult(intent, 112);
             }
         });
 

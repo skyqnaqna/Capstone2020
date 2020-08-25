@@ -38,7 +38,9 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:background="?android:attr/windowBackground"
-        app:menu="@menu/graph_bottom">
+        app:menu="@menu/graph_bottom"
+        app:itemIconTint="@drawable/menu_selector_color"
+        app:itemTextColor="@drawable/menu_selector_color">
 
     </com.google.android.material.bottomnavigation.BottomNavigationView>
 
