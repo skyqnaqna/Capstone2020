@@ -124,14 +124,21 @@
                 android:layout_height="match_parent"
                 android:gravity="center"
                 android:text="알람일" />
-
+            <TextView
+                android:id="@+id/txtDate"
+                android:layout_width="0px"
+                android:layout_height="wrap_content"
+                android:layout_weight="6"
+                android:textStyle="bold"
+                android:clickable="true"
+                android:text="날짜 설정"/>
             <Button
-                android:id="@+id/button2"
-                android:layout_width="match_parent"
+                android:id="@+id/btnAlarm"
+                android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_gravity="center_horizontal|center_vertical"
                 android:layout_weight="1"
-                android:text="알람일 설정" />
+                android:text="등록" />
 
         </LinearLayout>
 
