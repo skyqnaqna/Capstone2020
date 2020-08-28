@@ -93,7 +93,7 @@ public class MainActivity extends AppCompatActivity
 //        adapter.addProduct(new Product("파이", "과자", "빙그레", 2019, 12, 12, R.drawable.home));
 //        adapter.addProduct(new Product("초파", "과자", "빙그레", 2019, 10, 17, R.drawable.edit));
 
-        String[] coulumns = new String[]{DBActivity.COL_NAME,DBActivity.COL_CATE
+        String[] coulumns = new String[]{DBActivity.COL_ID,DBActivity.COL_NAME,DBActivity.COL_CATE
                 , DBActivity.COL_LYEAR, DBActivity.COL_LMONTH, DBActivity.COL_LDAY
                 , DBActivity.COL_AYEAR, DBActivity.COL_AMONTH, DBActivity.COL_ADAY
                 , DBActivity.COL_COM, DBActivity.COL_MEMO, DBActivity.COL_IMAGE};
@@ -102,15 +102,16 @@ public class MainActivity extends AppCompatActivity
         {
             while (cursor.moveToNext())
             {
-                String produdtName = cursor.getString(0);
-                String category = cursor.getString(1);
-                int lifeYear = cursor.getInt(2);
-                int lifeMonth = cursor.getInt(3);
-                int lifeDay = cursor.getInt(4);
-                String company = cursor.getString(8);
-                String image = cursor.getString(10);
+                int id = cursor.getInt(0);
+                String produdtName = cursor.getString(1);
+                String category = cursor.getString(2);
+                int lifeYear = cursor.getInt(3);
+                int lifeMonth = cursor.getInt(4);
+                int lifeDay = cursor.getInt(5);
+                String company = cursor.getString(9);
+                String image = cursor.getString(11);
 
-                adapter.addProduct(new Product(produdtName, category, company, lifeYear, lifeMonth, lifeDay, image));
+                adapter.addProduct(new Product(id,produdtName, category, company, lifeYear, lifeMonth, lifeDay, image));
             }
         }
 
@@ -133,10 +134,7 @@ public class MainActivity extends AppCompatActivity
 
                 Intent intent = new Intent(getApplicationContext(), InfoActivity.class);
 
-                intent.putExtra("name", adapter.getItem(position).name);
-                intent.putExtra("category", adapter.getItem(position).category);
-                intent.putExtra("date", adapter.getItem(position).end_day);
-                intent.putExtra("company", adapter.getItem(position).company);
+                intent.putExtra("id", adapter.getItem(position).primaryKey);
                 intent.putExtra("img", adapter.getItem(position).image_src);
 
                 startActivityForResult(intent, 111);
