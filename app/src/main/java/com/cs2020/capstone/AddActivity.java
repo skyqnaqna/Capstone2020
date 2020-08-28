@@ -60,11 +60,19 @@ public class AddActivity extends AppCompatActivity{
     private int Ayear = 0, Amonth = 0, Aday = 0;
     private String category = null, name = null, company = null, memo = null;
     private String photoPath = null;
+<<<<<<< HEAD
 //<<<<<<< HEAD
     private int amount = 0;
 //=======
     private Calendar calendar;
 //>>>>>>> master
+=======
+
+    private int amount = 0;
+
+    private Calendar calendar;
+
+>>>>>>> categoryDB
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
