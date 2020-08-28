@@ -25,11 +25,13 @@ public class DBActivityHelper {
         @Override
         public void onCreate(SQLiteDatabase db){
             db.execSQL(DBActivity._CREATE0);
+            db.execSQL(DBActivity._CREATE1);
         }
 
         @Override
         public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion){
             db.execSQL("DROP TABLE IF EXISTS "+DBActivity._TABLENAME);
+            db.execSQL("DROP TABLE IF EXISTS "+DBActivity._TABLENAME2);
             onCreate(db);
         }
     }
@@ -45,7 +47,7 @@ public class DBActivityHelper {
     }
 
     public long insertColumn(String name, String cate , int lyear, int lmonth, int lday, int ayear, int amonth, int aday,
-                             String company, String memo, String image){
+                             String company, String memo, String image){ //user table insert
         ContentValues values = new ContentValues();
         values.put(DBActivity.COL_NAME, name);
         values.put(DBActivity.COL_CATE, cate);
@@ -60,6 +62,15 @@ public class DBActivityHelper {
         values.put(DBActivity.COL_IMAGE, image);
         return mDB.insert(DBActivity._TABLENAME, null, values);
     }
+
+    public long insertCate(String cate , int amount){ //category table insert
+        ContentValues values = new ContentValues();
+        values.put(DBActivity.COL_CATE, cate);
+        values.put(DBActivity.COL_AMOUNT, amount);
+        return mDB.insert(DBActivity._TABLENAME2, null, values);
+    }
+
+
 
     public void create(){
         mDBHelper.onCreate(mDB);
@@ -84,8 +95,26 @@ public class DBActivityHelper {
                 having,
                 orderby);
     }
+
+    public Cursor selectCate(String[] colums, //category select
+                         String selection,
+                         String[] selectionArgs,
+                         String groupBy,
+                         String having,
+                         String orderby)
+    { //select 인자에 맞춘 질의문입니다. 조건에 맞춰 null을 사용하면 됩니다.
+        return mDB.query(DBActivity._TABLENAME2,
+                colums,
+                selection,
+                selectionArgs,
+                groupBy,
+                having,
+                orderby);
+    }
+
+
     //갱신할 때 사용하는 갱신문입니다
-    public boolean updateColumn(long id, String name, String cate , int lyear, int lmonth, int lday, int ayear, int amonth, int aday,
+    public boolean updateColumn(int id, String name, String cate , int lyear, int lmonth, int lday, int ayear, int amonth, int aday,
                                 String alarm, String company, String memo, String image){
         ContentValues values = new ContentValues();
         values.put(DBActivity.COL_NAME, name);
@@ -102,14 +131,37 @@ public class DBActivityHelper {
         return mDB.update(DBActivity._TABLENAME, values, "_id=" + id, null)> 0 ;
     }
 
-    // 모든 행을 삭제하는 문장입니다
+    public void updateAllCate(String cate, String Ncate){
+        mDB.execSQL("UPDATE "+DBActivity._TABLENAME+" SET "+DBActivity.COL_CATE +" ="+" '"+Ncate+"'"+
+                " WHERE "+DBActivity.COL_CATE+" ="+" '"+cate+"'");
+    }
+
+
+    public boolean updateCate(String cate , int amount){ //category table update
+        ContentValues values = new ContentValues();
+        values.put(DBActivity.COL_AMOUNT, amount);
+        return mDB.update(DBActivity._TABLENAME2, values, "category= " +"'"+cate+"'", null)> 0 ;
+    }
+
+
+    // user table의 모든 행을 삭제하는 문장입니다
     public void deleteAllColumns() {
         mDB.delete(DBActivity._TABLENAME, null, null);
     }
 
+    // category table의 모든 행 삭제
+    public void deleteAllCate() {
+        mDB.delete(DBActivity._TABLENAME2, null, null);
+    }
+
+
     // 해당하는 Column만 삭제하는 문장입니다
-    public boolean deleteColumn(long id) {
+    public boolean deleteColumn(int id) {
         return mDB.delete(DBActivity._TABLENAME, "_id=" + id, null) > 0;
+    }
+
+    public boolean deleteCate(String cate) {
+        return mDB.delete(DBActivity._TABLENAME2, "category= " +"'"+cate+"'", null) > 0;
     }
 
 

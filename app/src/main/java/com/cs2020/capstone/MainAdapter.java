@@ -59,7 +59,9 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.ViewHolder>
         {
             textView1.setText(item.getName());
             textView2.setText(String.format(Locale.KOREA, "유통기한 %d-%d-%d 까지", item.getEnd_year(), item.getEnd_month(), item.getEnd_day()));
-            imageView.setImageResource(item.image_src);
+
+            // TODO : 이미지 경로 지정하여 이미지뷰에 반영하기
+            //imageView.setImageResource(item.image_src);
         }
     }
 

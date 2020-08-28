@@ -44,12 +44,13 @@ import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Locale;
 
 public class AddActivity extends AppCompatActivity{
     private ImageView iv;
-    private Spinner spinner1, spinner2;
+    private Spinner spinner1;
     private DatePicker dp;
 
     private EditText text1, text2, text3;
@@ -59,6 +60,7 @@ public class AddActivity extends AppCompatActivity{
     private int Ayear = 0, Amonth = 0, Aday = 0;
     private String category = null, name = null, company = null, memo = null;
     private String photoPath = null;
+    private int amount = 0;
     private Calendar calendar;
 
     @Override
@@ -143,8 +145,18 @@ public class AddActivity extends AppCompatActivity{
         });
 
         spinner1 = (Spinner) findViewById(R.id.spinner);
-        String[] cate = getResources().getStringArray(R.array.category);
-        ArrayAdapter<String> adapter1 = new ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line, cate);
+        String[] columns = new String[] {DBActivity.COL_CATE};
+        ArrayList<String> cates = new ArrayList<String>();
+        Cursor cursor = mDbOpenHelper.selectCate(columns, null, null, null, null, null);
+        if(cursor != null)
+        {
+            while (cursor.moveToNext())
+            {
+                String cate = cursor.getString(0);
+                cates.add(cate);
+            }
+        }
+        ArrayAdapter<String> adapter1 = new ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line, cates);
         spinner1.setAdapter(adapter1); //카테고리 배열과 어댑터 연결
 
         spinner1.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -356,6 +368,16 @@ public class AddActivity extends AppCompatActivity{
             case R.id.complete :{
                 Toast.makeText(getApplicationContext(),Aday+"/"+category+"/",Toast.LENGTH_LONG).show(); //toolbar의 완료키 눌렀을 때 동작
                 mDbOpenHelper.insertColumn(name, category, year, month, day, Ayear, Amonth, Aday, company, memo, photoPath);
+                String[] columns = new String[]{DBActivity.COL_AMOUNT};
+                Cursor cursor = mDbOpenHelper.selectCate(columns,"category = "+"'"+ category+"'", null, null, null, null);
+                if(cursor != null)
+                {
+                    while (cursor.moveToNext())
+                    {
+                        amount = cursor.getInt(0);
+                    }
+                }
+                mDbOpenHelper.updateCate(category, amount+1);
                 finish();
                 return true;
             }
@@ -370,7 +392,6 @@ public class AddActivity extends AppCompatActivity{
         if (cursor.moveToFirst()) {
             column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
         }
-
         return cursor.getString(column_index);
 
 

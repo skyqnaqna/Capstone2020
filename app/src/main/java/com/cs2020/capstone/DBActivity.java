@@ -13,7 +13,9 @@ public class DBActivity {
     public static final String COL_COM = "company"; //제조사
     public static final String COL_MEMO = "memo"; //메모
     public static final String COL_IMAGE = "image"; //이미지 경로
+    public static final String COL_AMOUNT = "amount" ; //카테고리별 갯수
     public static final String _TABLENAME = "user_product"; //테이블 명
+    public static final String _TABLENAME2 = "user_category" ; //카테고리 테이블
 
     public static final String _CREATE0 = "create table if not exists "+_TABLENAME+"("
             +"_ID integer primary key autoincrement, "
@@ -29,4 +31,11 @@ public class DBActivity {
             +COL_MEMO+" text , "
             +COL_IMAGE+" text );";
 
+    public static final String _CREATE1 = "create table if not exists "+_TABLENAME2+"("
+            +COL_CATE+" text primary key, "
+            +COL_AMOUNT+" integer );";
+
+
 }
+
+
