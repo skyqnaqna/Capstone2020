@@ -176,7 +176,7 @@ public class AddActivity extends AppCompatActivity{
 
     //push 알람 실행
         this.calendar = Calendar.getInstance();//현재 시간 불러오기
-
+        displayDate();
         //날짜 설정
         TextView txtDate=findViewById(R.id.txtDate);
         txtDate.setOnClickListener(new View.OnClickListener() {
@@ -253,6 +253,10 @@ public class AddActivity extends AppCompatActivity{
                 calendar.set(Calendar.MONTH, month);
                 calendar.set(Calendar.DATE, day);
 
+                Ayear = calendar.get(Calendar.YEAR);
+                Amonth  = calendar.get(Calendar.MONTH);
+                Aday = calendar.get(Calendar.DATE);
+
                 // 날짜 표시
                 displayDate();
 
@@ -264,10 +268,11 @@ public class AddActivity extends AppCompatActivity{
     }
 
     //날짜 보여주기
-    private void displayDate() {
+    private int displayDate() {
         SimpleDateFormat format = new SimpleDateFormat
                 ("yyyy년 MM월 dd일", Locale.getDefault());
         ((TextView) findViewById(R.id.txtDate)).setText(format.format(this.calendar.getTime()));
+        return 0;
     }
 
 
