@@ -5,7 +5,7 @@ import java.util.Locale;
 class Product
 {
     Integer primaryKey;
-    Integer image_src; // TODO : String으로 바꾸기
+    String image_src;
     String name;
     String category;
     int end_year, end_month, end_day; // 유통기한
@@ -28,7 +28,7 @@ class Product
         this.category = category;
     }
 
-    public Product(String name, String category, String company, Integer img)
+    public Product(String name, String category, String company, String img)
     {
         this.name = name;
         this.category = category;
@@ -37,7 +37,7 @@ class Product
         this.image_src = img;
     }
 
-    public Product(String name, String category, String company, int end_year, int end_month, int end_day, Integer img)
+    public Product(String name, String category, String company, int end_year, int end_month, int end_day, String img)
     {
         this.name = name;
         this.category = category;
