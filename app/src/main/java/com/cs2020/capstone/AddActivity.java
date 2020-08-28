@@ -172,6 +172,20 @@ public class AddActivity extends AppCompatActivity{
             }
         });
 
+        calendar = Calendar.getInstance(); // 캘린더 객체를 통해 현재 년월일 추출
+        year = calendar.get(calendar.YEAR);
+        month = calendar.get(calendar.MONTH); //월은 0월 부터 11월까지
+        day = calendar.get(calendar.DAY_OF_MONTH);
+
+        dp = (DatePicker) findViewById(R.id.datePicker);
+        dp.init(year, month, day, new DatePicker.OnDateChangedListener() {
+            @Override
+            public void onDateChanged(DatePicker datePicker, int yy, int mm, int dd) {
+                year = yy;
+                month = mm;
+                day = dd;
+            }
+        }); //dp에서 선택한 날짜 추출 이 부분 유지해주세요
 
 
         // 바코드 인식 버튼 누르면 스캐너 실행
@@ -370,7 +384,7 @@ public class AddActivity extends AppCompatActivity{
             }
             case R.id.complete :{
                 Toast.makeText(getApplicationContext(),Aday+"/"+category+"/",Toast.LENGTH_LONG).show(); //toolbar의 완료키 눌렀을 때 동작
-                mDbOpenHelper.insertColumn(name, category, year, month, day, Ayear, Amonth, Aday, company, memo, photoPath);
+                mDbOpenHelper.insertColumn(name, category, year, month+1, day, Ayear, Amonth+1, Aday, company, memo, photoPath);
                 String[] columns = new String[]{DBActivity.COL_AMOUNT};
                 Cursor cursor = mDbOpenHelper.selectCate(columns,"category = "+"'"+ category+"'", null, null, null, null);
                 if(cursor != null)

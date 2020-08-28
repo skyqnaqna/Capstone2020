@@ -2,6 +2,7 @@ package com.cs2020.capstone;
 
 public class DBActivity {
 
+    public static final String COL_ID = "_ID"; //id(기본키)
     public static final String COL_NAME = "name"; //제품명
     public static final String COL_CATE = "category"; //카테고리
     public static final String COL_LYEAR = "life_year"; //유통기한 년

@@ -4,7 +4,7 @@ import java.util.Locale;
 
 class Product
 {
-    Integer primaryKey;
+    int primaryKey;
     String image_src;
     String name;
     String category;
@@ -37,8 +37,9 @@ class Product
         this.image_src = img;
     }
 
-    public Product(String name, String category, String company, int end_year, int end_month, int end_day, String img)
+    public Product(int id,String name, String category, String company, int end_year, int end_month, int end_day, String img)
     {
+        this.primaryKey =id;
         this.name = name;
         this.category = category;
         this.company = company;

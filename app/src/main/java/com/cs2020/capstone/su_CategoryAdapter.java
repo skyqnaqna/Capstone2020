@@ -42,11 +42,16 @@ public class su_CategoryAdapter extends RecyclerView.Adapter<su_CategoryAdapter.
         TextView textView1;
         TextView textView2;
         ImageButton imageButton;
+        Context mCnt;
+        DBActivityHelper mDbOpenHelper;
+        private int amount = 0;
+        private String cate = null;
 
         public ViewHolder(View itemView, final OnCategoryItemClickListener listener)
         {
             super(itemView);
 
+            mCnt = itemView.getContext();
             textView1 = itemView.findViewById(R.id.nameOfCategory);
             textView2 = itemView.findViewById(R.id.numberOfItems);
             imageButton = itemView.findViewById(R.id.imageButton);
@@ -66,8 +71,20 @@ public class su_CategoryAdapter extends RecyclerView.Adapter<su_CategoryAdapter.
 
         public void setItem(su_Category item)
         {
-            textView1.setText(item.getName());
-            textView2.setText(String.valueOf(item.getCount()));
+            cate = item.getName();
+            textView1.setText(cate);
+            mDbOpenHelper = new DBActivityHelper(mCnt);
+            mDbOpenHelper.open();
+            String[] columns = new String[]{DBActivity.COL_AMOUNT};
+            Cursor cursor = mDbOpenHelper.selectCate(columns,"category = "+"'"+ cate+"'", null, null, null, null);
+            if(cursor != null)
+            {
+                while (cursor.moveToNext())
+                {
+                    amount = cursor.getInt(0);
+                }
+            }
+            textView2.setText(String.valueOf(amount));
         }
     }
 
