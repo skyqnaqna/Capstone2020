@@ -100,32 +100,8 @@ public class MainActivity extends AppCompatActivity
 //        adapter.addProduct(new Product("파이", "과자", "빙그레", 2019, 12, 12, R.drawable.home));
 //        adapter.addProduct(new Product("초파", "과자", "빙그레", 2019, 10, 17, R.drawable.edit));
 
-<<<<<<< HEAD
-        String[] coulumns = new String[]{DBActivity.COL_ID,DBActivity.COL_NAME,DBActivity.COL_CATE
-                , DBActivity.COL_LYEAR, DBActivity.COL_LMONTH, DBActivity.COL_LDAY
-                , DBActivity.COL_AYEAR, DBActivity.COL_AMONTH, DBActivity.COL_ADAY
-                , DBActivity.COL_COM, DBActivity.COL_MEMO, DBActivity.COL_IMAGE};
-        Cursor cursor = mDbOpenHelper.select(coulumns, null, null, null, null, null);
-        if (cursor != null)
-        {
-            while (cursor.moveToNext())
-            {
-                int id = cursor.getInt(0);
-                String produdtName = cursor.getString(1);
-                String category = cursor.getString(2);
-                int lifeYear = cursor.getInt(3);
-                int lifeMonth = cursor.getInt(4);
-                int lifeDay = cursor.getInt(5);
-                String company = cursor.getString(9);
-                String image = cursor.getString(11);
-
-                adapter.addProduct(new Product(id,produdtName, category, company, lifeYear, lifeMonth, lifeDay, image));
-            }
-        }
-=======
         initItemList();
         itemListToAdapter();
->>>>>>> productDB
 
         // 아이템 드래그 적용
         ItemTouchHelperCallback callback = new ItemTouchHelperCallback((ItemTouchHelperCallback.OnItemMoveListener) adapter);
@@ -260,13 +236,14 @@ public class MainActivity extends AppCompatActivity
         String[] coulumns = new String[]{DBActivity.COL_NAME,DBActivity.COL_CATE
                 , DBActivity.COL_LYEAR, DBActivity.COL_LMONTH, DBActivity.COL_LDAY
                 , DBActivity.COL_AYEAR, DBActivity.COL_AMONTH, DBActivity.COL_ADAY
-                , DBActivity.COL_COM, DBActivity.COL_MEMO, DBActivity.COL_IMAGE};
+                , DBActivity.COL_COM, DBActivity.COL_MEMO, DBActivity.COL_IMAGE, DBActivity.COL_ID};
         Cursor cursor = mDbOpenHelper.select(coulumns, null, null, null, null, null);
 
         if (cursor != null)
         {
             while (cursor.moveToNext())
             {
+                int id = cursor.getInt(11);
                 String productName = cursor.getString(0);
                 String category = cursor.getString(1);
                 int lifeYear = cursor.getInt(2);

@@ -38,6 +38,20 @@ class Product implements Serializable
         this.image_src = img;
     }
 
+    public Product(String name, String category, String company, int end_year, int end_month, int end_day, String img)
+    {
+        this.name = name;
+        this.category = category;
+        this.company = company;
+        this.end_year = end_year;
+        this.end_month = end_month;
+        this.end_day = end_day;
+        this.isPassed = false;
+        this.image_src = img;
+
+        makeDate();
+    }
+
     public Product(int id,String name, String category, String company, int end_year, int end_month, int end_day, String img)
     {
         this.primaryKey =id;
