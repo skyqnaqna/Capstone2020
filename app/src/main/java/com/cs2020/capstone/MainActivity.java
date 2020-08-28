@@ -1,5 +1,6 @@
 package com.cs2020.capstone;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
@@ -18,6 +19,7 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
@@ -102,7 +104,7 @@ public class MainActivity extends AppCompatActivity
         {
             while (cursor.moveToNext())
             {
-                String produdtName = cursor.getString(0);
+                String productName = cursor.getString(0);
                 String category = cursor.getString(1);
                 int lifeYear = cursor.getInt(2);
                 int lifeMonth = cursor.getInt(3);
@@ -110,7 +112,8 @@ public class MainActivity extends AppCompatActivity
                 String company = cursor.getString(8);
                 String image = cursor.getString(10);
 
-                adapter.addProduct(new Product(produdtName, category, company, lifeYear, lifeMonth, lifeDay, image));
+                adapter.addProduct(new Product(productName, category, company, lifeYear, lifeMonth, lifeDay, image));
+                Log.d("cursor", cursor.getString(0));
             }
         }
 
@@ -279,6 +282,32 @@ public class MainActivity extends AppCompatActivity
     private long time = 0;
 
     @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data)
+    {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == 102)
+        {
+            if (resultCode == RESULT_OK)
+            {
+                Toast.makeText(getApplicationContext(), "Result OK", Toast.LENGTH_SHORT).show();
+
+                Intent intent = getIntent();
+                Product mProduct = (Product) intent.getSerializableExtra("product");
+                //adapter.addProduct(mProduct);
+
+                //adapter.notifyDataSetChanged();
+                adapter.notifyDataSetChanged();
+            }
+            else
+            {
+                Toast.makeText(getApplicationContext(), "Failed", Toast.LENGTH_SHORT).show();
+            }
+        }
+
+    }
+
+    @Override
     public void onBackPressed()
     {
         if (System.currentTimeMillis() - time >= 2000)
@@ -289,5 +318,31 @@ public class MainActivity extends AppCompatActivity
         else if (System.currentTimeMillis() - time < 2000)
             mDbOpenHelper.close();
             finish();
+    }
+
+    @Override
+    protected void onPause()
+    {
+        super.onPause();
+
+        saveState();
+    }
+
+    @Override
+    protected void onResume()
+    {
+        super.onResume();
+
+        restoreState();
+    }
+
+    protected void saveState()
+    {
+        SharedPreferences pref = getSharedPreferences("main", Activity.MODE_PRIVATE);
+    }
+
+    protected void restoreState()
+    {
+        SharedPreferences pref = getSharedPreferences("main", Activity.MODE_PRIVATE);
     }
 }
