@@ -1,6 +1,7 @@
 package com.cs2020.capstone;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.os.Build;
@@ -46,6 +47,25 @@ public class MainActivity extends AppCompatActivity
         mDbOpenHelper = new DBActivityHelper(this);
         mDbOpenHelper.open();
         mDbOpenHelper.create();
+
+        SharedPreferences pref = getSharedPreferences("checkFirst", MainActivity.MODE_PRIVATE);
+        boolean checkFirst = pref.getBoolean("checkFirst", false);
+        if(checkFirst==false){
+            // 앱 최초 실행시 하고 싶은 작업
+            SharedPreferences.Editor editor = pref.edit();
+            editor.putBoolean("checkFirst",true);
+            editor.commit();
+
+            mDbOpenHelper.insertCate("육류", 0);
+            mDbOpenHelper.insertCate("해산물", 0);
+            mDbOpenHelper.insertCate("음료", 0);
+            mDbOpenHelper.insertCate("조미료", 0);
+            mDbOpenHelper.insertCate("야채", 0);
+            mDbOpenHelper.insertCate("냉동식품", 0);
+
+        }else{
+            // 최초 실행이 아닐때 진행할 작업
+        }
 
         // 툴바
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -191,24 +211,6 @@ public class MainActivity extends AppCompatActivity
             }
         });
 
-        Button button = (Button)findViewById(R.id.button3);
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String[] columns = new String[] {DBActivity.COL_NAME, DBActivity.COL_COM};
-                String where = "_ID = 1";
-                Cursor cursor = mDbOpenHelper.select(columns, where, null, null, null, null);
-                if(cursor != null){
-                    while(cursor.moveToNext()){
-                        String name = cursor.getString(0);
-                        String com = cursor.getString(1);
-                        sel = name + "/"+ com;
-                    }
-                }
-                Toast.makeText(getApplicationContext(),sel,Toast.LENGTH_LONG).show();
-                Log.v("태그", sel);
-            }
-        });
 
 
 
