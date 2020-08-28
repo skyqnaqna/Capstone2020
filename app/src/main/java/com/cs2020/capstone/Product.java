@@ -1,8 +1,9 @@
 package com.cs2020.capstone;
 
+import java.io.Serializable;
 import java.util.Locale;
 
-class Product
+class Product implements Serializable
 {
     int primaryKey;
     String image_src;
@@ -52,12 +53,12 @@ class Product
         makeDate();
     }
 
-    public String getName() {return name;}
-    public String getCategory() {return category;}
-    public Integer getEnd_year() {return end_year;}
-    public Integer getEnd_month() {return end_month;}
-    public Integer getEnd_day() {return end_day;}
-    public Boolean getIsPassed() {return isPassed;}
+    public String getName() {return this.name;}
+    public String getCategory() {return this.category;}
+    public Integer getEnd_year() {return this.end_year;}
+    public Integer getEnd_month() {return this.end_month;}
+    public Integer getEnd_day() {return this.end_day;}
+    public Boolean getIsPassed() {return this.isPassed;}
     public String getDate() {return this.date;}
     public Integer getID() { return this.primaryKey;}
 

@@ -25,7 +25,6 @@ public class su_CategoryActivity extends AppCompatActivity
         super.onPause();
 
         saveState();
-        //itidggegwrer
     }
 
     @Override

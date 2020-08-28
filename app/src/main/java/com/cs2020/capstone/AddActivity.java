@@ -105,6 +105,7 @@ public class AddActivity extends AppCompatActivity{
             @Override
             public void afterTextChanged(Editable editable) {
                 name = text1.getText().toString(); //제품명 추출
+                Toast.makeText(getApplicationContext(), "Product name : " + name, Toast.LENGTH_LONG).show();
             }
         });
 
@@ -395,10 +396,15 @@ public class AddActivity extends AppCompatActivity{
                     }
                 }
                 mDbOpenHelper.updateCate(category, amount+1);
+                Intent intent = new Intent(this, MainActivity.class);
+                Product product = new Product(name, category, company, year, month, day, photoPath);
+                intent.putExtra("product", product);
+                setResult(RESULT_OK, intent);
                 finish();
                 return true;
             }
         }
+
         return super.onOptionsItemSelected(item);
     }
 
