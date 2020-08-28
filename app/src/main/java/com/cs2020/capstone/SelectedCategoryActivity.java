@@ -35,7 +35,7 @@ public class SelectedCategoryActivity extends AppCompatActivity
         adapter = new MainAdapter(this);
 
         // TODO : DB에서 카테고리 == name 인 제품들 추가하기
-        adapter.addProduct(new Product("가나파이", "과자", "롯데", 2020, 8,31,R.drawable.chocopie));
+        //adapter.addProduct(new Product("가나파이", "과자", "롯데", 2020, 8,31,R.drawable.chocopie));
 
         // 아이템 드래그 적용
         ItemTouchHelperCallback callback = new ItemTouchHelperCallback((ItemTouchHelperCallback.OnItemMoveListener) adapter);

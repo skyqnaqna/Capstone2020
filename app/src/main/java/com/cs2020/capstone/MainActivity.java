@@ -50,10 +50,11 @@ public class MainActivity extends AppCompatActivity
 
         SharedPreferences pref = getSharedPreferences("checkFirst", MainActivity.MODE_PRIVATE);
         boolean checkFirst = pref.getBoolean("checkFirst", false);
-        if(checkFirst==false){
+        if (checkFirst == false)
+        {
             // 앱 최초 실행시 하고 싶은 작업
             SharedPreferences.Editor editor = pref.edit();
-            editor.putBoolean("checkFirst",true);
+            editor.putBoolean("checkFirst", true);
             editor.commit();
 
             mDbOpenHelper.insertCate("육류", 0);
@@ -63,7 +64,8 @@ public class MainActivity extends AppCompatActivity
             mDbOpenHelper.insertCate("야채", 0);
             mDbOpenHelper.insertCate("냉동식품", 0);
 
-        }else{
+        } else
+        {
             // 최초 실행이 아닐때 진행할 작업
         }
 
@@ -86,10 +88,31 @@ public class MainActivity extends AppCompatActivity
         adapter = new MainAdapter(this);
 
         // TODO : DB에서 제품들 추가하는 형식으로 변경하기 (카테고리 count++)
-        adapter.addProduct(new Product("초코파이", "과자", "빙그레", 2021, 4, 5, R.drawable.chocopie));
-        adapter.addProduct(new Product("초코", "과자", "빙그레", 2022, 8, 1, R.drawable.add));
-        adapter.addProduct(new Product("파이", "과자", "빙그레", 2019, 12, 12, R.drawable.home));
-        adapter.addProduct(new Product("초파", "과자", "빙그레", 2019, 10, 17, R.drawable.edit));
+//        adapter.addProduct(new Product("초코파이", "과자", "빙그레", 2021, 4, 5, R.drawable.chocopie));
+//        adapter.addProduct(new Product("초코", "과자", "빙그레", 2022, 8, 1, R.drawable.add));
+//        adapter.addProduct(new Product("파이", "과자", "빙그레", 2019, 12, 12, R.drawable.home));
+//        adapter.addProduct(new Product("초파", "과자", "빙그레", 2019, 10, 17, R.drawable.edit));
+
+        String[] coulumns = new String[]{DBActivity.COL_NAME,DBActivity.COL_CATE
+                , DBActivity.COL_LYEAR, DBActivity.COL_LMONTH, DBActivity.COL_LDAY
+                , DBActivity.COL_AYEAR, DBActivity.COL_AMONTH, DBActivity.COL_ADAY
+                , DBActivity.COL_COM, DBActivity.COL_MEMO, DBActivity.COL_IMAGE};
+        Cursor cursor = mDbOpenHelper.select(coulumns, null, null, null, null, null);
+        if (cursor != null)
+        {
+            while (cursor.moveToNext())
+            {
+                String produdtName = cursor.getString(0);
+                String category = cursor.getString(1);
+                int lifeYear = cursor.getInt(2);
+                int lifeMonth = cursor.getInt(3);
+                int lifeDay = cursor.getInt(4);
+                String company = cursor.getString(8);
+                String image = cursor.getString(10);
+
+                adapter.addProduct(new Product(produdtName, category, company, lifeYear, lifeMonth, lifeDay, image));
+            }
+        }
 
         // 아이템 드래그 적용
         ItemTouchHelperCallback callback = new ItemTouchHelperCallback((ItemTouchHelperCallback.OnItemMoveListener) adapter);
