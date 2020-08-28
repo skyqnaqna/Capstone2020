@@ -233,26 +233,26 @@ public class MainActivity extends AppCompatActivity
             allItems.clear();
 
 
-        String[] coulumns = new String[]{DBActivity.COL_NAME,DBActivity.COL_CATE
+        String[] coulumns = new String[]{DBActivity.COL_ID,DBActivity.COL_NAME,DBActivity.COL_CATE
                 , DBActivity.COL_LYEAR, DBActivity.COL_LMONTH, DBActivity.COL_LDAY
                 , DBActivity.COL_AYEAR, DBActivity.COL_AMONTH, DBActivity.COL_ADAY
-                , DBActivity.COL_COM, DBActivity.COL_MEMO, DBActivity.COL_IMAGE, DBActivity.COL_ID};
+                , DBActivity.COL_COM, DBActivity.COL_MEMO, DBActivity.COL_IMAGE};
         Cursor cursor = mDbOpenHelper.select(coulumns, null, null, null, null, null);
 
         if (cursor != null)
         {
             while (cursor.moveToNext())
             {
-                int id = cursor.getInt(11);
-                String productName = cursor.getString(0);
-                String category = cursor.getString(1);
-                int lifeYear = cursor.getInt(2);
-                int lifeMonth = cursor.getInt(3);
-                int lifeDay = cursor.getInt(4);
-                String company = cursor.getString(8);
-                String image = cursor.getString(10);
+                int id = cursor.getInt(0);
+                String productName = cursor.getString(1);
+                String category = cursor.getString(2);
+                int lifeYear = cursor.getInt(3);
+                int lifeMonth = cursor.getInt(4);
+                int lifeDay = cursor.getInt(5);
+                String company = cursor.getString(9);
+                String image = cursor.getString(11);
 
-                allItems.add(new Product(productName, category, company, lifeYear, lifeMonth, lifeDay, image));
+                allItems.add(new Product(id,productName, category, company, lifeYear, lifeMonth, lifeDay, image));
                 //adapter.addProduct(new Product(productName, category, company, lifeYear, lifeMonth, lifeDay, image));
                 Log.d("cursor", cursor.getString(0));
             }
