@@ -3,6 +3,7 @@ package com.cs2020.capstone;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -45,12 +46,16 @@ public class su_CategoryActivity extends AppCompatActivity
         SharedPreferences pref = getSharedPreferences("cate", Activity.MODE_PRIVATE);
     }
 
+    DBActivityHelper mDbOpenHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.su_activity_category);
+
+        mDbOpenHelper = new DBActivityHelper(this);
+        mDbOpenHelper.open();
 
         RecyclerView rv = findViewById(R.id.CategoryRecycle);
         GridLayoutManager glm = new GridLayoutManager(this, 2);
@@ -59,12 +64,23 @@ public class su_CategoryActivity extends AppCompatActivity
         final su_CategoryAdapter adapter = new su_CategoryAdapter(this);
 
         // TODO : DB에서 카테고리 읽어오도록 수정하기 / DB에 기본 카테고리 넣기
-        adapter.addCategory(new su_Category("육류"));
-        adapter.addCategory(new su_Category("해산물"));
-        adapter.addCategory(new su_Category("음료"));
-        adapter.addCategory(new su_Category("조미료"));
-        adapter.addCategory(new su_Category("야채"));
-        adapter.addCategory(new su_Category("냉동식품"));
+//        adapter.addCategory(new su_Category("육류"));
+//        adapter.addCategory(new su_Category("해산물"));
+//        adapter.addCategory(new su_Category("음료"));
+//        adapter.addCategory(new su_Category("조미료"));
+//        adapter.addCategory(new su_Category("야채"));
+//        adapter.addCategory(new su_Category("냉동식품"));
+
+        String[] columns = new String[] { DBActivity.COL_CATE};
+        Cursor cursor = mDbOpenHelper.selectCate(columns, null, null, null, null, null);
+        if (cursor != null)
+        {
+            while(cursor.moveToNext())
+            {
+                String categoryName = cursor.getString(0);
+                adapter.addCategory(new su_Category(categoryName));
+            }
+        }
 
         rv.setAdapter(adapter);
 
