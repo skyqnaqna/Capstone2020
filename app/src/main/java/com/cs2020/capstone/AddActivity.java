@@ -264,7 +264,10 @@ public class AddActivity extends AppCompatActivity{
                 calendar.set(Calendar.YEAR, year);
                 calendar.set(Calendar.MONTH, month);
                 calendar.set(Calendar.DATE, day);
-
+                
+                Ayear = calendar.get(calendar.YEAR);
+                Amonth = calendar.get(Calendar.MONTH);
+                Aday = calendar.get(Calendar.DAY_OF_MONTH);
                 // 날짜 표시
                 displayDate();
 
