@@ -253,10 +253,6 @@ public class AddActivity extends AppCompatActivity{
                 calendar.set(Calendar.MONTH, month);
                 calendar.set(Calendar.DATE, day);
 
-                Ayear = calendar.get(Calendar.YEAR);
-                Amonth  = calendar.get(Calendar.MONTH);
-                Aday = calendar.get(Calendar.DATE);
-
                 // 날짜 표시
                 displayDate();
 
@@ -268,11 +264,10 @@ public class AddActivity extends AppCompatActivity{
     }
 
     //날짜 보여주기
-    private int displayDate() {
+    private void displayDate() {
         SimpleDateFormat format = new SimpleDateFormat
                 ("yyyy년 MM월 dd일", Locale.getDefault());
         ((TextView) findViewById(R.id.txtDate)).setText(format.format(this.calendar.getTime()));
-        return 0;
     }
 
 
