@@ -2,12 +2,17 @@ package com.cs2020.capstone;
 
 import android.Manifest;
 import android.app.Activity;
+import android.app.AlarmManager;
+import android.app.DatePickerDialog;
+import android.app.PendingIntent;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.icu.text.SimpleDateFormat;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.text.Editable;
@@ -25,6 +30,7 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -40,12 +46,13 @@ import com.google.zxing.integration.android.IntentResult;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Locale;
 
 public class AddActivity extends AppCompatActivity{
     private ImageView iv;
     private Spinner spinner1;
     private DatePicker dp;
-    private Calendar cal;
+
     private EditText text1, text2, text3;
     DBActivityHelper mDbOpenHelper;
 
@@ -53,7 +60,11 @@ public class AddActivity extends AppCompatActivity{
     private int Ayear = 0, Amonth = 0, Aday = 0;
     private String category = null, name = null, company = null, memo = null;
     private String photoPath = null;
+<<<<<<< HEAD
     private int amount = 0;
+=======
+    private Calendar calendar;
+>>>>>>> master
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -166,22 +177,6 @@ public class AddActivity extends AppCompatActivity{
 
 
 
-        final String[] alarms = {"7일 전", "5일 전", "3일 전", "2일 전", "1일 전", "유통기한 당일"};
-        cal = Calendar.getInstance(); // 캘린더 객체를 통해 현재 년월일 추출
-        year = cal.get(cal.YEAR);
-        month = cal.get(cal.MONTH); //월은 0월 부터 11월까지
-        day = cal.get(cal.DAY_OF_MONTH);
-
-        dp = (DatePicker) findViewById(R.id.datePicker);
-        dp.init(year, month, day, new DatePicker.OnDateChangedListener() {
-            @Override
-            public void onDateChanged(DatePicker datePicker, int yy, int mm, int dd) {
-                year = yy;
-                month = mm;
-                day = dd;
-            }
-        });
-
         // 바코드 인식 버튼 누르면 스캐너 실행
         Button button = (Button)findViewById(R.id.button);
         button.setOnClickListener(new View.OnClickListener() {
@@ -193,7 +188,103 @@ public class AddActivity extends AppCompatActivity{
                 integrator.initiateScan();
             }
         });
+
+    //push 알람 실행
+        this.calendar = Calendar.getInstance();//현재 시간 불러오기
+
+        //날짜 설정
+        TextView txtDate=findViewById(R.id.txtDate);
+        txtDate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showDatePicker();//달력 불러오기
+            }
+        });
+
+        Button btnAlarm = findViewById(R.id.btnAlarm);
+        btnAlarm.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                setAlarm();//알람 등록
+            }
+        });
     }
+
+    private void setAlarm() {
+        //시간 설정
+        this.calendar.set(Calendar.HOUR_OF_DAY, 16);
+        this.calendar.set(Calendar.MINUTE,20);
+        this.calendar.set(Calendar.SECOND, 0);
+
+        // 현재일보다 이전이면 등록 실패
+        if (this.calendar.before(Calendar.getInstance())) {
+            Toast.makeText(this, "현재시간 이후로 알람을 설정해주세요",
+                    Toast.LENGTH_LONG).show();
+            return;
+        }
+        // Receiver 설정
+        Intent intent = new Intent(this, AlarmReceiver.class);
+        PendingIntent pendingIntent =
+                PendingIntent.getBroadcast(this,
+                        0,
+                        intent,
+                        PendingIntent.FLAG_UPDATE_CURRENT);
+
+        // Toast 보여주기 (알람 시간 표시)
+        SimpleDateFormat format =
+                new SimpleDateFormat("yyyy.MM.dd", Locale.getDefault());
+        Toast.makeText(this, format.format(calendar.getTime())+" AM 08:30에 PUSH",
+                Toast.LENGTH_LONG).show();
+
+        NotificationSomething(calendar);
+    }
+
+    private void NotificationSomething(Calendar calendar) {
+        PackageManager pm = this.getPackageManager();
+
+        Intent alarmIntent = new Intent(this, AlarmReceiver.class);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(this,
+                0,
+                alarmIntent,
+                PendingIntent.FLAG_UPDATE_CURRENT);
+
+        //알람 설정
+        AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
+        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP,
+                calendar.getTimeInMillis(),
+                AlarmManager.INTERVAL_DAY, pendingIntent);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
+        }
+    }
+
+    //달력 보여주기
+    private void showDatePicker() {
+        DatePickerDialog dialog = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker view, int year, int month, int day) {
+                // 알람 날짜 설정
+                calendar.set(Calendar.YEAR, year);
+                calendar.set(Calendar.MONTH, month);
+                calendar.set(Calendar.DATE, day);
+
+                // 날짜 표시
+                displayDate();
+
+            }
+        }, this.calendar.get(Calendar.YEAR),
+                this.calendar.get(Calendar.MONTH),
+                this.calendar.get(Calendar.DAY_OF_MONTH));
+        dialog.show();
+    }
+
+    //날짜 보여주기
+    private void displayDate() {
+        SimpleDateFormat format = new SimpleDateFormat
+                ("yyyy년 MM월 dd일", Locale.getDefault());
+        ((TextView) findViewById(R.id.txtDate)).setText(format.format(this.calendar.getTime()));
+    }
+
 
     //권한에 대한 응답이 있을때 작동하는 함수
     @Override
@@ -308,6 +399,8 @@ public class AddActivity extends AppCompatActivity{
 
 
     }
+
+
 }
 
 
