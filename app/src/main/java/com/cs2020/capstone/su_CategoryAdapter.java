@@ -2,6 +2,7 @@ package com.cs2020.capstone;
 
 import android.app.AlertDialog;
 import android.content.Context;
+import android.database.Cursor;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -26,6 +27,8 @@ public class su_CategoryAdapter extends RecyclerView.Adapter<su_CategoryAdapter.
     ArrayList<su_Category> items = new ArrayList<>();
     OnCategoryItemClickListener listener;
     Context mContext;
+    DBActivityHelper mDbOpenHelper;
+    private int amount =0;
 
     public su_CategoryAdapter(Context context)
     {
@@ -174,7 +177,11 @@ public class su_CategoryAdapter extends RecyclerView.Adapter<su_CategoryAdapter.
                 }
                 else
                 {
-                    addCategory(new su_Category(editText.getText().toString()));
+                    String cate = editText.getText().toString();
+                    addCategory(new su_Category(cate));
+                    mDbOpenHelper = new DBActivityHelper(mContext);
+                    mDbOpenHelper.open();
+                    mDbOpenHelper.insertCate(cate, 0);
                     notifyDataSetChanged();
                     dialog.dismiss();
                 }
