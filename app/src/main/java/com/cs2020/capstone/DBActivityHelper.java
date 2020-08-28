@@ -131,6 +131,12 @@ public class DBActivityHelper {
         return mDB.update(DBActivity._TABLENAME, values, "_id=" + id, null)> 0 ;
     }
 
+    public void updateAllCate(String cate, String Ncate){
+        mDB.execSQL("UPDATE "+DBActivity._TABLENAME+" SET "+DBActivity.COL_CATE +" ="+" '"+Ncate+"'"+
+                " WHERE "+DBActivity.COL_CATE+" ="+" '"+cate+"'");
+    }
+
+
     public boolean updateCate(String cate , int amount){ //category table update
         ContentValues values = new ContentValues();
         values.put(DBActivity.COL_AMOUNT, amount);
