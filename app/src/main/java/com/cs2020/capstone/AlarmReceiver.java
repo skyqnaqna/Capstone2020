@@ -52,7 +52,7 @@ public class AlarmReceiver extends BroadcastReceiver {
                 RingtoneManager.TYPE_NOTIFICATION);
         builder.setSmallIcon(R.drawable.ic_launcher_foreground)//어플 아이콘 넣기
                 .setContentTitle("알람")
-                .setContentText("유통기한이 얼마 남지 않았습니다.")
+                .setContentText("유통기한이 얼마 남지 않은 제품이 있습니다.")
                 .setContentIntent(pendingIntent)
                 .setWhen(System.currentTimeMillis())
                 .setColor(Color.RED)

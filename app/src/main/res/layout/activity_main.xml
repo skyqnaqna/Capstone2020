@@ -31,6 +31,7 @@
         android:paddingBottom="100dp"
         android:clipToPadding="false"
         app:layout_constraintTop_toBottomOf="@+id/toolbar"
+        android:background="@color/colorBackground"
         tools:layout_editor_absoluteX="-4dp" />
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
