@@ -2,18 +2,6 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <item
-        android:id="@+id/sort"
-        android:icon="@android:drawable/btn_dropdown"
-        android:title="sort"
-        app:showAsAction="always" />
-
-    <item
-        android:id="@+id/edit_main"
-        android:icon="@android:drawable/checkbox_on_background"
-        android:title="edit"
-        app:showAsAction="always" />
-
     <group>
         <item
             android:id="@+id/show_all"

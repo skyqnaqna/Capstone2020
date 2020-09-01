@@ -6,11 +6,14 @@ import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class SelectedCategoryActivity extends AppCompatActivity
@@ -18,12 +21,17 @@ public class SelectedCategoryActivity extends AppCompatActivity
     MainAdapter adapter;
     ItemTouchHelper itemTouchHelper;
     String name = null;
+    DBActivityHelper mDbOpenHelper;
+    private ArrayList<Product> items = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_selected_category);
+
+        mDbOpenHelper = new DBActivityHelper(this);
+        mDbOpenHelper.open();
 
         Intent intent = getIntent();
         name = intent.getStringExtra("category_name");
@@ -41,6 +49,9 @@ public class SelectedCategoryActivity extends AppCompatActivity
         ItemTouchHelperCallback callback = new ItemTouchHelperCallback((ItemTouchHelperCallback.OnItemMoveListener) adapter);
         itemTouchHelper = new ItemTouchHelper(callback);
         itemTouchHelper.attachToRecyclerView(rv);
+
+        initItemList();
+        itemListToAdapter();
 
         rv.setAdapter(adapter);
 
@@ -86,6 +97,52 @@ public class SelectedCategoryActivity extends AppCompatActivity
                         }));
             }
         };
+    }
+
+    // items 초기화
+    protected void initItemList()
+    {
+        if (items != null && !items.isEmpty())
+            items.clear();
+
+
+        String[] columns = new String[]{DBActivity.COL_ID,DBActivity.COL_NAME,DBActivity.COL_CATE
+                , DBActivity.COL_LYEAR, DBActivity.COL_LMONTH, DBActivity.COL_LDAY
+                , DBActivity.COL_AYEAR, DBActivity.COL_AMONTH, DBActivity.COL_ADAY
+                , DBActivity.COL_COM, DBActivity.COL_MEMO, DBActivity.COL_IMAGE};
+        Cursor cursor = mDbOpenHelper.select(columns, "category = " + "'" + name + "'" , null, null, null, null);
+
+        if (cursor != null)
+        {
+            while (cursor.moveToNext())
+            {
+                int id = cursor.getInt(0);
+                String productName = cursor.getString(1);
+                String category = cursor.getString(2);
+                int lifeYear = cursor.getInt(3);
+                int lifeMonth = cursor.getInt(4);
+                int lifeDay = cursor.getInt(5);
+                String company = cursor.getString(9);
+                String image = cursor.getString(11);
+
+                items.add(new Product(id,productName, category, company, lifeYear, lifeMonth, lifeDay, image));
+                //adapter.addProduct(new Product(productName, category, company, lifeYear, lifeMonth, lifeDay, image));
+                Log.d("cursor", cursor.getString(0));
+            }
+            cursor.close();
+        }
+    }
+
+    // adapter에 있는 item리스트 초기화
+    protected void itemListToAdapter()
+    {
+        if (adapter.items != null && !adapter.items.isEmpty())
+            adapter.items.clear();
+
+        for (int i = 0; i < items.size(); ++i)
+        {
+            adapter.addProduct(items.get(i));
+        }
     }
 }
 
