@@ -45,6 +45,7 @@ public class MainActivity extends AppCompatActivity
     private ArrayList<Product> allItems = new ArrayList<>();
     private ArrayList<Product> remainItems = new ArrayList<>();
     private ArrayList<Product> goneItmes = new ArrayList<>();
+    private int amount = 0;
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
@@ -125,7 +126,6 @@ public class MainActivity extends AppCompatActivity
                 Intent intent = new Intent(getApplicationContext(), InfoActivity.class);
 
                 intent.putExtra("id", adapter.getItem(position).primaryKey);
-                intent.putExtra("img", adapter.getItem(position).image_src);
 
                 startActivityForResult(intent, 111);
             }
@@ -145,7 +145,24 @@ public class MainActivity extends AppCompatActivity
                             @Override
                             public void onClick(int pos)
                             {
-                                Toast.makeText(MainActivity.this, "Delete click", Toast.LENGTH_SHORT).show();
+                                //Toast.makeText(MainActivity.this, "Delete click", Toast.LENGTH_SHORT).show();
+                                Product item = adapter.getItem(pos);
+                                int id = item.getID();
+                                String cate = item.getCategory();
+                                mDbOpenHelper.deleteColumn(id);
+                                String[] columns = new String[]{DBActivity.COL_AMOUNT};
+                                Cursor cursor = mDbOpenHelper.selectCate(columns,"category = "+"'"+ cate+"'", null, null, null, null);
+                                if(cursor != null)
+                                {
+                                    while (cursor.moveToNext())
+                                    {
+                                        amount = cursor.getInt(0);
+                                    }
+                                }
+                                if (amount>0){
+                                    mDbOpenHelper.updateCate(cate, amount-1);
+                                }
+                                Toast.makeText(MainActivity.this, "id : "+id,Toast.LENGTH_LONG).show();
                                 adapter.removeItem(pos);
                             }
                         }));
