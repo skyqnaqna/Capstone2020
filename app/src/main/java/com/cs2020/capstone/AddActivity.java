@@ -383,6 +383,7 @@ public class AddActivity extends AppCompatActivity{
                 finish();
                 return true;
             }
+            // 추가 완료 눌렀을 떄
             case R.id.complete :{
                 Toast.makeText(getApplicationContext(),Aday+"/"+category+"/",Toast.LENGTH_LONG).show(); //toolbar의 완료키 눌렀을 때 동작
                 mDbOpenHelper.insertColumn(name, category, year, month+1, day, Ayear, Amonth+1, Aday, company, memo, photoPath);

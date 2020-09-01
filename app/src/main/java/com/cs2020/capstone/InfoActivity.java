@@ -15,6 +15,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
@@ -157,8 +158,9 @@ public class InfoActivity extends AppCompatActivity {
                             Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent(getApplicationContext(), ModActivity.class);
                     intent.putExtra("id", id);
+                    //finish();
 
-                    startActivityForResult(intent, 111);
+                    startActivityForResult(intent, 112);
                 return true;
                 }
             }
@@ -169,5 +171,21 @@ public class InfoActivity extends AppCompatActivity {
         iv.setImageBitmap(bm);
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data)
+    {
+        super.onActivityResult(requestCode, resultCode, data);
 
+        // 제품 수정을 완료하면 intent를 받아서 MainActivity에 전달해준다
+        if (requestCode == 112)
+        {
+            if (resultCode == RESULT_OK)
+            {
+                Intent intent2 = getIntent();
+
+                setResult(RESULT_OK, intent2);
+                finish();
+            }
+        }
+    }
 }

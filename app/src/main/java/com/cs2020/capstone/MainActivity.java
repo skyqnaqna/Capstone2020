@@ -361,7 +361,7 @@ public class MainActivity extends AppCompatActivity
         {
             if (resultCode == RESULT_OK)
             {
-                Toast.makeText(getApplicationContext(), "Result OK", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "102 Result OK", Toast.LENGTH_SHORT).show();
 
                 Intent intent = getIntent();
                 Product mProduct = (Product) intent.getSerializableExtra("product");
@@ -378,6 +378,21 @@ public class MainActivity extends AppCompatActivity
             else
             {
                 Toast.makeText(getApplicationContext(), "Failed", Toast.LENGTH_SHORT).show();
+            }
+        }
+        else if (requestCode == 111)
+        {
+            if (resultCode == RESULT_OK)
+            {
+                Toast.makeText(getApplicationContext(), "112 Result OK", Toast.LENGTH_SHORT).show();
+
+                Intent intent1 = getIntent();
+                Product mProduct = (Product) intent1.getSerializableExtra("product");
+
+                // 제품 수정하면 리스트와 어댑터내의 리스트 초기화하여 리사이클러뷰에 반영하기
+                initItemList();
+                itemListToAdapter(allItems);
+                rv.setAdapter(adapter);
             }
         }
 

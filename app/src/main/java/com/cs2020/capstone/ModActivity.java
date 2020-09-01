@@ -462,6 +462,7 @@ public class ModActivity extends AppCompatActivity{
                 finish();
                 return true;
             }
+            // 수정완료버튼 눌렀을 때
             case R.id.complete :{
                 Toast.makeText(getApplicationContext(),Aday+"/"+category+"/",Toast.LENGTH_LONG).show(); //toolbar의 완료키 눌렀을 때 동작
                 mDbOpenHelper.updateColumn(id, name, category, year, month+1, day, Ayear, Amonth+1, Aday, company, memo, photoPath);
@@ -489,7 +490,7 @@ public class ModActivity extends AppCompatActivity{
                     mDbOpenHelper.updateCate(Bcate, Bamount-1);
                 }
 
-                Intent intent = new Intent(this, MainActivity.class);
+                Intent intent = new Intent(this, InfoActivity.class);
                 Product product = new Product(name, category, company, year, month, day, photoPath);
                 intent.putExtra("product", product);
                 setResult(RESULT_OK, intent);
