@@ -114,8 +114,8 @@ public class DBActivityHelper {
 
 
     //갱신할 때 사용하는 갱신문입니다
-    public boolean updateColumn(int id, String name, String cate , int lyear, int lmonth, int lday, int ayear, int amonth, int aday,
-                                String alarm, String company, String memo, String image){
+    public boolean updateColumn(int id, String name, String cate , int lyear, int lmonth, int lday, int ayear, int amonth, int aday
+                                , String company, String memo, String image){
         ContentValues values = new ContentValues();
         values.put(DBActivity.COL_NAME, name);
         values.put(DBActivity.COL_CATE, cate);
