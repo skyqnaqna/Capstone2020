@@ -357,10 +357,11 @@ public class AddActivity extends AppCompatActivity{
             try {
                 InputStream is = getContentResolver().openInputStream(data.getData());
                 Uri photoUri = data.getData();
-                photoPath = getRealPathFromURI(photoUri);
+                photoPath = photoUri.toString();
                 Bitmap bm = BitmapFactory.decodeStream(is);
                 is.close();
                 iv.setImageBitmap(bm);
+                Toast.makeText(getApplicationContext(), "사진 경로는 : " + photoPath, Toast.LENGTH_LONG).show();
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -369,7 +370,7 @@ public class AddActivity extends AppCompatActivity{
         }
 
         // 바코드 읽기 성공했을 때
-        if (resultCode == Activity.RESULT_OK)
+        else if (resultCode == Activity.RESULT_OK)
         {
             IntentResult scanResult = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
             String msg = scanResult.getContents();

@@ -436,9 +436,8 @@ public class ModActivity extends AppCompatActivity{
         } else if (requestCode == 101 && resultCode == RESULT_CANCELED) {
             Toast.makeText(this, "취소", Toast.LENGTH_SHORT).show();
         }
-
         // 바코드 읽기 성공했을 때
-        if (resultCode == Activity.RESULT_OK)
+        else if (resultCode == Activity.RESULT_OK)
         {
             IntentResult scanResult = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
             String barcode = scanResult.getContents();
