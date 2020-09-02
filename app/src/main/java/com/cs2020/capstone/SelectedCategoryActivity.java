@@ -93,6 +93,7 @@ public class SelectedCategoryActivity extends AppCompatActivity
                             {
                                 Toast.makeText(SelectedCategoryActivity.this, "Delete click", Toast.LENGTH_SHORT).show();
                                 adapter.removeItem(pos);
+                                adapter.notifyDataSetChanged();
                             }
                         }));
             }

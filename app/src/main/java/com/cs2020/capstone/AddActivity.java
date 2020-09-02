@@ -362,12 +362,19 @@ public class AddActivity extends AppCompatActivity{
         if (resultCode == Activity.RESULT_OK)
         {
             IntentResult scanResult = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
-            String barcode = scanResult.getContents();
-            String message = barcode;
-            Log.d("onActivityResult", "onActivityResult: ." + barcode);
-            Toast.makeText(this, barcode, Toast.LENGTH_LONG).show();
+            String msg = scanResult.getContents();
+            final String barcode = msg;
+            Log.d("onActivityResult", "onActivityResult: ." + msg);
+            Toast.makeText(this, msg, Toast.LENGTH_LONG).show();
 
+            getDateFromBarcodeDB(barcode);
         }
+    }
+
+    // 스캔한 바코드로 DB에서 데이터 가져오기
+    protected void getDateFromBarcodeDB(final String barcode)
+    {
+
     }
 
     @Override

@@ -149,17 +149,4 @@ public class su_CategoryActivity extends AppCompatActivity
 
 
     }
-
-
-
-
-
-    //    public void AddCategory()
-//    {
-//        i++;
-//        count.add(i);
-//        RvAdapter adapter = new RvAdapter(getApplication(), count, i);
-//        rv.setAdapter(adapter);
-//        Log.d("Count", count + "");
-//    }
 }
