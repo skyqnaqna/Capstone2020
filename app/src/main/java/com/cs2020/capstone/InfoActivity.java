@@ -1,13 +1,17 @@
 package com.cs2020.capstone;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Messenger;
 import android.provider.MediaStore;
+import android.text.TextUtils;
 import android.text.method.ScrollingMovementMethod;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -15,9 +19,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -92,6 +99,7 @@ public class InfoActivity extends AppCompatActivity {
         Ncom.setText(com);
         Nmemo.setText(memo);
 
+        checkSelfPermission();
 
         if(image == null){ //이미지 경로가 null
             iv.setImageResource(R.drawable.gallery);
@@ -187,8 +195,32 @@ public class InfoActivity extends AppCompatActivity {
         }
     }
 
+    public void checkSelfPermission() {
+        String temp = "";
+        //파일 읽기 권한 확인
+        if (ContextCompat.checkSelfPermission(this,
+                Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+            temp += Manifest.permission.READ_EXTERNAL_STORAGE + " ";
+        }
+
+        //파일 쓰기 권한 확인
+        if (ContextCompat.checkSelfPermission(this,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+            temp += Manifest.permission.WRITE_EXTERNAL_STORAGE + " ";
+        }
+
+        if (TextUtils.isEmpty(temp) == false) {
+            // 권한 요청
+            ActivityCompat.requestPermissions(this, temp.trim().split(" "), 1);
+        } else {
+            // 모두 허용 상태
+            Toast.makeText(this, "권한을 모두 허용", Toast.LENGTH_SHORT).show();
+        }
+    }
+
     private void setImage(Uri uri) {
         try{
+
             InputStream in = getContentResolver().openInputStream(uri);
             Bitmap bitmap = BitmapFactory.decodeStream(in);
             iv.setImageBitmap(bitmap);

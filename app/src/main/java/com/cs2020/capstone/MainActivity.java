@@ -143,6 +143,7 @@ public class MainActivity extends AppCompatActivity
 
                 Intent intent = new Intent(getApplicationContext(), InfoActivity.class);
 
+
                 intent.putExtra("id", adapter.getItem(position).primaryKey);
 
                 startActivityForResult(intent, 111);
