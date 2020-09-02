@@ -43,12 +43,16 @@ import androidx.core.content.ContextCompat;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 
+import java.io.IOException;
 import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Locale;
 
-public class AddActivity extends AppCompatActivity{
+public class ModActivity extends AppCompatActivity{
     private ImageView iv;
     private Spinner spinner1;
     private DatePicker dp;
@@ -56,17 +60,18 @@ public class AddActivity extends AppCompatActivity{
     private EditText text1, text2, text3;
     DBActivityHelper mDbOpenHelper;
 
-    private int year = 0, month = 0, day = 0;
+    private int year = 0, month = 0, day = 0, id = 0;
     private int Ayear = 0, Amonth = 0, Aday = 0;
-    private String category = null, name = null, company = null, memo = null;
+    private String category = null, name = null, company = null, memo = null, Bcate = null;
     private String photoPath = null;
-    private int amount = 0;
+    private int amount = 0, Bamount =0;
     private Calendar calendar;
+    Bitmap bm;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_add);
+        setContentView(R.layout.activity_mod);
         mDbOpenHelper = new DBActivityHelper(this);
         mDbOpenHelper.open();
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
@@ -77,6 +82,8 @@ public class AddActivity extends AppCompatActivity{
         getSupportActionBar().setDisplayHomeAsUpEnabled(true); //뒤로가기 버튼
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         checkSelfPermission();
+
+
         iv = findViewById(R.id.imageView);
         iv.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -90,7 +97,34 @@ public class AddActivity extends AppCompatActivity{
             }
         });
 
+        Intent intent = getIntent();
+        id = intent.getIntExtra("id", 0);
+        Toast.makeText(getApplicationContext(), "id :" + id, Toast.LENGTH_LONG).show();
+
+        String[] coulumns = new String[]{DBActivity.COL_NAME, DBActivity.COL_CATE
+                , DBActivity.COL_LYEAR, DBActivity.COL_LMONTH, DBActivity.COL_LDAY
+                , DBActivity.COL_AYEAR, DBActivity.COL_AMONTH, DBActivity.COL_ADAY
+                , DBActivity.COL_COM, DBActivity.COL_MEMO, DBActivity.COL_IMAGE};
+        Cursor Lcursor = mDbOpenHelper.select(coulumns, "_ID = " + id, null, null, null, null);
+        if (Lcursor != null) {
+            while (Lcursor.moveToNext()) {
+
+                name = Lcursor.getString(0);
+                Bcate = Lcursor.getString(1);
+                year = Lcursor.getInt(2);
+                month = Lcursor.getInt(3)-1;
+                day = Lcursor.getInt(4);
+                Ayear = Lcursor.getInt(5);
+                Amonth = Lcursor.getInt(6)-1;
+                Aday = Lcursor.getInt(7);
+                company = Lcursor.getString(8);
+                memo = Lcursor.getString(9);
+                photoPath = Lcursor.getString(10);
+            }
+        }
+
         text1 = (EditText) findViewById(R.id.editText);
+        text1.setText(name);
         text1.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -110,6 +144,7 @@ public class AddActivity extends AppCompatActivity{
         });
 
         text2 = (EditText) findViewById(R.id.editText2);
+        text2.setText(company);
         text2.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -128,6 +163,7 @@ public class AddActivity extends AppCompatActivity{
         });
 
         text3 = (EditText) findViewById(R.id.editText3);
+        text3.setText(memo);
         text3.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -159,12 +195,13 @@ public class AddActivity extends AppCompatActivity{
         }
         ArrayAdapter<String> adapter1 = new ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line, cates);
         spinner1.setAdapter(adapter1); //카테고리 배열과 어댑터 연결
+        spinner1.setSelection(getIndex(spinner1, Bcate));
 
         spinner1.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 category = spinner1.getSelectedItem().toString(); //category 추출
-                Toast.makeText(AddActivity.this, "선택된 아이템 : " + spinner1.getItemAtPosition(i), Toast.LENGTH_SHORT).show();
+                Toast.makeText(ModActivity.this, "선택된 아이템 : " + spinner1.getItemAtPosition(i), Toast.LENGTH_SHORT).show();
             }
 
             @Override
@@ -173,10 +210,7 @@ public class AddActivity extends AppCompatActivity{
             }
         });
 
-        calendar = Calendar.getInstance(); // 캘린더 객체를 통해 현재 년월일 추출
-        year = calendar.get(calendar.YEAR);
-        month = calendar.get(calendar.MONTH); //월은 0월 부터 11월까지
-        day = calendar.get(calendar.DAY_OF_MONTH);
+        calendar = Calendar.getInstance();
 
         dp = (DatePicker) findViewById(R.id.datePicker);
         dp.init(year, month, day, new DatePicker.OnDateChangedListener() {
@@ -194,15 +228,19 @@ public class AddActivity extends AppCompatActivity{
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                IntentIntegrator integrator = new IntentIntegrator(AddActivity.this);
+                IntentIntegrator integrator = new IntentIntegrator(ModActivity.this);
                 integrator.setBeepEnabled(false);
                 integrator.setCaptureActivity(CustomScannerActivity.class);
                 integrator.initiateScan();
             }
         });
 
-    //push 알람 실행
-        this.calendar = Calendar.getInstance();//현재 시간 불러오기
+        //push 알람 실행
+        //this.calendar = Calendar.getInstance();//현재 시간 불러오기
+
+        calendar.set(Calendar.YEAR, Ayear);
+        calendar.set(Calendar.MONTH, Amonth);
+        calendar.set(Calendar.DATE, Aday);
         displayDate();
         //날짜 설정
         TextView txtDate=findViewById(R.id.txtDate);
@@ -220,6 +258,48 @@ public class AddActivity extends AppCompatActivity{
                 setAlarm();//알람 등록
             }
         });
+
+        if(photoPath == null){ //이미지 경로가 null
+            iv.setImageResource(R.drawable.gallery);
+        }else if(photoPath.indexOf("http")==-1){ //이미지 경로가 sd카드 내부
+            setPicture(photoPath);
+        }else{//이미지 경로가 인터넷 URL
+            Thread mThread = new Thread() {
+                @Override
+                public void run() {
+                    try {
+                        URL url = new URL(photoPath);
+
+                        // Web에서 이미지를 가져온 뒤
+                        // ImageView에 지정할 Bitmap을 만든다
+                        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+                        conn.setDoInput(true); // 서버로 부터 응답 수신
+                        conn.connect();
+
+                        InputStream is = conn.getInputStream(); // InputStream 값 가져오기
+                        bm = BitmapFactory.decodeStream(is); // Bitmap으로 변환
+
+                    } catch (MalformedURLException e) {
+                        e.printStackTrace();
+
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            };
+            mThread.start(); // Thread 실행
+            try {
+                // 메인 Thread는 별도의 작업 Thread가 작업을 완료할 때까지 대기해야한다
+                // join()를 호출하여 별도의 작업 Thread가 종료될 때까지 메인 Thread가 기다리게 한다
+                mThread.join();
+
+                // 작업 Thread에서 이미지를 불러오는 작업을 완료한 뒤
+                // UI 작업을 할 수 있는 메인 Thread에서 ImageView에 이미지를 지정한다
+                iv.setImageBitmap(bm);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     private void setAlarm() {
@@ -276,10 +356,11 @@ public class AddActivity extends AppCompatActivity{
             @Override
             public void onDateSet(DatePicker view, int year, int month, int day) {
                 // 알람 날짜 설정
+
                 calendar.set(Calendar.YEAR, year);
                 calendar.set(Calendar.MONTH, month);
                 calendar.set(Calendar.DATE, day);
-                
+
                 Ayear = calendar.get(calendar.YEAR);
                 Amonth = calendar.get(Calendar.MONTH);
                 Aday = calendar.get(Calendar.DAY_OF_MONTH);
@@ -287,9 +368,7 @@ public class AddActivity extends AppCompatActivity{
                 displayDate();
 
             }
-        }, this.calendar.get(Calendar.YEAR),
-                this.calendar.get(Calendar.MONTH),
-                this.calendar.get(Calendar.DAY_OF_MONTH));
+        }, Ayear, Amonth, Aday);
         dialog.show();
     }
 
@@ -372,7 +451,7 @@ public class AddActivity extends AppCompatActivity{
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.add_menu, menu);
+        getMenuInflater().inflate(R.menu.mod_menu, menu);
         return true;
     }
 
@@ -383,21 +462,33 @@ public class AddActivity extends AppCompatActivity{
                 finish();
                 return true;
             }
-            // 추가 완료 눌렀을 떄
+            // 수정완료버튼 눌렀을 때
             case R.id.complete :{
                 Toast.makeText(getApplicationContext(),Aday+"/"+category+"/",Toast.LENGTH_LONG).show(); //toolbar의 완료키 눌렀을 때 동작
-                mDbOpenHelper.insertColumn(name, category, year, month+1, day, Ayear, Amonth+1, Aday, company, memo, photoPath);
+                mDbOpenHelper.updateColumn(id, name, category, year, month+1, day, Ayear, Amonth+1, Aday, company, memo, photoPath);
                 String[] columns = new String[]{DBActivity.COL_AMOUNT};
-                Cursor cursor = mDbOpenHelper.selectCate(columns,"category = "+"'"+ category+"'", null, null, null, null);
-                if(cursor != null)
+                Cursor cursor1 = mDbOpenHelper.selectCate(columns,"category = "+"'"+ category+"'", null, null, null, null);
+                if(cursor1 != null)
                 {
-                    while (cursor.moveToNext())
+                    while (cursor1.moveToNext())
                     {
-                        amount = cursor.getInt(0);
+                        amount = cursor1.getInt(0); //변경하고자 하는 amount
                     }
                 }
-                mDbOpenHelper.updateCate(category, amount+1);
-                Intent intent = new Intent(this, MainActivity.class);
+                Cursor cursor2 = mDbOpenHelper.selectCate(columns,"category = "+"'"+ Bcate+"'", null, null, null, null);
+                if(cursor2 != null)
+                {
+                    while (cursor2.moveToNext())
+                    {
+                        Bamount = cursor2.getInt(0); //DB에 있는 amount
+            }
+        }
+                if(!category.equals(Bcate)){
+                    mDbOpenHelper.updateCate(category, amount+1);
+                    mDbOpenHelper.updateCate(Bcate, Bamount-1);
+                }
+
+                Intent intent = new Intent(this, InfoActivity.class);
                 Product product = new Product(name, category, company, year, month, day, photoPath);
                 intent.putExtra("product", product);
                 setResult(RESULT_OK, intent);
@@ -421,7 +512,17 @@ public class AddActivity extends AppCompatActivity{
 
     }
 
+    private int getIndex(Spinner spinner, String item){
+        for (int i=0;i<spinner.getCount();i++){
+            if (spinner.getItemAtPosition(i).toString().equalsIgnoreCase(item)){
+                return i;
+            }
+        }
+        return 0;
+    }
 
+    private void setPicture(String path) {
+        bm = BitmapFactory.decodeFile(path);
+        iv.setImageBitmap(bm);
+    }
 }
-
-

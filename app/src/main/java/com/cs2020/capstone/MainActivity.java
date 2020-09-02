@@ -29,7 +29,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity
@@ -43,6 +45,7 @@ public class MainActivity extends AppCompatActivity
     private ArrayList<Product> allItems = new ArrayList<>();
     private ArrayList<Product> remainItems = new ArrayList<>();
     private ArrayList<Product> goneItmes = new ArrayList<>();
+    private int amount = 0;
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
@@ -101,7 +104,7 @@ public class MainActivity extends AppCompatActivity
 //        adapter.addProduct(new Product("초파", "과자", "빙그레", 2019, 10, 17, R.drawable.edit));
 
         initItemList();
-        itemListToAdapter();
+        itemListToAdapter(allItems);
 
         // 아이템 드래그 적용
         ItemTouchHelperCallback callback = new ItemTouchHelperCallback((ItemTouchHelperCallback.OnItemMoveListener) adapter);
@@ -123,7 +126,6 @@ public class MainActivity extends AppCompatActivity
                 Intent intent = new Intent(getApplicationContext(), InfoActivity.class);
 
                 intent.putExtra("id", adapter.getItem(position).primaryKey);
-                intent.putExtra("img", adapter.getItem(position).image_src);
 
                 startActivityForResult(intent, 111);
             }
@@ -143,7 +145,24 @@ public class MainActivity extends AppCompatActivity
                             @Override
                             public void onClick(int pos)
                             {
-                                Toast.makeText(MainActivity.this, "Delete click", Toast.LENGTH_SHORT).show();
+                                //Toast.makeText(MainActivity.this, "Delete click", Toast.LENGTH_SHORT).show();
+                                Product item = adapter.getItem(pos);
+                                int id = item.getID();
+                                String cate = item.getCategory();
+                                mDbOpenHelper.deleteColumn(id);
+                                String[] columns = new String[]{DBActivity.COL_AMOUNT};
+                                Cursor cursor = mDbOpenHelper.selectCate(columns,"category = "+"'"+ cate+"'", null, null, null, null);
+                                if(cursor != null)
+                                {
+                                    while (cursor.moveToNext())
+                                    {
+                                        amount = cursor.getInt(0);
+                                    }
+                                }
+                                if (amount>0){
+                                    mDbOpenHelper.updateCate(cate, amount-1);
+                                }
+                                Toast.makeText(MainActivity.this, "id : "+id,Toast.LENGTH_LONG).show();
                                 adapter.removeItem(pos);
                             }
                         }));
@@ -258,17 +277,40 @@ public class MainActivity extends AppCompatActivity
             }
             cursor.close();
         }
+        divideItemList();
     }
 
-    // MainAdapter에 있는 item리스트 초기화
-    protected void itemListToAdapter()
+    // MainAdapter에 있는 item리스트 초기화하고 list를 adapter에 있는 제품리스트에 반영
+    protected void itemListToAdapter(ArrayList<Product> list)
     {
         if (adapter.items != null && !adapter.items.isEmpty())
             adapter.items.clear();
 
+        for (int i = 0; i < list.size(); ++i)
+        {
+            adapter.addProduct(list.get(i));
+        }
+    }
+
+    // 유통기한 지난 제품과 남은 제품들 나누기
+    protected void divideItemList()
+    {
+        SimpleDateFormat format1 = new SimpleDateFormat("yyyy-MM-dd");
+        Date time = new Date();
+        String today = format1.format(time);
+        int compare;
+
+        if (remainItems != null && !remainItems.isEmpty())
+            remainItems.clear();
+        if (goneItmes != null && !goneItmes.isEmpty())
+            goneItmes.clear();
+
         for (int i = 0; i < allItems.size(); ++i)
         {
-            adapter.addProduct(allItems.get(i));
+           compare = today.compareTo(allItems.get(i).getDate());
+
+           if (compare <= 0) remainItems.add(allItems.get(i));
+           else goneItmes.add(allItems.get(i));
         }
     }
 
@@ -288,20 +330,20 @@ public class MainActivity extends AppCompatActivity
     {
         switch (item.getItemId())
         {
-            case R.id.sort:
-                Toast.makeText(getApplicationContext(), "정렬 클릭", Toast.LENGTH_SHORT).show();
-                break;
-            case R.id.edit_main:
-                Toast.makeText(getApplicationContext(), "편집 클릭", Toast.LENGTH_SHORT).show();
-                break;
             case R.id.show_all:
                 Toast.makeText(getApplicationContext(), "전체 클릭", Toast.LENGTH_SHORT).show();
+                itemListToAdapter(allItems);
+                rv.setAdapter(adapter);
                 break;
             case R.id.show_remain:
                 Toast.makeText(getApplicationContext(), "남은거 클릭", Toast.LENGTH_SHORT).show();
+                itemListToAdapter(remainItems);
+                rv.setAdapter(adapter);
                 break;
             case R.id.show_pass:
                 Toast.makeText(getApplicationContext(), "지난거 클릭", Toast.LENGTH_SHORT).show();
+                itemListToAdapter(goneItmes);
+                rv.setAdapter(adapter);
                 break;
         }
         return super.onOptionsItemSelected(item);
@@ -319,7 +361,7 @@ public class MainActivity extends AppCompatActivity
         {
             if (resultCode == RESULT_OK)
             {
-                Toast.makeText(getApplicationContext(), "Result OK", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "102 Result OK", Toast.LENGTH_SHORT).show();
 
                 Intent intent = getIntent();
                 Product mProduct = (Product) intent.getSerializableExtra("product");
@@ -329,13 +371,28 @@ public class MainActivity extends AppCompatActivity
 
                 // 제품 추가하면 리스트와 어댑터내의 리스트 초기화하여 리사이클러뷰에 반영하기
                 initItemList();
-                itemListToAdapter();
+                itemListToAdapter(allItems);
                 rv.setAdapter(adapter);
 
             }
             else
             {
                 Toast.makeText(getApplicationContext(), "Failed", Toast.LENGTH_SHORT).show();
+            }
+        }
+        else if (requestCode == 111)
+        {
+            if (resultCode == RESULT_OK)
+            {
+                Toast.makeText(getApplicationContext(), "112 Result OK", Toast.LENGTH_SHORT).show();
+
+                Intent intent1 = getIntent();
+                Product mProduct = (Product) intent1.getSerializableExtra("product");
+
+                // 제품 수정하면 리스트와 어댑터내의 리스트 초기화하여 리사이클러뷰에 반영하기
+                initItemList();
+                itemListToAdapter(allItems);
+                rv.setAdapter(adapter);
             }
         }
 

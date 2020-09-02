@@ -1,6 +1,7 @@
 package com.cs2020.capstone;
 
 import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
@@ -31,12 +32,20 @@ import java.util.ArrayList;
 public class GraphActivity extends AppCompatActivity
 {
     PieChart pieChart;
+    DBActivityHelper mDbOpenHelper;
+    private String category = null;
+    private int amount = 0;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_graph);
+        mDbOpenHelper = new DBActivityHelper(this);
+        mDbOpenHelper.open();
+
+        final su_CategoryAdapter adapter = new su_CategoryAdapter(this);
 
         PieChart pieChart = findViewById(R.id.piechart);//piechart 찾아서 변수 선언
 
@@ -51,13 +60,21 @@ public class GraphActivity extends AppCompatActivity
         pieChart.setTransparentCircleRadius(61f);
 
         ArrayList<PieEntry> NameOfCate = new ArrayList<PieEntry>();
-        NameOfCate.add(new PieEntry(5,"육류" ));//value 부분에 카테고리 개수 들어와야함
-        NameOfCate.add(new PieEntry(10, "해산물"));
-        NameOfCate.add(new PieEntry(10, "음료"));
-        NameOfCate.add(new PieEntry(30, "조미료"));
-        NameOfCate.add(new PieEntry(25, "야채"));
-        NameOfCate.add(new PieEntry(25, "냉동식품"));
 
+        String[] columns = new String[]{DBActivity.COL_CATE, DBActivity.COL_AMOUNT};
+        Cursor cursor = mDbOpenHelper.selectCate(columns,null, null, null, null, null);
+        if(cursor != null)
+        {
+            while (cursor.moveToNext())
+            {
+                category = cursor.getString(0);
+                amount = cursor.getInt(1);
+                if(amount!=0){
+                    NameOfCate.add(new PieEntry(amount, category));
+                }
+
+            }
+        }
 
         //오른쪽 아래 제품 카테고리
         Description description = new Description();
@@ -100,7 +117,7 @@ public class GraphActivity extends AppCompatActivity
                     }
                     case R.id.addCategory:
                     {
-                        //AddCategory();
+                        adapter.showAddDialog();//AddCategory();
                         break;
                     }
                     case R.id.category:
