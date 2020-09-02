@@ -23,6 +23,7 @@ public class SelectedCategoryActivity extends AppCompatActivity
     String name = null;
     DBActivityHelper mDbOpenHelper;
     private ArrayList<Product> items = new ArrayList<>();
+    private int amount = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -66,12 +67,7 @@ public class SelectedCategoryActivity extends AppCompatActivity
                         Toast.LENGTH_SHORT).show();
 
                 Intent intent2 = new Intent(getApplicationContext(), InfoActivity.class);
-
-                intent2.putExtra("name", adapter.getItem(position).name);
-                intent2.putExtra("category", adapter.getItem(position).category);
-                intent2.putExtra("date", adapter.getItem(position).end_day);
-                intent2.putExtra("company", adapter.getItem(position).company);
-                intent2.putExtra("img", adapter.getItem(position).image_src);
+                intent2.putExtra("id", adapter.getItem(position).primaryKey);
 
                 startActivityForResult(intent2, 111);
             }
@@ -91,7 +87,24 @@ public class SelectedCategoryActivity extends AppCompatActivity
                             @Override
                             public void onClick(int pos)
                             {
-                                Toast.makeText(SelectedCategoryActivity.this, "Delete click", Toast.LENGTH_SHORT).show();
+                                //Toast.makeText(SelectedCategoryActivity.this, "Delete click", Toast.LENGTH_SHORT).show();
+                                Product item = adapter.getItem(pos);
+                                int id = item.getID();
+                                String cate = item.getCategory();
+                                mDbOpenHelper.deleteColumn(id);
+                                String[] columns = new String[]{DBActivity.COL_AMOUNT};
+                                Cursor cursor = mDbOpenHelper.selectCate(columns,"category = "+"'"+ cate+"'", null, null, null, null);
+                                if(cursor != null)
+                                {
+                                    while (cursor.moveToNext())
+                                    {
+                                        amount = cursor.getInt(0);
+                                    }
+                                }
+                                if (amount>0){
+                                    mDbOpenHelper.updateCate(cate, amount-1);
+                                }
+                                Toast.makeText(SelectedCategoryActivity.this, "id : "+id,Toast.LENGTH_LONG).show();
                                 adapter.removeItem(pos);
                             }
                         }));

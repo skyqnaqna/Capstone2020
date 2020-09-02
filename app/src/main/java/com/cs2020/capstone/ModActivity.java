@@ -483,9 +483,7 @@ public class ModActivity extends AppCompatActivity{
                         Bamount = cursor2.getInt(0); //DB에 있는 amount
             }
         }
-                if(category.equals(Bcate)){
-
-                }else{
+                if(!category.equals(Bcate)){
                     mDbOpenHelper.updateCate(category, amount+1);
                     mDbOpenHelper.updateCate(Bcate, Bamount-1);
                 }
