@@ -97,18 +97,7 @@ public class InfoActivity extends AppCompatActivity {
             iv.setImageResource(R.drawable.gallery);
         }else if(image.indexOf("http")==-1){ //이미지 경로가 sd카드 내부
             Uri mUri = Uri.parse(image);
-            try {
-                bm = MediaStore.Images.Media.getBitmap(getContentResolver(),mUri);
-                iv.setImageBitmap(bm);
-
-            } catch (FileNotFoundException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            } catch (IOException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            }
-            iv.setImageBitmap(bm);
+            setImage(mUri);
         }else{//이미지 경로가 인터넷 URL
             Thread mThread = new Thread() {
                 @Override
@@ -195,6 +184,16 @@ public class InfoActivity extends AppCompatActivity {
                 setResult(RESULT_OK, intent2);
                 finish();
             }
+        }
+    }
+
+    private void setImage(Uri uri) {
+        try{
+            InputStream in = getContentResolver().openInputStream(uri);
+            Bitmap bitmap = BitmapFactory.decodeStream(in);
+            iv.setImageBitmap(bitmap);
+        } catch (FileNotFoundException e){
+            e.printStackTrace();
         }
     }
 }

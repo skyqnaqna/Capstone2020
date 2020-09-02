@@ -44,6 +44,7 @@ import androidx.core.content.ContextCompat;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
@@ -358,7 +359,7 @@ public class AddActivity extends AppCompatActivity{
             try {
                 InputStream is = getContentResolver().openInputStream(data.getData());
                 Uri photoUri = data.getData();
-                photoPath = getRealPathFromURI(this, photoUri);
+                photoPath = photoUri.toString();
                 Bitmap bm = BitmapFactory.decodeStream(is);
                 is.close();
                 Toast.makeText(getApplicationContext(), "paht : "+photoPath, Toast.LENGTH_LONG).show();
@@ -481,23 +482,7 @@ public class AddActivity extends AppCompatActivity{
 
         return super.onOptionsItemSelected(item);
     }
-
-    public String getRealPathFromURI(Context context, Uri contentUri) {
-        Cursor cursor = null;
-        try {
-            String[] proj = { MediaStore.Images.Media.DATA };
-            cursor = context.getContentResolver().query(contentUri,  proj, null, null, null);
-            int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
-            cursor.moveToFirst();
-            return cursor.getString(column_index);
-        } finally {
-            if (cursor != null) {
-                cursor.close();
-            }
-        }
-    }
-
-
+    
 }
 
 

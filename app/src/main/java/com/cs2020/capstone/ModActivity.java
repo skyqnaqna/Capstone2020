@@ -266,17 +266,7 @@ public class ModActivity extends AppCompatActivity{
             iv.setImageResource(R.drawable.gallery);
         }else if(photoPath.indexOf("http")==-1){ //이미지 경로가 sd카드 내부
             Uri mUri = Uri.parse(photoPath);
-            try {
-                bm = MediaStore.Images.Media.getBitmap(getContentResolver(), mUri);
-                iv.setImageBitmap(bm);
-            } catch (FileNotFoundException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            } catch (IOException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            }
-            iv.setImageBitmap(bm);
+            setImage(mUri);
         }else{//이미지 경로가 인터넷 URL
             Thread mThread = new Thread() {
                 @Override
@@ -440,7 +430,7 @@ public class ModActivity extends AppCompatActivity{
             try {
                 InputStream is = getContentResolver().openInputStream(data.getData());
                 Uri photoUri = data.getData();
-                photoPath = getRealPathFromURI(this, photoUri);
+                photoPath = photoUri.toString();
                 Bitmap bm = BitmapFactory.decodeStream(is);
                 is.close();
                 Toast.makeText(getApplicationContext(), "paht : "+photoPath, Toast.LENGTH_LONG).show();
@@ -574,20 +564,6 @@ public class ModActivity extends AppCompatActivity{
         return super.onOptionsItemSelected(item);
     }
 
-    public String getRealPathFromURI(Context context, Uri contentUri) {
-        Cursor cursor = null;
-        try {
-            String[] proj = { MediaStore.Images.Media.DATA };
-            cursor = context.getContentResolver().query(contentUri,  proj, null, null, null);
-            int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
-            cursor.moveToFirst();
-            return cursor.getString(column_index);
-        } finally {
-            if (cursor != null) {
-                cursor.close();
-            }
-        }
-    }
 
     private int getIndex(Spinner spinner, String item){
         for (int i=0;i<spinner.getCount();i++){
@@ -598,8 +574,14 @@ public class ModActivity extends AppCompatActivity{
         return 0;
     }
 
-    private void setPicture(String path) {
-        bm = BitmapFactory.decodeFile(path);
-        iv.setImageBitmap(bm);
+    private void setImage(Uri uri) {
+        try{
+            InputStream in = getContentResolver().openInputStream(uri);
+            Bitmap bitmap = BitmapFactory.decodeStream(in);
+            iv.setImageBitmap(bitmap);
+        } catch (FileNotFoundException e){
+            e.printStackTrace();
+        }
     }
+
 }
