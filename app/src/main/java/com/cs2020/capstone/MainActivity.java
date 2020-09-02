@@ -15,6 +15,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -41,11 +42,13 @@ public class MainActivity extends AppCompatActivity
     ItemTouchHelper itemTouchHelper;
     Spinner spinner;
     DBActivityHelper mDbOpenHelper;
+    BarAdapter mBarDbOpenHelper;
     private String sel = null;
     private ArrayList<Product> allItems = new ArrayList<>();
     private ArrayList<Product> remainItems = new ArrayList<>();
     private ArrayList<Product> goneItmes = new ArrayList<>();
     private int amount = 0;
+
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
@@ -57,8 +60,29 @@ public class MainActivity extends AppCompatActivity
         mDbOpenHelper.open();
         mDbOpenHelper.create();
 
+        mBarDbOpenHelper = new BarAdapter(this);
+        mBarDbOpenHelper.createDatabase();
+        mBarDbOpenHelper.open();
 
-        SharedPreferences pref = getSharedPreferences("checkFirst", MainActivity.MODE_PRIVATE);
+        /*String[] columns = new String[]{BarDBActivity.COL_BARNAME};
+        String num = "41333116013";
+        String bar = null;
+        Cursor Tcursor = mBarDbOpenHelper.selectBar(columns, "barcode ="+ num, null, null, null, null);
+        if(Tcursor != null)
+        {
+            while (Tcursor.moveToNext())
+            {
+                bar = Tcursor.getString(0);
+            }
+        }*/
+
+
+
+
+
+
+
+       SharedPreferences pref = getSharedPreferences("checkFirst", MainActivity.MODE_PRIVATE);
         boolean checkFirst = pref.getBoolean("checkFirst", false);
         if (checkFirst == false)
         {
