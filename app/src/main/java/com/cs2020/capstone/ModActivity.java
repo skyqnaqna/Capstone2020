@@ -48,7 +48,6 @@ import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
@@ -82,6 +81,10 @@ public class ModActivity extends AppCompatActivity{
         setContentView(R.layout.activity_mod);
         mDbOpenHelper = new DBActivityHelper(this);
         mDbOpenHelper.open();
+
+        mBarDbOpenHelper = new BarAdapter(this);
+        mBarDbOpenHelper.open();
+
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
 
         Toolbar mToolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -494,7 +497,8 @@ public class ModActivity extends AppCompatActivity{
                 photoPath = cursor.getString(3);
             }
         }
-        cursor.close();
+
+        //cursor.close();
         text1.setText(name);
         text2.setText(company);
 
