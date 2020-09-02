@@ -398,8 +398,6 @@ public class AddActivity extends AppCompatActivity{
                 name = cursor.getString(1);
                 company = cursor.getString(2);
                 photoPath = cursor.getString(3);
-
-
             }
         }
         cursor.close();
