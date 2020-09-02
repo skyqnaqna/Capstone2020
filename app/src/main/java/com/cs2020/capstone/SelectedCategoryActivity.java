@@ -106,6 +106,7 @@ public class SelectedCategoryActivity extends AppCompatActivity
                                 }
                                 Toast.makeText(SelectedCategoryActivity.this, "id : "+id,Toast.LENGTH_LONG).show();
                                 adapter.removeItem(pos);
+                                adapter.notifyDataSetChanged();
                             }
                         }));
             }
