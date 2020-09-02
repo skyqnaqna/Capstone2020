@@ -76,12 +76,6 @@ public class MainActivity extends AppCompatActivity
             }
         }*/
 
-
-
-
-
-
-
        SharedPreferences pref = getSharedPreferences("checkFirst", MainActivity.MODE_PRIVATE);
         boolean checkFirst = pref.getBoolean("checkFirst", false);
         if (checkFirst == false)
