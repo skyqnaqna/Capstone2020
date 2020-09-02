@@ -95,10 +95,9 @@ public class InfoActivity extends AppCompatActivity {
         if(image == null){ //이미지 경로가 null
             iv.setImageResource(R.drawable.gallery);
         }else if(image.indexOf("http")==-1){ //이미지 경로가 sd카드 내부
-            image = "file://"+image;
             Uri mUri = Uri.parse(image);
             try {
-                bm = MediaStore.Images.Media.getBitmap(getContentResolver(), mUri);
+                bm = MediaStore.Images.Media.getBitmap(getContentResolver(),mUri);
                 iv.setImageBitmap(bm);
 
             } catch (FileNotFoundException e) {

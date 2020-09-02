@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.app.AlarmManager;
 import android.app.DatePickerDialog;
 import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
@@ -263,12 +264,10 @@ public class ModActivity extends AppCompatActivity{
         if(photoPath == null){ //이미지 경로가 null
             iv.setImageResource(R.drawable.gallery);
         }else if(photoPath.indexOf("http")==-1){ //이미지 경로가 sd카드 내부
-            photoPath = "file://"+photoPath;
             Uri mUri = Uri.parse(photoPath);
             try {
                 bm = MediaStore.Images.Media.getBitmap(getContentResolver(), mUri);
                 iv.setImageBitmap(bm);
-
             } catch (FileNotFoundException e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
@@ -440,9 +439,10 @@ public class ModActivity extends AppCompatActivity{
             try {
                 InputStream is = getContentResolver().openInputStream(data.getData());
                 Uri photoUri = data.getData();
-                photoPath = photoUri.toString();
+                photoPath = getRealPathFromURI(this, photoUri);
                 Bitmap bm = BitmapFactory.decodeStream(is);
                 is.close();
+                Toast.makeText(getApplicationContext(), "paht : "+photoPath, Toast.LENGTH_LONG).show();
                 iv.setImageBitmap(bm);
             } catch (Exception e) {
                 e.printStackTrace();
@@ -514,16 +514,19 @@ public class ModActivity extends AppCompatActivity{
         return super.onOptionsItemSelected(item);
     }
 
-    private String getRealPathFromURI(Uri contentUri) { //사진의 경로를 추출하는 함수
-        int column_index = 0;
-        String[] proj = {MediaStore.Images.Media.DATA};
-        Cursor cursor = getContentResolver().query(contentUri, proj, null, null, null);
-        if (cursor.moveToFirst()) {
-            column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+    public String getRealPathFromURI(Context context, Uri contentUri) {
+        Cursor cursor = null;
+        try {
+            String[] proj = { MediaStore.Images.Media.DATA };
+            cursor = context.getContentResolver().query(contentUri,  proj, null, null, null);
+            int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+            cursor.moveToFirst();
+            return cursor.getString(column_index);
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
         }
-        return cursor.getString(column_index);
-
-
     }
 
     private int getIndex(Spinner spinner, String item){
