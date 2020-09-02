@@ -363,6 +363,7 @@ public class AddActivity extends AppCompatActivity{
                 is.close();
                 Toast.makeText(getApplicationContext(), "paht : "+photoPath, Toast.LENGTH_LONG).show();
                 iv.setImageBitmap(bm);
+                Toast.makeText(getApplicationContext(), "사진 경로는 : " + photoPath, Toast.LENGTH_LONG).show();
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -399,8 +400,6 @@ public class AddActivity extends AppCompatActivity{
                 name = cursor.getString(1);
                 company = cursor.getString(2);
                 photoPath = cursor.getString(3);
-
-
             }
         }
         cursor.close();

@@ -92,6 +92,7 @@ public class InfoActivity extends AppCompatActivity {
         Ncom.setText(com);
         Nmemo.setText(memo);
 
+
         if(image == null){ //이미지 경로가 null
             iv.setImageResource(R.drawable.gallery);
         }else if(image.indexOf("http")==-1){ //이미지 경로가 sd카드 내부

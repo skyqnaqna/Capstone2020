@@ -61,6 +61,7 @@ public class ModActivity extends AppCompatActivity{
 
     private EditText text1, text2, text3;
     DBActivityHelper mDbOpenHelper;
+    BarAdapter mBarDbOpenHelper;
 
     private int year = 0, month = 0, day = 0, id = 0;
     private int Ayear = 0, Amonth = 0, Aday = 0;
@@ -450,16 +451,75 @@ public class ModActivity extends AppCompatActivity{
         } else if (requestCode == 101 && resultCode == RESULT_CANCELED) {
             Toast.makeText(this, "취소", Toast.LENGTH_SHORT).show();
         }
-
         // 바코드 읽기 성공했을 때
         else if (resultCode == Activity.RESULT_OK)
         {
             IntentResult scanResult = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
-            String barcode = scanResult.getContents();
-            String message = barcode;
-            Log.d("onActivityResult", "onActivityResult: ." + barcode);
-            Toast.makeText(this, barcode, Toast.LENGTH_LONG).show();
+            String msg = scanResult.getContents();
+            String barcode = msg;
+            Log.d("onActivityResult", "onActivityResult: ." + msg);
+            Toast.makeText(this, msg, Toast.LENGTH_LONG).show();
 
+            getDateFromBarcodeDB(msg);
+        }
+    }
+
+    // 스캔한 바코드로 DB에서 데이터 가져오기
+    protected void getDateFromBarcodeDB(String barcode)
+    {
+        String[] columns = new String[]{BarDBActivity.COL_BARCODE, BarDBActivity.COL_BARNAME,
+                BarDBActivity.COL_BARCOM, BarDBActivity.COL_BARIMAGE};
+
+        Cursor cursor = mBarDbOpenHelper.selectBar(columns, BarDBActivity.COL_BARCODE + " = " + barcode,
+                null, null, null, null);
+
+        if (cursor != null)
+        {
+            while (cursor.moveToNext())
+            {
+                name = cursor.getString(1);
+                company = cursor.getString(2);
+                photoPath = cursor.getString(3);
+            }
+        }
+        cursor.close();
+        text1.setText(name);
+        text2.setText(company);
+
+        Thread mThread = new Thread() {
+            @Override
+            public void run() {
+                try {
+                    URL url = new URL(photoPath);
+
+                    // Web에서 이미지를 가져온 뒤
+                    // ImageView에 지정할 Bitmap을 만든다
+                    HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+                    conn.setDoInput(true); // 서버로 부터 응답 수신
+                    conn.connect();
+
+                    InputStream is = conn.getInputStream(); // InputStream 값 가져오기
+                    bm = BitmapFactory.decodeStream(is); // Bitmap으로 변환
+
+                } catch (MalformedURLException e) {
+                    e.printStackTrace();
+
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        };
+        mThread.start(); // Thread 실행
+        try {
+            // 메인 Thread는 별도의 작업 Thread가 작업을 완료할 때까지 대기해야한다
+            // join()를 호출하여 별도의 작업 Thread가 종료될 때까지 메인 Thread가 기다리게 한다
+            mThread.join();
+
+            // 작업 Thread에서 이미지를 불러오는 작업을 완료한 뒤
+            // UI 작업을 할 수 있는 메인 Thread에서 ImageView에 이미지를 지정한다
+            iv.setImageBitmap(bm);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
     }
 
