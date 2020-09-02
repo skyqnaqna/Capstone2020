@@ -3,18 +3,18 @@
     <item
         android:id="@+id/home"
         android:icon="@drawable/home"
-        android:title="HOME"
+        android:title="홈"
         />
 
     <item
         android:id="@+id/addCategory"
         android:icon="@drawable/add"
-        android:title="AddCategory"
+        android:title="카테고리"
         />
 
     <item
         android:id="@+id/graph"
         android:icon="@drawable/graph"
-        android:title="GRAPH"
+        android:title="그래프"
         />
 </menu>

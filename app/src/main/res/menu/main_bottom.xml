@@ -4,17 +4,17 @@
         android:id="@+id/category"
         android:checked="false"
         android:icon="@drawable/category"
-        android:title="CATEGORY" />
+        android:title="카테고리" />
 
     <item
         android:id="@+id/addProduct"
         android:checked="false"
         android:icon="@drawable/add"
-        android:title="AddProduct" />
+        android:title="제품" />
 
     <item
         android:id="@+id/graph"
         android:checked="false"
         android:icon="@drawable/graph"
-        android:title="GRAPH" />
+        android:title="그래프" />
 </menu>
