@@ -38,10 +38,11 @@
             android:layout_width="match_parent"
             android:layout_height="40dp"
             android:orientation="horizontal">
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="초코파이"/>
+                android:text="제품명" />
             <TextView
                 android:id="@+id/pName"
                 android:layout_width="123dp"
