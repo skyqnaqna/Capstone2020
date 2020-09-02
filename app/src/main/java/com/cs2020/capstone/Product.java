@@ -14,7 +14,7 @@ class Product implements Serializable
     String company;
     String date;
     String alarm;
-    Boolean isPassed;
+
 
     public Product(String name, String category)
     {
@@ -34,7 +34,6 @@ class Product implements Serializable
         this.name = name;
         this.category = category;
         this.company = company;
-        this.isPassed = false;
         this.image_src = img;
     }
 
@@ -46,7 +45,6 @@ class Product implements Serializable
         this.end_year = end_year;
         this.end_month = end_month;
         this.end_day = end_day;
-        this.isPassed = false;
         this.image_src = img;
 
         makeDate();
@@ -61,7 +59,6 @@ class Product implements Serializable
         this.end_year = end_year;
         this.end_month = end_month;
         this.end_day = end_day;
-        this.isPassed = false;
         this.image_src = img;
 
         makeDate();
@@ -72,14 +69,13 @@ class Product implements Serializable
     public Integer getEnd_year() {return this.end_year;}
     public Integer getEnd_month() {return this.end_month;}
     public Integer getEnd_day() {return this.end_day;}
-    public Boolean getIsPassed() {return this.isPassed;}
     public String getDate() {return this.date;}
     public Integer getID() { return this.primaryKey;}
+    public String getImage_src() { return this.image_src;}
 
     public void setName(String name) { this.name = name;}
     public void setCategory(String category) {this.category = category;}
     public void setCompany(String company) {this.company = company;}
-    public void setIsPassed() {this.isPassed = true;}
     public void setID(Integer id) { this.primaryKey = id;}
     public void setDate(int end_year, int end_month, int end_day)
     {

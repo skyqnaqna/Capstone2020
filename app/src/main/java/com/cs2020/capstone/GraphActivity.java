@@ -3,24 +3,15 @@ package com.cs2020.capstone;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Color;
-import android.graphics.Typeface;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.github.mikephil.charting.animation.Easing;
-import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.components.Description;
-import com.github.mikephil.charting.components.Legend;
-import com.github.mikephil.charting.components.MarkerView;
-import com.github.mikephil.charting.components.XAxis;
-import com.github.mikephil.charting.components.YAxis;
-import com.github.mikephil.charting.data.Entry;
-import com.github.mikephil.charting.data.LineData;
-import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
@@ -125,12 +116,29 @@ public class GraphActivity extends AppCompatActivity
                         Intent intent = new Intent(getApplicationContext(), su_CategoryActivity.class);
                         intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
                         startActivityForResult(intent, 106);
-
+                        finish();
                         break;
                     }
                 }
                 return true;
             }
         });
+    }
+
+    // 뒤로가기 버튼 클릭시
+    private long time = 0;
+    @Override
+    public void onBackPressed()
+    {
+        if (System.currentTimeMillis() - time >= 2000)
+        {
+            time = System.currentTimeMillis();
+            Toast.makeText(getApplicationContext(), "한번 더 누르면 종료됩니다.", Toast.LENGTH_SHORT).show();
+        }
+        else if (System.currentTimeMillis() - time < 2000)
+        {
+            mDbOpenHelper.close();
+            finish();
+        }
     }
 }
