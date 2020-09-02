@@ -258,9 +258,6 @@ public class MainActivity extends AppCompatActivity
         });
 
 
-
-
-
     }
 
     // allItems 리스트 초기화
@@ -270,11 +267,11 @@ public class MainActivity extends AppCompatActivity
             allItems.clear();
 
 
-        String[] coulumns = new String[]{DBActivity.COL_ID,DBActivity.COL_NAME,DBActivity.COL_CATE
+        String[] columns = new String[]{DBActivity.COL_ID,DBActivity.COL_NAME,DBActivity.COL_CATE
                 , DBActivity.COL_LYEAR, DBActivity.COL_LMONTH, DBActivity.COL_LDAY
                 , DBActivity.COL_AYEAR, DBActivity.COL_AMONTH, DBActivity.COL_ADAY
                 , DBActivity.COL_COM, DBActivity.COL_MEMO, DBActivity.COL_IMAGE};
-        Cursor cursor = mDbOpenHelper.select(coulumns, null, null, null, null, null);
+        Cursor cursor = mDbOpenHelper.select(columns, null, null, null, null, null);
 
         if (cursor != null)
         {
@@ -383,9 +380,6 @@ public class MainActivity extends AppCompatActivity
 
                 Intent intent = getIntent();
                 Product mProduct = (Product) intent.getSerializableExtra("product");
-                //adapter.addProduct(mProduct);
-                //adapter.notifyItemInserted(adapter.items.size());
-                //adapter.notifyDataSetChanged();
 
                 // 제품 추가하면 리스트와 어댑터내의 리스트 초기화하여 리사이클러뷰에 반영하기
                 initItemList();
