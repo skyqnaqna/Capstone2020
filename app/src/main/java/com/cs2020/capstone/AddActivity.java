@@ -43,7 +43,11 @@ import androidx.core.content.ContextCompat;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 
+import java.io.IOException;
 import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Locale;
@@ -55,6 +59,7 @@ public class AddActivity extends AppCompatActivity{
 
     private EditText text1, text2, text3;
     DBActivityHelper mDbOpenHelper;
+    BarAdapter mBarDbOpenHelper;
 
     private int year = 0, month = 0, day = 0;
     private int Ayear = 0, Amonth = 0, Aday = 0;
@@ -62,6 +67,7 @@ public class AddActivity extends AppCompatActivity{
     private String photoPath = null;
     private int amount = 0;
     private Calendar calendar;
+    Bitmap bm;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,6 +75,10 @@ public class AddActivity extends AppCompatActivity{
         setContentView(R.layout.activity_add);
         mDbOpenHelper = new DBActivityHelper(this);
         mDbOpenHelper.open();
+
+        mBarDbOpenHelper = new BarAdapter(this);
+        mBarDbOpenHelper.open();
+
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
 
         Toolbar mToolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -363,7 +373,7 @@ public class AddActivity extends AppCompatActivity{
         {
             IntentResult scanResult = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
             String msg = scanResult.getContents();
-            final String barcode = msg;
+            String barcode = msg;
             Log.d("onActivityResult", "onActivityResult: ." + msg);
             Toast.makeText(this, msg, Toast.LENGTH_LONG).show();
 
@@ -372,9 +382,64 @@ public class AddActivity extends AppCompatActivity{
     }
 
     // 스캔한 바코드로 DB에서 데이터 가져오기
-    protected void getDateFromBarcodeDB(final String barcode)
+    protected void getDateFromBarcodeDB(String barcode)
     {
+        String[] columns = new String[]{BarDBActivity.COL_BARCODE, BarDBActivity.COL_BARNAME,
+                BarDBActivity.COL_BARCOM, BarDBActivity.COL_BARIMAGE};
 
+        Cursor cursor = mBarDbOpenHelper.selectBar(columns, BarDBActivity.COL_BARCODE + " = " + barcode,
+                null, null, null, null);
+
+        if (cursor != null)
+        {
+            while (cursor.moveToNext())
+            {
+                name = cursor.getString(1);
+                company = cursor.getString(2);
+                photoPath = cursor.getString(3);
+
+
+            }
+        }
+        cursor.close();
+        text1.setText(name);
+        text2.setText(company);
+
+        Thread mThread = new Thread() {
+            @Override
+            public void run() {
+                try {
+                    URL url = new URL(photoPath);
+
+                    // Web에서 이미지를 가져온 뒤
+                    // ImageView에 지정할 Bitmap을 만든다
+                    HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+                    conn.setDoInput(true); // 서버로 부터 응답 수신
+                    conn.connect();
+
+                    InputStream is = conn.getInputStream(); // InputStream 값 가져오기
+                    bm = BitmapFactory.decodeStream(is); // Bitmap으로 변환
+
+                } catch (MalformedURLException e) {
+                    e.printStackTrace();
+
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        };
+        mThread.start(); // Thread 실행
+        try {
+            // 메인 Thread는 별도의 작업 Thread가 작업을 완료할 때까지 대기해야한다
+            // join()를 호출하여 별도의 작업 Thread가 종료될 때까지 메인 Thread가 기다리게 한다
+            mThread.join();
+
+            // 작업 Thread에서 이미지를 불러오는 작업을 완료한 뒤
+            // UI 작업을 할 수 있는 메인 Thread에서 ImageView에 이미지를 지정한다
+            iv.setImageBitmap(bm);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
