@@ -43,6 +43,7 @@ import androidx.core.content.ContextCompat;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
@@ -262,7 +263,20 @@ public class ModActivity extends AppCompatActivity{
         if(photoPath == null){ //이미지 경로가 null
             iv.setImageResource(R.drawable.gallery);
         }else if(photoPath.indexOf("http")==-1){ //이미지 경로가 sd카드 내부
-            setPicture(photoPath);
+            photoPath = "file://"+photoPath;
+            Uri mUri = Uri.parse(photoPath);
+            try {
+                bm = MediaStore.Images.Media.getBitmap(getContentResolver(), mUri);
+                iv.setImageBitmap(bm);
+
+            } catch (FileNotFoundException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            } catch (IOException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+            iv.setImageBitmap(bm);
         }else{//이미지 경로가 인터넷 URL
             Thread mThread = new Thread() {
                 @Override
@@ -426,7 +440,7 @@ public class ModActivity extends AppCompatActivity{
             try {
                 InputStream is = getContentResolver().openInputStream(data.getData());
                 Uri photoUri = data.getData();
-                photoPath = getRealPathFromURI(photoUri);
+                photoPath = photoUri.toString();
                 Bitmap bm = BitmapFactory.decodeStream(is);
                 is.close();
                 iv.setImageBitmap(bm);
@@ -438,7 +452,7 @@ public class ModActivity extends AppCompatActivity{
         }
 
         // 바코드 읽기 성공했을 때
-        if (resultCode == Activity.RESULT_OK)
+        else if (resultCode == Activity.RESULT_OK)
         {
             IntentResult scanResult = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
             String barcode = scanResult.getContents();

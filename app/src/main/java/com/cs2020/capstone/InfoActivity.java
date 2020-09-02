@@ -95,7 +95,20 @@ public class InfoActivity extends AppCompatActivity {
         if(image == null){ //이미지 경로가 null
             iv.setImageResource(R.drawable.gallery);
         }else if(image.indexOf("http")==-1){ //이미지 경로가 sd카드 내부
-            setPicture(image);
+            image = "file://"+image;
+            Uri mUri = Uri.parse(image);
+            try {
+                bm = MediaStore.Images.Media.getBitmap(getContentResolver(), mUri);
+                iv.setImageBitmap(bm);
+
+            } catch (FileNotFoundException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            } catch (IOException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+            iv.setImageBitmap(bm);
         }else{//이미지 경로가 인터넷 URL
             Thread mThread = new Thread() {
                 @Override
@@ -108,7 +121,6 @@ public class InfoActivity extends AppCompatActivity {
                         HttpURLConnection conn = (HttpURLConnection) url.openConnection();
                         conn.setDoInput(true); // 서버로 부터 응답 수신
                         conn.connect();
-
                         InputStream is = conn.getInputStream(); // InputStream 값 가져오기
                         bm = BitmapFactory.decodeStream(is); // Bitmap으로 변환
 
@@ -139,6 +151,7 @@ public class InfoActivity extends AppCompatActivity {
 
 
 
+
         @Override
         public boolean onCreateOptionsMenu (Menu menu){
             getMenuInflater().inflate(R.menu.info_menu, menu);
@@ -166,10 +179,6 @@ public class InfoActivity extends AppCompatActivity {
             }
             return super.onOptionsItemSelected(item);
         }
-    private void setPicture(String path) {
-        bm = BitmapFactory.decodeFile(path);
-        iv.setImageBitmap(bm);
-    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data)
