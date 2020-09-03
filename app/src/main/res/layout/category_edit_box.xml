@@ -6,6 +6,18 @@
     android:orientation="vertical"
     android:background="@color/colorBox">
 
+
+
+    <TextView
+        android:id="@+id/deleteTextBox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="카테고리명 수정"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="20dp"/>
+
     <EditText
         android:id="@+id/edit_category_name"
         android:layout_width="match_parent"
@@ -13,27 +25,35 @@
         android:layout_margin="16dp"
         android:hint="카테고리명 수정"
         android:inputType="text"
-        android:textSize="24sp" />
+        android:textSize="20sp" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:layout_marginTop="10dp">
 
-        <Button
-            android:id="@+id/edit_ok_btn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="16dp"
-            android:background="#FFFFFF"
-            android:text="완료" />
+        <View
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
 
         <Button
             android:id="@+id/edit_cancel_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="16dp"
+            android:layout_marginStart="96dp"
+            android:layout_marginLeft="96dp"
+            android:background="@drawable/button_box"
             android:text="취소" />
+
+        <Button
+            android:id="@+id/edit_ok_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="20dp"
+            android:background="@drawable/button_box"
+            android:text="확인" />
 
     </LinearLayout>
 

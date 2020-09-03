@@ -3,7 +3,7 @@
     <item
         android:id="@+id/category"
         android:checked="false"
-        android:icon="@drawable/category"
+        android:icon="@drawable/category_icon"
         android:title="카테고리" />
 
     <item
@@ -15,6 +15,6 @@
     <item
         android:id="@+id/graph"
         android:checked="false"
-        android:icon="@drawable/graph"
+        android:icon="@drawable/graph_icon"
         android:title="그래프" />
 </menu>

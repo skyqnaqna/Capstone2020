@@ -5,13 +5,35 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".su_CategoryActivity"
-    android:background="@color/colorBackground">
+    >
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/CategoryRecycle"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:background="@color/colorBackground">
+        <TextView
+            android:id="@+id/textView7"
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            android:gravity="center"
+            android:text="카테고리"
+            android:textColor="@color/textColorTitle"
+            android:textSize="40dp"
+            android:layout_marginTop="20dp">
 
+        </TextView>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/CategoryRecycle"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_constraintBottom_toTopOf="@+id/categoryNavigationView"
+            app:layout_constraintTop_toBottomOf="@+id/textView7"
+            tools:layout_editor_absoluteX="0dp" />
+
+
+    </LinearLayout>
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/categoryNavigationView"
         android:layout_width="match_parent"
@@ -21,5 +43,6 @@
         app:menu="@menu/su_category_bottom"
         app:itemIconTint="@drawable/menu_selector_color"
         app:itemTextColor="@drawable/menu_selector_color" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

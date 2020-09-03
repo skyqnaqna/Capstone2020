@@ -6,6 +6,17 @@
     android:orientation="vertical"
     android:background="@color/colorBox">
 
+
+    <TextView
+        android:id="@+id/deleteTextBox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="카테고리 추가"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="20dp"/>
+
     <EditText
         android:id="@+id/add_category_name"
         android:layout_width="match_parent"
@@ -18,16 +29,8 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <Button
-            android:id="@+id/add_cancel_btn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="16dp"
-            android:background="@drawable/button_box"
-            android:text="취소"
-            android:textColor="#616161"/>
+        android:orientation="horizontal"
+        android:layout_marginTop="10dp">
 
         <View
             android:layout_width="0dp"
@@ -35,11 +38,21 @@
             android:layout_weight="1" />
 
         <Button
+            android:id="@+id/add_cancel_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="96dp"
+            android:layout_marginLeft="96dp"
+            android:background="@drawable/button_box"
+            android:text="취소"/>
+
+
+        <Button
             android:id="@+id/add_ok_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="16dp"
-            android:text="추가"
+            android:layout_marginRight="20dp"
+            android:text="확인"
             android:background="@drawable/button_box"
             />
 
