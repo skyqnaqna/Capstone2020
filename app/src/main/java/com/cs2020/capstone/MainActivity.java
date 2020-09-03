@@ -114,12 +114,6 @@ public class MainActivity extends AppCompatActivity
 
         adapter = new MainAdapter(this);
 
-        // TODO : DB에서 제품들 추가하는 형식으로 변경하기 (카테고리 count++)
-//        adapter.addProduct(new Product("초코파이", "과자", "빙그레", 2021, 4, 5, R.drawable.chocopie));
-//        adapter.addProduct(new Product("초코", "과자", "빙그레", 2022, 8, 1, R.drawable.add));
-//        adapter.addProduct(new Product("파이", "과자", "빙그레", 2019, 12, 12, R.drawable.home));
-//        adapter.addProduct(new Product("초파", "과자", "빙그레", 2019, 10, 17, R.drawable.edit));
-
         initItemList();
         itemListToAdapter(allItems);
 

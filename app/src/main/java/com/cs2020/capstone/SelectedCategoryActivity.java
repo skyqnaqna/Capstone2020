@@ -5,10 +5,13 @@ import android.database.Cursor;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.RecyclerView;
@@ -43,8 +46,11 @@ public class SelectedCategoryActivity extends AppCompatActivity
 
         adapter = new MainAdapter(this);
 
-        // TODO : DB에서 카테고리 == name 인 제품들 추가하기
-        //adapter.addProduct(new Product("가나파이", "과자", "롯데", 2020, 8,31,R.drawable.chocopie));
+        // 툴바 설정
+        Toolbar mToolbar = (Toolbar) findViewById(R.id.toolbar2);
+        setSupportActionBar(mToolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setTitle(name);
 
         // 아이템 드래그 적용
         ItemTouchHelperCallback callback = new ItemTouchHelperCallback((ItemTouchHelperCallback.OnItemMoveListener) adapter);
@@ -160,6 +166,18 @@ public class SelectedCategoryActivity extends AppCompatActivity
         {
             adapter.addProduct(items.get(i));
         }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item)
+    {
+        switch (item.getItemId())
+        {
+            case android.R.id.home:
+                finish();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }
 
