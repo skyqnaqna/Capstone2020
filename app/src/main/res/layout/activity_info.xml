@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -17,7 +18,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-
     <ImageView
         android:id="@+id/imageView"
         android:layout_width="200dp"
@@ -30,10 +30,7 @@
         app:srcCompat="@drawable/chocopie"
         tools:ignore="MissingConstraints" />
 
-
-
     <ScrollView
-        android:id="@+id/ScrollView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="290dp"
@@ -41,175 +38,150 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView"
-        tools:ignore="MissingConstraints">
+        app:layout_constraintTop_toBottomOf="@+id/imageView">
+
         <LinearLayout
             android:layout_width="match_parent"
-        <<<<<<< .merge_file_a10092
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
-        =======
-        android:layout_height="40dp"
-        android:orientation="horizontal">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="제품명" />
-        <TextView
-            android:id="@+id/pName"
-            android:layout_width="123dp"
-            android:layout_height="29dp"
-            android:layout_marginStart="144dp"
-            android:layout_marginLeft="144dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="144dp"
-            android:layout_marginRight="144dp"
-            android:layout_marginBottom="36dp"
-            android:gravity="center_horizontal|center_vertical"
-            android:text="초코파이" />
-    </LinearLayout>
-    >>>>>>> .merge_file_a02312
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <TextView
-            android:layout_width="100dp"
             android:layout_height="match_parent"
-            android:gravity="center"
-            android:text="상품명" />
+            android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/pName"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:text="초코파이" />
-    </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="20dp"></LinearLayout>
+                <TextView
+                    android:layout_width="100dp"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:text="상품명" />
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
+                <TextView
+                    android:id="@+id/pName"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="초코파이" />
+            </LinearLayout>
 
-        <TextView
-            android:layout_width="98dp"
-            android:layout_height="match_parent"
-            android:gravity="center"
-            android:text="카테고리" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="20dp"></LinearLayout>
 
-        <TextView
-            android:id="@+id/pCategory"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="center"
-            android:text="과자" />
-    </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="20dp"></LinearLayout>
+                <TextView
+                    android:layout_width="98dp"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:text="카테고리" />
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="horizontal">
+                <TextView
+                    android:id="@+id/pCategory"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:text="과자" />
+            </LinearLayout>
 
-        <TextView
-            android:layout_width="100dp"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:text="유통기한" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="20dp"></LinearLayout>
 
-        <TextView
-            android:id="@+id/pDate"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="center"
-            android:text="유통기한 : 2021.08.13" />
-    </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="20dp"></LinearLayout>
+                <TextView
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="유통기한" />
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="horizontal">
+                <TextView
+                    android:id="@+id/pDate"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:text="유통기한 : 2021.08.13" />
+            </LinearLayout>
 
-        <TextView
-            android:layout_width="100dp"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:text="알람일" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="20dp"></LinearLayout>
 
-        <TextView
-            android:id="@+id/pAlarm"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="center"
-            android:text="알림일 : 2021.08.01" />
-    </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="20dp"></LinearLayout>
+                <TextView
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="알람일" />
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
+                <TextView
+                    android:id="@+id/pAlarm"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:text="알림일 : 2021.08.01" />
+            </LinearLayout>
 
-        <TextView
-            android:layout_width="100dp"
-            android:layout_height="match_parent"
-            android:gravity="center"
-            android:text="제조업체" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="20dp"></LinearLayout>
 
-        <TextView
-            android:id="@+id/pCompany"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:text="오리온" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
 
-    </LinearLayout>
+                <TextView
+                    android:layout_width="100dp"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:text="제조업체" />
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="20dp"></LinearLayout>
+                <TextView
+                    android:id="@+id/pCompany"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="오리온" />
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="horizontal">
+            </LinearLayout>
 
-        <TextView
-            android:layout_width="100dp"
-            android:layout_height="match_parent"
-            android:gravity="center"
-            android:text="메모" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="20dp"></LinearLayout>
 
-        <TextView
-            android:id="@+id/pMemo"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="ㅇ아초코파이ㅇ아초코파이ㅇ아초코파ㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇ이ㅇ아초코파이ㅇ아초코파이ㅇ아초코파이ㅇ아초코파이ㅇ아초코파이ㅇ아초코파이ㅇ아초2착각하기 쉬우나, 실제로는 스모어에 가깝다. 원래는 딱딱한 비스킷에 제조 후 며칠 동안 마시멜로의 수분이 비스킷으로 옮겨가 촉촉하고 부드러운 식감으로 변하는 것이다. 웹툰 역전! 야매요리에서도 이를 인지하고 수제 초코파이를 만든 바 있다. 계절과 소비지역을 감안해야 하는 이 습기의 조절이 비밀 노하우라고 한다. 실제로 롯데의 초코파이는 오리온에 비해 식감이 좀 더 바삭해 제조사별 차이를 보여준다."
-            android:textSize="15sp" />
-    </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
 
-</LinearLayout>
+                <TextView
+                    android:layout_width="100dp"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:text="메모" />
 
+                <TextView
+                    android:id="@+id/pMemo"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="ㅇ아초코파이ㅇ아초코파이ㅇ아초코파ㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇ이ㅇ아초코파이ㅇ아초코파이ㅇ아초코파이ㅇ아초코파이ㅇ아초코파이ㅇ아초코파이ㅇ아초2착각하기 쉬우나, 실제로는 스모어에 가깝다. 원래는 딱딱한 비스킷에 제조 후 며칠 동안 마시멜로의 수분이 비스킷으로 옮겨가 촉촉하고 부드러운 식감으로 변하는 것이다. 웹툰 역전! 야매요리에서도 이를 인지하고 수제 초코파이를 만든 바 있다. 계절과 소비지역을 감안해야 하는 이 습기의 조절이 비밀 노하우라고 한다. 실제로 롯데의 초코파이는 오리온에 비해 식감이 좀 더 바삭해 제조사별 차이를 보여준다."
+                    android:textSize="15sp" />
+            </LinearLayout>
 
+        </LinearLayout>
 
     </ScrollView>
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
