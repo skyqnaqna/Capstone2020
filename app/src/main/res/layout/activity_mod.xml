@@ -27,7 +27,11 @@
         app:layout_constraintHorizontal_bias="0.224"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/toolbar"
+<<<<<<< HEAD
         app:layout_constraintVertical_bias="0.531"
+=======
+        app:layout_constraintVertical_bias="0.527"
+>>>>>>> 4144a1ab844ffde59d65a239459d3266e3de0557
         android:src="@drawable/gallery_icon" />
 
     <Button
