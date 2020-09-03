@@ -1,23 +1,31 @@
 package com.cs2020.capstone;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Messenger;
 import android.provider.MediaStore;
+import android.text.TextUtils;
 import android.text.method.ScrollingMovementMethod;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -46,6 +54,7 @@ public class InfoActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayShowTitleEnabled(false);
 
         iv = (ImageView) findViewById(R.id.imageView);
+
 
         TextView Nname = (TextView) findViewById(R.id.pName);
         TextView Ncate = (TextView) findViewById(R.id.pCategory);
@@ -95,7 +104,7 @@ public class InfoActivity extends AppCompatActivity {
         if(image == null){ //이미지 경로가 null
             iv.setImageResource(R.drawable.no_picture_icon2);
         }else if(image.indexOf("http")==-1){ //이미지 경로가 sd카드 내부
-            setPicture(image);
+            iv.setImageURI(Uri.parse(image));
         }else{//이미지 경로가 인터넷 URL
             Thread mThread = new Thread() {
                 @Override
@@ -108,7 +117,6 @@ public class InfoActivity extends AppCompatActivity {
                         HttpURLConnection conn = (HttpURLConnection) url.openConnection();
                         conn.setDoInput(true); // 서버로 부터 응답 수신
                         conn.connect();
-
                         InputStream is = conn.getInputStream(); // InputStream 값 가져오기
                         bm = BitmapFactory.decodeStream(is); // Bitmap으로 변환
 
@@ -139,6 +147,7 @@ public class InfoActivity extends AppCompatActivity {
 
 
 
+
         @Override
         public boolean onCreateOptionsMenu (Menu menu){
             getMenuInflater().inflate(R.menu.info_menu, menu);
@@ -166,10 +175,6 @@ public class InfoActivity extends AppCompatActivity {
             }
             return super.onOptionsItemSelected(item);
         }
-    private void setPicture(String path) {
-        bm = BitmapFactory.decodeFile(path);
-        iv.setImageBitmap(bm);
-    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data)
@@ -188,4 +193,5 @@ public class InfoActivity extends AppCompatActivity {
             }
         }
     }
+
 }

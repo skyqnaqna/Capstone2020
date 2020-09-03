@@ -1,10 +1,5 @@
 package com.cs2020.capstone;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.ItemTouchHelper;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Color;
@@ -12,6 +7,11 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.ItemTouchHelper;
+import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -107,6 +107,9 @@ public class SelectedCategoryActivity extends AppCompatActivity
                                 Toast.makeText(SelectedCategoryActivity.this, "id : "+id,Toast.LENGTH_LONG).show();
                                 adapter.removeItem(pos);
                                 adapter.notifyDataSetChanged();
+
+                                Intent intent3 = new Intent(getApplicationContext(), su_CategoryActivity.class);
+                                setResult(RESULT_OK, intent3);
                             }
                         }));
             }

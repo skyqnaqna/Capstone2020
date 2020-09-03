@@ -5,6 +5,8 @@ import android.app.Activity;
 import android.app.AlarmManager;
 import android.app.DatePickerDialog;
 import android.app.PendingIntent;
+import android.content.ContentUris;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
@@ -14,6 +16,8 @@ import android.icu.text.SimpleDateFormat;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
+import android.provider.DocumentsContract;
 import android.provider.MediaStore;
 import android.text.Editable;
 import android.text.TextUtils;
@@ -43,6 +47,7 @@ import androidx.core.content.ContextCompat;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
@@ -53,12 +58,14 @@ import java.util.Calendar;
 import java.util.Locale;
 
 public class ModActivity extends AppCompatActivity{
+    private static final int MY_PERMISSIONS_REQUEST_READ_EXT_STORAGE = 19;
     private ImageView iv;
     private Spinner spinner1;
     private DatePicker dp;
 
     private EditText text1, text2, text3;
     DBActivityHelper mDbOpenHelper;
+    BarAdapter mBarDbOpenHelper;
 
     private int year = 0, month = 0, day = 0, id = 0;
     private int Ayear = 0, Amonth = 0, Aday = 0;
@@ -74,6 +81,10 @@ public class ModActivity extends AppCompatActivity{
         setContentView(R.layout.activity_mod);
         mDbOpenHelper = new DBActivityHelper(this);
         mDbOpenHelper.open();
+
+        mBarDbOpenHelper = new BarAdapter(this);
+        mBarDbOpenHelper.open();
+
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
 
         Toolbar mToolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -262,7 +273,7 @@ public class ModActivity extends AppCompatActivity{
         if(photoPath == null){ //이미지 경로가 null
             iv.setImageResource(R.drawable.gallery);
         }else if(photoPath.indexOf("http")==-1){ //이미지 경로가 sd카드 내부
-            setPicture(photoPath);
+            iv.setImageURI(Uri.parse(photoPath));
         }else{//이미지 경로가 인터넷 URL
             Thread mThread = new Thread() {
                 @Override
@@ -393,6 +404,24 @@ public class ModActivity extends AppCompatActivity{
                 }
             }
         }
+        switch (requestCode) {
+            case MY_PERMISSIONS_REQUEST_READ_EXT_STORAGE : {
+                // If request is cancelled, the result arrays are empty.
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    // permission was granted, yay! Do the
+                    // contacts-related task you need to do.
+
+                } else {
+
+                    // permission denied, boo! Disable the
+                    // functionality that depends on this permission.
+                }
+                return;
+            }
+
+            // other 'case' lines to check for other
+            // permissions this app might request
+        }
     }
 
     public void checkSelfPermission() {
@@ -426,9 +455,10 @@ public class ModActivity extends AppCompatActivity{
             try {
                 InputStream is = getContentResolver().openInputStream(data.getData());
                 Uri photoUri = data.getData();
-                photoPath = getRealPathFromURI(photoUri);
+                photoPath = getRealPathFromURI(this,photoUri);
                 Bitmap bm = BitmapFactory.decodeStream(is);
                 is.close();
+                Toast.makeText(getApplicationContext(), "paht : "+photoPath, Toast.LENGTH_LONG).show();
                 iv.setImageBitmap(bm);
             } catch (Exception e) {
                 e.printStackTrace();
@@ -436,16 +466,76 @@ public class ModActivity extends AppCompatActivity{
         } else if (requestCode == 101 && resultCode == RESULT_CANCELED) {
             Toast.makeText(this, "취소", Toast.LENGTH_SHORT).show();
         }
-
         // 바코드 읽기 성공했을 때
-        if (resultCode == Activity.RESULT_OK)
+        else if (resultCode == Activity.RESULT_OK)
         {
             IntentResult scanResult = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
-            String barcode = scanResult.getContents();
-            String message = barcode;
-            Log.d("onActivityResult", "onActivityResult: ." + barcode);
-            Toast.makeText(this, barcode, Toast.LENGTH_LONG).show();
+            String msg = scanResult.getContents();
+            String barcode = msg;
+            Log.d("onActivityResult", "onActivityResult: ." + msg);
+            Toast.makeText(this, msg, Toast.LENGTH_LONG).show();
 
+            getDateFromBarcodeDB(msg);
+        }
+    }
+
+    // 스캔한 바코드로 DB에서 데이터 가져오기
+    protected void getDateFromBarcodeDB(String barcode)
+    {
+        String[] columns = new String[]{BarDBActivity.COL_BARCODE, BarDBActivity.COL_BARNAME,
+                BarDBActivity.COL_BARCOM, BarDBActivity.COL_BARIMAGE};
+
+        Cursor cursor = mBarDbOpenHelper.selectBar(columns, BarDBActivity.COL_BARCODE + " = " + barcode,
+                null, null, null, null);
+
+        if (cursor != null)
+        {
+            while (cursor.moveToNext())
+            {
+                name = cursor.getString(1);
+                company = cursor.getString(2);
+                photoPath = cursor.getString(3);
+            }
+        }
+
+        //cursor.close();
+        text1.setText(name);
+        text2.setText(company);
+
+        Thread mThread = new Thread() {
+            @Override
+            public void run() {
+                try {
+                    URL url = new URL(photoPath);
+
+                    // Web에서 이미지를 가져온 뒤
+                    // ImageView에 지정할 Bitmap을 만든다
+                    HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+                    conn.setDoInput(true); // 서버로 부터 응답 수신
+                    conn.connect();
+
+                    InputStream is = conn.getInputStream(); // InputStream 값 가져오기
+                    bm = BitmapFactory.decodeStream(is); // Bitmap으로 변환
+
+                } catch (MalformedURLException e) {
+                    e.printStackTrace();
+
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        };
+        mThread.start(); // Thread 실행
+        try {
+            // 메인 Thread는 별도의 작업 Thread가 작업을 완료할 때까지 대기해야한다
+            // join()를 호출하여 별도의 작업 Thread가 종료될 때까지 메인 Thread가 기다리게 한다
+            mThread.join();
+
+            // 작업 Thread에서 이미지를 불러오는 작업을 완료한 뒤
+            // UI 작업을 할 수 있는 메인 Thread에서 ImageView에 이미지를 지정한다
+            iv.setImageBitmap(bm);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
     }
 
@@ -500,17 +590,6 @@ public class ModActivity extends AppCompatActivity{
         return super.onOptionsItemSelected(item);
     }
 
-    private String getRealPathFromURI(Uri contentUri) { //사진의 경로를 추출하는 함수
-        int column_index = 0;
-        String[] proj = {MediaStore.Images.Media.DATA};
-        Cursor cursor = getContentResolver().query(contentUri, proj, null, null, null);
-        if (cursor.moveToFirst()) {
-            column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
-        }
-        return cursor.getString(column_index);
-
-
-    }
 
     private int getIndex(Spinner spinner, String item){
         for (int i=0;i<spinner.getCount();i++){
@@ -521,8 +600,120 @@ public class ModActivity extends AppCompatActivity{
         return 0;
     }
 
-    private void setPicture(String path) {
-        bm = BitmapFactory.decodeFile(path);
-        iv.setImageBitmap(bm);
+    public static String getRealPathFromURI(final Context context, final Uri uri) {
+
+        // DocumentProvider
+        if (DocumentsContract.isDocumentUri(context, uri)) {
+
+            // ExternalStorageProvider
+            if (isExternalStorageDocument(uri)) {
+                final String docId = DocumentsContract.getDocumentId(uri);
+                final String[] split = docId.split(":");
+                final String type = split[0];
+                if ("primary".equalsIgnoreCase(type)) {
+                    return Environment.getExternalStorageDirectory() + "/"
+                            + split[1];
+                } else {
+                    String SDcardpath = getRemovableSDCardPath(context).split("/Android")[0];
+                    return SDcardpath +"/"+ split[1];
+                }
+            }
+
+            // DownloadsProvider
+            else if (isDownloadsDocument(uri)) {
+                final String id = DocumentsContract.getDocumentId(uri);
+                final Uri contentUri = ContentUris.withAppendedId(
+                        Uri.parse("content://downloads/public_downloads"),
+                        Long.valueOf(id));
+
+                return getDataColumn(context, contentUri, null, null);
+            }
+
+            // MediaProvider
+            else if (isMediaDocument(uri)) {
+                final String docId = DocumentsContract.getDocumentId(uri);
+                final String[] split = docId.split(":");
+                final String type = split[0];
+
+                Uri contentUri = null;
+                if ("image".equals(type)) {
+                    contentUri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI;
+                } else if ("video".equals(type)) {
+                    contentUri = MediaStore.Video.Media.EXTERNAL_CONTENT_URI;
+                } else if ("audio".equals(type)) {
+                    contentUri = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI;
+                }
+
+                final String selection = "_id=?";
+                final String[] selectionArgs = new String[] { split[1] };
+
+                return getDataColumn(context, contentUri, selection,
+                        selectionArgs);
+            }
+        } else if ("content".equalsIgnoreCase(uri.getScheme())) {
+            // Return the remote address
+            if (isGooglePhotosUri(uri))
+                return uri.getLastPathSegment();
+            return getDataColumn(context, uri, null, null);
+        } else if ("file".equalsIgnoreCase(uri.getScheme())) {
+            return uri.getPath();
+        }
+        return null;
     }
+
+
+    public static String getRemovableSDCardPath(Context context) {
+        File[] storages = ContextCompat.getExternalFilesDirs(context, null);
+        if (storages.length > 1 && storages[0] != null && storages[1] != null)
+            return storages[1].toString();
+        else
+            return "";
+    }
+
+
+    public static String getDataColumn(Context context, Uri uri,
+                                       String selection, String[] selectionArgs) {
+
+        Cursor cursor = null;
+        final String column = "_data";
+        final String[] projection = { column };
+
+        try {
+            cursor = context.getContentResolver().query(uri, projection,
+                    selection, selectionArgs, null);
+            if (cursor != null && cursor.moveToFirst()) {
+                final int index = cursor.getColumnIndexOrThrow(column);
+                return cursor.getString(index);
+            }
+        } finally {
+            if (cursor != null)
+                cursor.close();
+        }
+        return null;
+    }
+
+
+    public static boolean isExternalStorageDocument(Uri uri) {
+        return "com.android.externalstorage.documents".equals(uri
+                .getAuthority());
+    }
+
+
+    public static boolean isDownloadsDocument(Uri uri) {
+        return "com.android.providers.downloads.documents".equals(uri
+                .getAuthority());
+    }
+
+
+    public static boolean isMediaDocument(Uri uri) {
+        return "com.android.providers.media.documents".equals(uri
+                .getAuthority());
+    }
+
+
+    public static boolean isGooglePhotosUri(Uri uri) {
+        return "com.google.android.apps.photos.content".equals(uri
+                .getAuthority());
+    }
+
 }

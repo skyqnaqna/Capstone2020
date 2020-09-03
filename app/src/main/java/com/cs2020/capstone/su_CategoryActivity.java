@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -46,6 +47,7 @@ public class su_CategoryActivity extends AppCompatActivity
     }
 
     DBActivityHelper mDbOpenHelper;
+    su_CategoryAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -60,7 +62,7 @@ public class su_CategoryActivity extends AppCompatActivity
         GridLayoutManager glm = new GridLayoutManager(this, 2);
         rv.setLayoutManager(glm);
 
-        final su_CategoryAdapter adapter = new su_CategoryAdapter(this);
+         adapter = new su_CategoryAdapter(this);
 
         // TODO : DB에서 카테고리 읽어오도록 수정하기 / DB에 기본 카테고리 넣기
 //        adapter.addCategory(new su_Category("육류"));
@@ -114,13 +116,10 @@ public class su_CategoryActivity extends AppCompatActivity
                 {
                     case R.id.home:
                     {
-//                        Intent intent = new Intent();
-//                        setResult(RESULT_OK, intent);
-//                        finish();
-
                         Intent intent2 = new Intent(getApplicationContext(), MainActivity.class);
                         intent2.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
                         startActivityForResult(intent2, 103);
+                        finish();
                         break;
                     }
                     case R.id.addCategory:
@@ -131,10 +130,7 @@ public class su_CategoryActivity extends AppCompatActivity
                     }
                     case R.id.graph:
                     {
-                        Intent intent = new Intent();
-                        setResult(RESULT_OK, intent);
                         finish();
-
                         Intent intent2 = new Intent(getApplicationContext(), GraphActivity.class);
                         intent2.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
                         startActivityForResult(intent2, 104);
@@ -145,8 +141,55 @@ public class su_CategoryActivity extends AppCompatActivity
                 return true;
             }
         });
+    }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data)
+    {
+        super.onActivityResult(requestCode, resultCode, data);
 
+        if (requestCode == 112 && resultCode == RESULT_OK)
+        {
+            Intent intent = getIntent();
 
+            adapter.notifyDataSetChanged();
+        }
+    }
+
+    // 뒤로가기 버튼 클릭시
+    private long time = 0;
+    @Override
+    public void onBackPressed()
+    {
+        if (System.currentTimeMillis() - time >= 2000)
+        {
+            time = System.currentTimeMillis();
+            Toast.makeText(getApplicationContext(), "한번 더 누르면 종료됩니다.", Toast.LENGTH_SHORT).show();
+        }
+        else if (System.currentTimeMillis() - time < 2000)
+        {
+            mDbOpenHelper.close();
+            finish();
+        }
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
