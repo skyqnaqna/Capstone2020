@@ -1,33 +1,22 @@
 package com.cs2020.capstone;
 
-import android.Manifest;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Messenger;
-import android.provider.MediaStore;
-import android.text.TextUtils;
 import android.text.method.ScrollingMovementMethod;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
@@ -102,7 +91,7 @@ public class InfoActivity extends AppCompatActivity {
         Nmemo.setText(memo);
 
         if(image == null){ //이미지 경로가 null
-            iv.setImageResource(R.drawable.no_picture_icon2);
+            iv.setImageResource(R.drawable.no_picture_icon);
         }else if(image.indexOf("http")==-1){ //이미지 경로가 sd카드 내부
             iv.setImageURI(Uri.parse(image));
         }else{//이미지 경로가 인터넷 URL

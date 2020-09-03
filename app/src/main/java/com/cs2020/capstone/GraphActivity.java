@@ -12,6 +12,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.components.Description;
+import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
@@ -48,7 +49,13 @@ public class GraphActivity extends AppCompatActivity
 
         pieChart.setDrawHoleEnabled(false);
         pieChart.setHoleColor(Color.WHITE);
+        pieChart.setEntryLabelTextSize(18f);
+        pieChart.setEntryLabelColor(Color.rgb(62,27,23));
         pieChart.setTransparentCircleRadius(61f);
+
+
+        Legend legend = pieChart.getLegend();
+        legend.setEnabled(false);// x-Values 리스트 숨기기
 
         ArrayList<PieEntry> NameOfCate = new ArrayList<PieEntry>();
 
@@ -66,22 +73,41 @@ public class GraphActivity extends AppCompatActivity
 
             }
         }
-
         //오른쪽 아래 제품 카테고리
-        Description description = new Description();
+        /*Description description = new Description();
         description.setText("제품 카테고리");
         description.setTextSize(20);
         description.setTextColor(Color.GRAY);
-        pieChart.setDescription(description);
+        pieChart.setDescription(description);*/
 
-        PieDataSet dataSet = new PieDataSet(NameOfCate, "최대 5개까지 표시됨");
+        PieDataSet dataSet = new PieDataSet(NameOfCate, "");
         dataSet.setSliceSpace(3f);//원그래프 카테고리 별 경계
         dataSet.setSelectionShift(5f);
-        dataSet.setColors(ColorTemplate.JOYFUL_COLORS);
+        ArrayList<Integer> colors = new ArrayList<>();
+
+        for (int c : ColorTemplate.JOYFUL_COLORS)
+            colors.add(c);
+
+        for (int c : ColorTemplate.MATERIAL_COLORS)
+            colors.add(c);
+
+        for (int c : ColorTemplate.VORDIPLOM_COLORS)
+            colors.add(c);
+
+        for (int c : ColorTemplate.PASTEL_COLORS)
+            colors.add(c);
+
+        for (int c : ColorTemplate.COLORFUL_COLORS)
+            colors.add(c);
+
+        for (int c : ColorTemplate.LIBERTY_COLORS)
+            colors.add(c);
+        colors.add(ColorTemplate.getHoloBlue());
+        dataSet.setColors(colors);
 
         PieData data = new PieData((dataSet));
-        data.setValueTextSize(10f);
-        data.setValueTextColor(Color.YELLOW);
+        data.setValueTextSize(23f);
+        data.setValueTextColor(Color.rgb(141,110,63));
 
         pieChart.setData(data);
 

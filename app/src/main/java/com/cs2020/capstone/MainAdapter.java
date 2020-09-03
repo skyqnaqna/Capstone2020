@@ -72,7 +72,7 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.ViewHolder>
             final String image = item.getImage_src();
 
             if(image == null){ //이미지 경로가 null
-                imageView.setImageResource(R.drawable.gallery);
+                imageView.setImageResource(R.drawable.no_picture_icon);
             }else if(image.indexOf("http")==-1){ //이미지 경로가 sd카드 내부
                 imageView.setImageURI(Uri.parse(image));
             }else{//이미지 경로가 인터넷 URL

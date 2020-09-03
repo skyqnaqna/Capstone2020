@@ -19,17 +19,19 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
             <TextView
+                android:layout_marginTop="40dp"
                 android:layout_width="match_parent"
                 android:layout_height="80dp"
-                android:text="카테고리 별 비율"
-                android:textColor="#A4A4A4"
+                android:text="카테고리 비율(%)"
+                android:textColor="@color/textColorTitle"
                 android:gravity="center"
-                android:textSize="30dp">
+                android:textSize="40dp">
             </TextView>
+
             <com.github.mikephil.charting.charts.PieChart
                 android:id="@+id/piechart"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+                android:layout_height="512dp" />
         </LinearLayout>
     </ScrollView>
 
