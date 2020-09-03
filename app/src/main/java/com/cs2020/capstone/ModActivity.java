@@ -271,7 +271,7 @@ public class ModActivity extends AppCompatActivity{
         });
 
         if(photoPath == null){ //이미지 경로가 null
-            iv.setImageResource(R.drawable.gallery);
+            iv.setImageResource(R.drawable.gallery_icon);
         }else if(photoPath.indexOf("http")==-1){ //이미지 경로가 sd카드 내부
             iv.setImageURI(Uri.parse(photoPath));
         }else{//이미지 경로가 인터넷 URL
