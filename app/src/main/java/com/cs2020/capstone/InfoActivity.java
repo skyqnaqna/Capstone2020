@@ -93,7 +93,7 @@ public class InfoActivity extends AppCompatActivity {
         Nmemo.setText(memo);
 
         if(image == null){ //이미지 경로가 null
-            iv.setImageResource(R.drawable.gallery);
+            iv.setImageResource(R.drawable.no_picture_icon2);
         }else if(image.indexOf("http")==-1){ //이미지 경로가 sd카드 내부
             setPicture(image);
         }else{//이미지 경로가 인터넷 URL
