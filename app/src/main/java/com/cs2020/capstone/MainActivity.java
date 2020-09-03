@@ -15,7 +15,6 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -143,6 +142,7 @@ public class MainActivity extends AppCompatActivity
 
                 Intent intent = new Intent(getApplicationContext(), InfoActivity.class);
 
+
                 intent.putExtra("id", adapter.getItem(position).primaryKey);
 
                 startActivityForResult(intent, 111);
@@ -233,7 +233,7 @@ public class MainActivity extends AppCompatActivity
                         Intent intent2 = new Intent(getApplicationContext(), su_CategoryActivity.class);
                         intent2.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
                         startActivityForResult(intent2, 101);
-
+                        finish();
                         break;
                     }
                     case R.id.addProduct:
@@ -249,7 +249,7 @@ public class MainActivity extends AppCompatActivity
                         Intent intent2 = new Intent(getApplicationContext(), GraphActivity.class);
                         intent2.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
                         startActivityForResult(intent2, 103);
-
+                        finish();
                         break;
                     }
                 }
@@ -364,9 +364,6 @@ public class MainActivity extends AppCompatActivity
         return super.onOptionsItemSelected(item);
     }
 
-    // 뒤로가기 버튼 클릭시
-    private long time = 0;
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data)
     {
@@ -410,6 +407,8 @@ public class MainActivity extends AppCompatActivity
 
     }
 
+    // 뒤로가기 버튼 클릭시
+    private long time = 0;
     @Override
     public void onBackPressed()
     {
@@ -419,8 +418,10 @@ public class MainActivity extends AppCompatActivity
             Toast.makeText(getApplicationContext(), "한번 더 누르면 종료됩니다.", Toast.LENGTH_SHORT).show();
         }
         else if (System.currentTimeMillis() - time < 2000)
+        {
             mDbOpenHelper.close();
             finish();
+        }
     }
 
     @Override

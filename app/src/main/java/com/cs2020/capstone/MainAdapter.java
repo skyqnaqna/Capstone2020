@@ -1,6 +1,9 @@
 package com.cs2020.capstone;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +13,11 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -33,6 +41,7 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.ViewHolder>
         TextView textView1;
         TextView textView2;
         ImageView drag;
+        Bitmap bm;
 
         public ViewHolder(View itemView, final OnProductItemClickListener listener)
         {
@@ -59,9 +68,49 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.ViewHolder>
         {
             textView1.setText(item.getName());
             textView2.setText(String.format(Locale.KOREA, "유통기한 %d-%d-%d 까지", item.getEnd_year(), item.getEnd_month(), item.getEnd_day()));
-
             // TODO : 이미지 경로 지정하여 이미지뷰에 반영하기
-            //imageView.setImageResource(item.image_src);
+            final String image = item.getImage_src();
+
+            if(image == null){ //이미지 경로가 null
+                imageView.setImageResource(R.drawable.gallery);
+            }else if(image.indexOf("http")==-1){ //이미지 경로가 sd카드 내부
+                imageView.setImageURI(Uri.parse(image));
+            }else{//이미지 경로가 인터넷 URL
+                Thread mThread = new Thread() {
+                    @Override
+                    public void run() {
+                        try {
+                            URL url = new URL(image);
+
+                            // Web에서 이미지를 가져온 뒤
+                            // ImageView에 지정할 Bitmap을 만든다
+                            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+                            conn.setDoInput(true); // 서버로 부터 응답 수신
+                            conn.connect();
+                            InputStream is = conn.getInputStream(); // InputStream 값 가져오기
+                            bm = BitmapFactory.decodeStream(is); // Bitmap으로 변환
+
+                        } catch (MalformedURLException e) {
+                            e.printStackTrace();
+
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                };
+                mThread.start(); // Thread 실행
+                try {
+                    // 메인 Thread는 별도의 작업 Thread가 작업을 완료할 때까지 대기해야한다
+                    // join()를 호출하여 별도의 작업 Thread가 종료될 때까지 메인 Thread가 기다리게 한다
+                    mThread.join();
+
+                    // 작업 Thread에서 이미지를 불러오는 작업을 완료한 뒤
+                    // UI 작업을 할 수 있는 메인 Thread에서 ImageView에 이미지를 지정한다
+                    imageView.setImageBitmap(bm);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
         }
     }
 
