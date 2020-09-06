@@ -234,15 +234,22 @@ public class AddActivity extends AppCompatActivity{
             @Override
             public void onClick(View v) {
                 setAlarm();//알람 등록
+                setAlarmDate();
             }
         });
     }
 
+    private void setAlarmDate() {
+        Ayear = calendar.get(calendar.YEAR);
+        Amonth = calendar.get(Calendar.MONTH);
+        Aday = calendar.get(Calendar.DAY_OF_MONTH);
+    }
+
     private void setAlarm() {
         //시간 설정
-        this.calendar.set(Calendar.HOUR_OF_DAY, 16);
-        this.calendar.set(Calendar.MINUTE,20);
-        this.calendar.set(Calendar.SECOND, 0);
+        this.calendar.set(Calendar.HOUR_OF_DAY, 02);
+        this.calendar.set(Calendar.MINUTE,53);
+        this.calendar.set(Calendar.SECOND, 30);
 
         // 현재일보다 이전이면 등록 실패
         if (this.calendar.before(Calendar.getInstance())) {
