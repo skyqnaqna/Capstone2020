@@ -152,7 +152,14 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.ViewHolder>
             @Override
             public int compare(Product o1, Product o2)
             {
-                return o1.getName().compareTo(o2.getName());
+                if(o1.getName() == null && o2.getName() == null)
+                    return 0;
+                else if (o1.getName() == null)
+                    return -1;
+                else if(o2.getName() == null)
+                    return 1;
+                else
+                    return o1.getName().compareTo(o2.getName());
             }
         };
         Collections.sort(items, nAsc);
