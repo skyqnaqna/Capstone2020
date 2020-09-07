@@ -121,7 +121,7 @@ public class AddActivity extends AppCompatActivity{
             @Override
             public void afterTextChanged(Editable editable) {
                 name = text1.getText().toString(); //제품명 추출
-                //Toast.makeText(getApplicationContext(), "Product name : " + name, Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(), "Product name : " + name, Toast.LENGTH_LONG).show();
             }
         });
 
@@ -180,7 +180,7 @@ public class AddActivity extends AppCompatActivity{
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 category = spinner1.getSelectedItem().toString(); //category 추출
-                //Toast.makeText(AddActivity.this, "선택된 아이템 : " + spinner1.getItemAtPosition(i), Toast.LENGTH_SHORT).show();
+                Toast.makeText(AddActivity.this, "선택된 아이템 : " + spinner1.getItemAtPosition(i), Toast.LENGTH_SHORT).show();
             }
 
             @Override
@@ -280,7 +280,7 @@ public class AddActivity extends AppCompatActivity{
 
         Toast.makeText(getApplicationContext(), Ayear + "년" + Amonth + "월" + Aday +"일 시간 설정", Toast.LENGTH_SHORT).show();
         this.calendar.set(Calendar.HOUR_OF_DAY, 05);
-        this.calendar.set(Calendar.MINUTE, 41);
+        this.calendar.set(Calendar.MINUTE, 44);
         this.calendar.set(Calendar.SECOND, 00);
 
         // 현재일보다 이전이면 등록 실패
@@ -362,7 +362,7 @@ public class AddActivity extends AppCompatActivity{
             ActivityCompat.requestPermissions(this, temp.trim().split(" "), 1);
         } else {
             // 모두 허용 상태
-          //  Toast.makeText(this, "권한을 모두 허용", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "권한을 모두 허용", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -377,13 +377,13 @@ public class AddActivity extends AppCompatActivity{
                 photoPath = getRealPathFromURI(this, photoUri);
                 Bitmap bm = BitmapFactory.decodeStream(is);
                 is.close();
-           //     Toast.makeText(getApplicationContext(), "paht : "+photoPath, Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(), "paht : "+photoPath, Toast.LENGTH_LONG).show();
                 iv.setImageBitmap(bm);
             } catch (Exception e) {
                 e.printStackTrace();
             }
         } else if (requestCode == 101 && resultCode == RESULT_CANCELED) {
-      //      Toast.makeText(this, "취소", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "취소", Toast.LENGTH_SHORT).show();
         }
 
         // 바코드 읽기 성공했을 때
@@ -393,7 +393,7 @@ public class AddActivity extends AppCompatActivity{
             String msg = scanResult.getContents();
             String barcode = msg;
             Log.d("onActivityResult", "onActivityResult: ." + msg);
-       //     Toast.makeText(this, msg, Toast.LENGTH_LONG).show();
+            Toast.makeText(this, msg, Toast.LENGTH_LONG).show();
 
             getDateFromBarcodeDB(barcode);
         }
@@ -473,7 +473,7 @@ public class AddActivity extends AppCompatActivity{
             }
             // 추가 완료 눌렀을 떄
             case R.id.complete :{
-       //         Toast.makeText(getApplicationContext(),Aday+"/"+category+"/",Toast.LENGTH_LONG).show(); //toolbar의 완료키 눌렀을 때 동작
+                Toast.makeText(getApplicationContext(),Aday+"/"+category+"/",Toast.LENGTH_LONG).show(); //toolbar의 완료키 눌렀을 때 동작
                 mDbOpenHelper.insertColumn(name, category, year, month+1, day, Ayear, Amonth+1, Aday, company, memo, photoPath);
                 String[] columns = new String[]{DBActivity.COL_AMOUNT};
                 Cursor cursor = mDbOpenHelper.selectCate(columns,"category = "+"'"+ category+"'", null, null, null, null);

@@ -163,7 +163,7 @@ public class MainActivity extends AppCompatActivity
                             @Override
                             public void onClick(int pos)
                             {
-                                //Toast.makeText(MainActivity.this, "Delete click", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(MainActivity.this, "Delete click", Toast.LENGTH_SHORT).show();
                                 Product item = adapter.getItem(pos);
                                 int id = item.getID();
                                 String cate = item.getCategory();
