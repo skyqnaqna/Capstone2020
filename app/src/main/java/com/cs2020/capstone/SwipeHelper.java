@@ -59,6 +59,9 @@ public abstract class SwipeHelper extends ItemTouchHelper.SimpleCallback
             View swipedItem=swipeViewHolder.itemView;
             Rect rect= new Rect();
             swipedItem.getGlobalVisibleRect(rect);
+            if(swipedItem==null){
+                swipedItem.getGlobalVisibleRect(rect);
+            }
 
             if(motionEvent.getAction() == MotionEvent.ACTION_DOWN ||
                     motionEvent.getAction() == MotionEvent.ACTION_UP ||
