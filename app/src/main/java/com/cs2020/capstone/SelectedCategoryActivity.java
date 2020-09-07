@@ -93,7 +93,7 @@ public class SelectedCategoryActivity extends AppCompatActivity
                             @Override
                             public void onClick(int pos)
                             {
-                                //Toast.makeText(SelectedCategoryActivity.this, "Delete click", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(SelectedCategoryActivity.this, "Delete click", Toast.LENGTH_SHORT).show();
                                 Product item = adapter.getItem(pos);
                                 int id = item.getID();
                                 String cate = item.getCategory();

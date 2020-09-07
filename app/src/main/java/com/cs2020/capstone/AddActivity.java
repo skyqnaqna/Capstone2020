@@ -219,37 +219,69 @@ public class AddActivity extends AppCompatActivity{
 
     //push 알람 실행
         this.calendar = Calendar.getInstance();//현재 시간 불러오기
-        displayDate();
+
         //날짜 설정
         TextView txtDate=findViewById(R.id.txtDate);
+        final Button btnAlarm = findViewById(R.id.btnAlarm);
         txtDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 showDatePicker();//달력 불러오기
+                btnAlarm.setEnabled(true);
             }
         });
 
-        Button btnAlarm = findViewById(R.id.btnAlarm);
         btnAlarm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 setAlarm();//알람 등록
-                setAlarmDate();
             }
         });
     }
+    //달력 보여주기
+    private void showDatePicker() {
+        DatePickerDialog dialog = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker view, int cYear, int cMonth, int cDay) {
+                // 알람 날짜 설정
+                calendar.set(Calendar.YEAR, cYear);
+                calendar.set(Calendar.MONTH, cMonth);
+                calendar.set(Calendar.DATE, cDay);
+                Toast.makeText(getApplicationContext(), cYear + "년" + cMonth + "월" + cDay +"일", Toast.LENGTH_SHORT).show();
 
-    private void setAlarmDate() {
-        Ayear = calendar.get(calendar.YEAR);
-        Amonth = calendar.get(Calendar.MONTH);
-        Aday = calendar.get(Calendar.DAY_OF_MONTH);
+                //DB에 선택한 알람 날짜 입력
+                Ayear = cYear;
+                Amonth = cMonth;
+                Aday = cDay;
+
+                Toast.makeText(getApplicationContext(), Ayear + "년" + Amonth + "월" + Aday +"일DB", Toast.LENGTH_SHORT).show();
+                // 날짜 표시
+                displayDate();
+
+            }
+        }, this.calendar.get(Calendar.YEAR),
+                this.calendar.get(Calendar.MONTH),
+                this.calendar.get(Calendar.DAY_OF_MONTH));
+        dialog.show();
+    }
+
+    //날짜 보여주기
+    private void displayDate() {
+        SimpleDateFormat format = new SimpleDateFormat
+                ("yyyy년 MM월 dd일", Locale.getDefault());
+        ((TextView) findViewById(R.id.txtDate)).setText(format.format(this.calendar.getTime()));
     }
 
     private void setAlarm() {
+        calendar.set(Calendar.YEAR, Ayear);
+        calendar.set(Calendar.MONTH, Amonth);
+        calendar.set(Calendar.DATE, Aday);
         //시간 설정
-        this.calendar.set(Calendar.HOUR_OF_DAY, 02);
-        this.calendar.set(Calendar.MINUTE,53);
-        this.calendar.set(Calendar.SECOND, 30);
+
+        Toast.makeText(getApplicationContext(), Ayear + "년" + Amonth + "월" + Aday +"일 시간 설정", Toast.LENGTH_SHORT).show();
+        this.calendar.set(Calendar.HOUR_OF_DAY, 05);
+        this.calendar.set(Calendar.MINUTE, 44);
+        this.calendar.set(Calendar.SECOND, 00);
 
         // 현재일보다 이전이면 등록 실패
         if (this.calendar.before(Calendar.getInstance())) {
@@ -293,35 +325,7 @@ public class AddActivity extends AppCompatActivity{
         }
     }
 
-    //달력 보여주기
-    private void showDatePicker() {
-        DatePickerDialog dialog = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
-            @Override
-            public void onDateSet(DatePicker view, int year, int month, int day) {
-                // 알람 날짜 설정
-                calendar.set(Calendar.YEAR, year);
-                calendar.set(Calendar.MONTH, month);
-                calendar.set(Calendar.DATE, day);
-                
-                Ayear = calendar.get(calendar.YEAR);
-                Amonth = calendar.get(Calendar.MONTH);
-                Aday = calendar.get(Calendar.DAY_OF_MONTH);
-                // 날짜 표시
-                displayDate();
 
-            }
-        }, this.calendar.get(Calendar.YEAR),
-                this.calendar.get(Calendar.MONTH),
-                this.calendar.get(Calendar.DAY_OF_MONTH));
-        dialog.show();
-    }
-
-    //날짜 보여주기
-    private void displayDate() {
-        SimpleDateFormat format = new SimpleDateFormat
-                ("yyyy년 MM월 dd일", Locale.getDefault());
-        ((TextView) findViewById(R.id.txtDate)).setText(format.format(this.calendar.getTime()));
-    }
 
 
     //권한에 대한 응답이 있을때 작동하는 함수
