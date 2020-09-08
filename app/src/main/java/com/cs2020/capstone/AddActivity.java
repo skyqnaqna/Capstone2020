@@ -279,8 +279,8 @@ public class AddActivity extends AppCompatActivity{
         //시간 설정
 
         //Toast.makeText(getApplicationContext(), Ayear + "년" + Amonth + "월" + Aday +"일 시간 설정", Toast.LENGTH_SHORT).show();
-        this.calendar.set(Calendar.HOUR_OF_DAY, 05);
-        this.calendar.set(Calendar.MINUTE, 44);
+        this.calendar.set(Calendar.HOUR_OF_DAY, 8);
+        this.calendar.set(Calendar.MINUTE, 30);
         this.calendar.set(Calendar.SECOND, 00);
 
         // 현재일보다 이전이면 등록 실패
@@ -299,7 +299,7 @@ public class AddActivity extends AppCompatActivity{
         // Toast 보여주기 (알람 시간 표시)
         SimpleDateFormat format =
                 new SimpleDateFormat("yyyy.MM.dd", Locale.getDefault());
-        //Toast.makeText(this, format.format(calendar.getTime())+" AM 08:30에 PUSH",Toast.LENGTH_LONG).show();
+        Toast.makeText(this, format.format(calendar.getTime())+" AM 08:30에 PUSH",Toast.LENGTH_LONG).show();
 
         NotificationSomething(calendar);
     }
