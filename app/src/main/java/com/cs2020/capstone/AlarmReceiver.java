@@ -50,7 +50,7 @@ public class AlarmReceiver extends BroadcastReceiver {
         long[] vibrate = {0, 1000, 2000, 3000};//진동
         Uri ring = RingtoneManager.getActualDefaultRingtoneUri(context,
                 RingtoneManager.TYPE_NOTIFICATION);
-        builder.setSmallIcon(R.drawable.ic_launcher_foreground)//어플 아이콘 넣기
+        builder.setSmallIcon(R.drawable.refrigerator)//어플 아이콘 넣기
                 .setContentTitle("알람")
                 .setContentText("유통기한이 얼마 남지 않은 제품이 있습니다.")
                 .setContentIntent(pendingIntent)
