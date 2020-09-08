@@ -121,7 +121,7 @@ public class AddActivity extends AppCompatActivity{
             @Override
             public void afterTextChanged(Editable editable) {
                 name = text1.getText().toString(); //제품명 추출
-                Toast.makeText(getApplicationContext(), "Product name : " + name, Toast.LENGTH_LONG).show();
+                //Toast.makeText(getApplicationContext(), "Product name : " + name, Toast.LENGTH_LONG).show();
             }
         });
 
@@ -180,7 +180,7 @@ public class AddActivity extends AppCompatActivity{
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 category = spinner1.getSelectedItem().toString(); //category 추출
-                Toast.makeText(AddActivity.this, "선택된 아이템 : " + spinner1.getItemAtPosition(i), Toast.LENGTH_SHORT).show();
+                //Toast.makeText(AddActivity.this, "선택된 아이템 : " + spinner1.getItemAtPosition(i), Toast.LENGTH_SHORT).show();
             }
 
             @Override
@@ -247,14 +247,14 @@ public class AddActivity extends AppCompatActivity{
                 calendar.set(Calendar.YEAR, cYear);
                 calendar.set(Calendar.MONTH, cMonth);
                 calendar.set(Calendar.DATE, cDay);
-                Toast.makeText(getApplicationContext(), cYear + "년" + cMonth + "월" + cDay +"일", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getApplicationContext(), cYear + "년" + cMonth + "월" + cDay +"일", Toast.LENGTH_SHORT).show();
 
                 //DB에 선택한 알람 날짜 입력
                 Ayear = cYear;
                 Amonth = cMonth;
                 Aday = cDay;
 
-                Toast.makeText(getApplicationContext(), Ayear + "년" + Amonth + "월" + Aday +"일DB", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getApplicationContext(), Ayear + "년" + Amonth + "월" + Aday +"일DB", Toast.LENGTH_SHORT).show();
                 // 날짜 표시
                 displayDate();
 
@@ -278,15 +278,14 @@ public class AddActivity extends AppCompatActivity{
         calendar.set(Calendar.DATE, Aday);
         //시간 설정
 
-        Toast.makeText(getApplicationContext(), Ayear + "년" + Amonth + "월" + Aday +"일 시간 설정", Toast.LENGTH_SHORT).show();
+        //Toast.makeText(getApplicationContext(), Ayear + "년" + Amonth + "월" + Aday +"일 시간 설정", Toast.LENGTH_SHORT).show();
         this.calendar.set(Calendar.HOUR_OF_DAY, 05);
         this.calendar.set(Calendar.MINUTE, 44);
         this.calendar.set(Calendar.SECOND, 00);
 
         // 현재일보다 이전이면 등록 실패
         if (this.calendar.before(Calendar.getInstance())) {
-            Toast.makeText(this, "현재시간 이후로 알람을 설정해주세요",
-                    Toast.LENGTH_LONG).show();
+            //Toast.makeText(this, "현재시간 이후로 알람을 설정해주세요",Toast.LENGTH_LONG).show();
             return;
         }
         // Receiver 설정
@@ -300,8 +299,7 @@ public class AddActivity extends AppCompatActivity{
         // Toast 보여주기 (알람 시간 표시)
         SimpleDateFormat format =
                 new SimpleDateFormat("yyyy.MM.dd", Locale.getDefault());
-        Toast.makeText(this, format.format(calendar.getTime())+" AM 08:30에 PUSH",
-                Toast.LENGTH_LONG).show();
+        //Toast.makeText(this, format.format(calendar.getTime())+" AM 08:30에 PUSH",Toast.LENGTH_LONG).show();
 
         NotificationSomething(calendar);
     }
@@ -362,7 +360,7 @@ public class AddActivity extends AppCompatActivity{
             ActivityCompat.requestPermissions(this, temp.trim().split(" "), 1);
         } else {
             // 모두 허용 상태
-            Toast.makeText(this, "권한을 모두 허용", Toast.LENGTH_SHORT).show();
+            //Toast.makeText(this, "권한을 모두 허용", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -377,13 +375,13 @@ public class AddActivity extends AppCompatActivity{
                 photoPath = getRealPathFromURI(this, photoUri);
                 Bitmap bm = BitmapFactory.decodeStream(is);
                 is.close();
-                Toast.makeText(getApplicationContext(), "paht : "+photoPath, Toast.LENGTH_LONG).show();
+                //Toast.makeText(getApplicationContext(), "paht : "+photoPath, Toast.LENGTH_LONG).show();
                 iv.setImageBitmap(bm);
             } catch (Exception e) {
                 e.printStackTrace();
             }
         } else if (requestCode == 101 && resultCode == RESULT_CANCELED) {
-            Toast.makeText(this, "취소", Toast.LENGTH_SHORT).show();
+            //Toast.makeText(this, "취소", Toast.LENGTH_SHORT).show();
         }
 
         // 바코드 읽기 성공했을 때
@@ -393,7 +391,7 @@ public class AddActivity extends AppCompatActivity{
             String msg = scanResult.getContents();
             String barcode = msg;
             Log.d("onActivityResult", "onActivityResult: ." + msg);
-            Toast.makeText(this, msg, Toast.LENGTH_LONG).show();
+            //Toast.makeText(this, msg, Toast.LENGTH_LONG).show();
 
             getDateFromBarcodeDB(barcode);
         }
@@ -473,24 +471,31 @@ public class AddActivity extends AppCompatActivity{
             }
             // 추가 완료 눌렀을 떄
             case R.id.complete :{
-                Toast.makeText(getApplicationContext(),Aday+"/"+category+"/",Toast.LENGTH_LONG).show(); //toolbar의 완료키 눌렀을 때 동작
-                mDbOpenHelper.insertColumn(name, category, year, month+1, day, Ayear, Amonth+1, Aday, company, memo, photoPath);
-                String[] columns = new String[]{DBActivity.COL_AMOUNT};
-                Cursor cursor = mDbOpenHelper.selectCate(columns,"category = "+"'"+ category+"'", null, null, null, null);
-                if(cursor != null)
+                if (name == null)
                 {
-                    while (cursor.moveToNext())
-                    {
-                        amount = cursor.getInt(0);
-                    }
+                    Toast.makeText(getApplicationContext(), "제품 이름을 입력하세요", Toast.LENGTH_LONG).show();
                 }
-                mDbOpenHelper.updateCate(category, amount+1);
-                Intent intent = new Intent(this, MainActivity.class);
-                Product product = new Product(name, category, company, year, month, day, photoPath);
-                intent.putExtra("product", product);
-                setResult(RESULT_OK, intent);
-                finish();
-                return true;
+                else
+                {
+                    //Toast.makeText(getApplicationContext(),Aday+"/"+category+"/",Toast.LENGTH_LONG).show(); //toolbar의 완료키 눌렀을 때 동작
+                    mDbOpenHelper.insertColumn(name, category, year, month+1, day, Ayear, Amonth+1, Aday, company, memo, photoPath);
+                    String[] columns = new String[]{DBActivity.COL_AMOUNT};
+                    Cursor cursor = mDbOpenHelper.selectCate(columns,"category = "+"'"+ category+"'", null, null, null, null);
+                    if(cursor != null)
+                    {
+                        while (cursor.moveToNext())
+                        {
+                            amount = cursor.getInt(0);
+                        }
+                    }
+                    mDbOpenHelper.updateCate(category, amount+1);
+                    Intent intent = new Intent(this, MainActivity.class);
+                    Product product = new Product(name, category, company, year, month, day, photoPath);
+                    intent.putExtra("product", product);
+                    setResult(RESULT_OK, intent);
+                    finish();
+                    return true;
+                }
             }
         }
 

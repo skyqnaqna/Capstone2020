@@ -26,12 +26,14 @@ public class DBActivityHelper {
         public void onCreate(SQLiteDatabase db){
             db.execSQL(DBActivity._CREATE0);
             db.execSQL(DBActivity._CREATE1);
+            db.execSQL(DBActivity._CREATE2);
         }
 
         @Override
         public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion){
             db.execSQL("DROP TABLE IF EXISTS "+DBActivity._TABLENAME);
             db.execSQL("DROP TABLE IF EXISTS "+DBActivity._TABLENAME2);
+            db.execSQL("DROP TABLE IF EXISTS "+DBActivity._TABLENAME3);
             onCreate(db);
         }
     }
@@ -70,7 +72,11 @@ public class DBActivityHelper {
         return mDB.insert(DBActivity._TABLENAME2, null, values);
     }
 
-
+    public long insertSort(int position){ //category table insert
+        ContentValues values = new ContentValues();
+        values.put(DBActivity.COL_SORT, position);
+        return mDB.insert(DBActivity._TABLENAME3, null, values);
+    }
 
     public void create(){
         mDBHelper.onCreate(mDB);
@@ -112,6 +118,22 @@ public class DBActivityHelper {
                 orderby);
     }
 
+    public Cursor selectSort(String[] colums, //category select
+                             String selection,
+                             String[] selectionArgs,
+                             String groupBy,
+                             String having,
+                             String orderby)
+    { //select 인자에 맞춘 질의문입니다. 조건에 맞춰 null을 사용하면 됩니다.
+        return mDB.query(DBActivity._TABLENAME3,
+                colums,
+                selection,
+                selectionArgs,
+                groupBy,
+                having,
+                orderby);
+    }
+
 
     //갱신할 때 사용하는 갱신문입니다
     public boolean updateColumn(int id, String name, String cate , int lyear, int lmonth, int lday, int ayear, int amonth, int aday
@@ -143,6 +165,12 @@ public class DBActivityHelper {
         return mDB.update(DBActivity._TABLENAME2, values, "category= " +"'"+cate+"'", null)> 0 ;
     }
 
+    public boolean updateSort(int position)
+    {
+        ContentValues values = new ContentValues();
+        values.put(DBActivity.COL_SORT, position);
+        return mDB.update(DBActivity._TABLENAME3, values, "_ID= " + "1", null)> 0 ;
+    }
 
     // user table의 모든 행을 삭제하는 문장입니다
     public void deleteAllColumns() {

@@ -110,7 +110,7 @@ public class ModActivity extends AppCompatActivity{
 
         Intent intent = getIntent();
         id = intent.getIntExtra("id", 0);
-        Toast.makeText(getApplicationContext(), "id :" + id, Toast.LENGTH_LONG).show();
+        //Toast.makeText(getApplicationContext(), "id :" + id, Toast.LENGTH_LONG).show();
 
         String[] coulumns = new String[]{DBActivity.COL_NAME, DBActivity.COL_CATE
                 , DBActivity.COL_LYEAR, DBActivity.COL_LMONTH, DBActivity.COL_LDAY
@@ -150,7 +150,7 @@ public class ModActivity extends AppCompatActivity{
             @Override
             public void afterTextChanged(Editable editable) {
                 name = text1.getText().toString(); //제품명 추출
-                Toast.makeText(getApplicationContext(), "Product name : " + name, Toast.LENGTH_LONG).show();
+                //Toast.makeText(getApplicationContext(), "Product name : " + name, Toast.LENGTH_LONG).show();
             }
         });
 
@@ -212,7 +212,7 @@ public class ModActivity extends AppCompatActivity{
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 category = spinner1.getSelectedItem().toString(); //category 추출
-                Toast.makeText(ModActivity.this, "선택된 아이템 : " + spinner1.getItemAtPosition(i), Toast.LENGTH_SHORT).show();
+                //Toast.makeText(ModActivity.this, "선택된 아이템 : " + spinner1.getItemAtPosition(i), Toast.LENGTH_SHORT).show();
             }
 
             @Override
@@ -321,8 +321,7 @@ public class ModActivity extends AppCompatActivity{
 
         // 현재일보다 이전이면 등록 실패
         if (this.calendar.before(Calendar.getInstance())) {
-            Toast.makeText(this, "현재시간 이후로 알람을 설정해주세요",
-                    Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "현재시간 이후로 알람을 설정해주세요",Toast.LENGTH_LONG).show();
             return;
         }
         // Receiver 설정
@@ -336,8 +335,7 @@ public class ModActivity extends AppCompatActivity{
         // Toast 보여주기 (알람 시간 표시)
         SimpleDateFormat format =
                 new SimpleDateFormat("yyyy.MM.dd", Locale.getDefault());
-        Toast.makeText(this, format.format(calendar.getTime())+" AM 08:30에 PUSH",
-                Toast.LENGTH_LONG).show();
+        Toast.makeText(this, format.format(calendar.getTime())+" AM 08:30에 PUSH",Toast.LENGTH_LONG).show();
 
         NotificationSomething(calendar);
     }
@@ -458,13 +456,13 @@ public class ModActivity extends AppCompatActivity{
                 photoPath = getRealPathFromURI(this,photoUri);
                 Bitmap bm = BitmapFactory.decodeStream(is);
                 is.close();
-                Toast.makeText(getApplicationContext(), "paht : "+photoPath, Toast.LENGTH_LONG).show();
+                //Toast.makeText(getApplicationContext(), "paht : "+photoPath, Toast.LENGTH_LONG).show();
                 iv.setImageBitmap(bm);
             } catch (Exception e) {
                 e.printStackTrace();
             }
         } else if (requestCode == 101 && resultCode == RESULT_CANCELED) {
-            Toast.makeText(this, "취소", Toast.LENGTH_SHORT).show();
+            //Toast.makeText(this, "취소", Toast.LENGTH_SHORT).show();
         }
         // 바코드 읽기 성공했을 때
         else if (resultCode == Activity.RESULT_OK)
@@ -473,7 +471,7 @@ public class ModActivity extends AppCompatActivity{
             String msg = scanResult.getContents();
             String barcode = msg;
             Log.d("onActivityResult", "onActivityResult: ." + msg);
-            Toast.makeText(this, msg, Toast.LENGTH_LONG).show();
+            //Toast.makeText(this, msg, Toast.LENGTH_LONG).show();
 
             getDateFromBarcodeDB(msg);
         }
@@ -554,7 +552,7 @@ public class ModActivity extends AppCompatActivity{
             }
             // 수정완료버튼 눌렀을 때
             case R.id.complete :{
-                Toast.makeText(getApplicationContext(),Aday+"/"+category+"/",Toast.LENGTH_LONG).show(); //toolbar의 완료키 눌렀을 때 동작
+                //Toast.makeText(getApplicationContext(),Aday+"/"+category+"/",Toast.LENGTH_LONG).show(); //toolbar의 완료키 눌렀을 때 동작
                 mDbOpenHelper.updateColumn(id, name, category, year, month+1, day, Ayear, Amonth+1, Aday, company, memo, photoPath);
                 String[] columns = new String[]{DBActivity.COL_AMOUNT};
                 Cursor cursor1 = mDbOpenHelper.selectCate(columns,"category = "+"'"+ category+"'", null, null, null, null);

@@ -47,6 +47,7 @@ public class MainActivity extends AppCompatActivity
     private ArrayList<Product> remainItems = new ArrayList<>();
     private ArrayList<Product> goneItmes = new ArrayList<>();
     private int amount = 0;
+    public int sort = 0;
 
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
@@ -63,18 +64,6 @@ public class MainActivity extends AppCompatActivity
         mBarDbOpenHelper.createDatabase();
         mBarDbOpenHelper.open();
 
-        /*String[] columns = new String[]{BarDBActivity.COL_BARNAME};
-        String num = "41333116013";
-        String bar = null;
-        Cursor Tcursor = mBarDbOpenHelper.selectBar(columns, "barcode ="+ num, null, null, null, null);
-        if(Tcursor != null)
-        {
-            while (Tcursor.moveToNext())
-            {
-                bar = Tcursor.getString(0);
-            }
-        }*/
-
        SharedPreferences pref = getSharedPreferences("checkFirst", MainActivity.MODE_PRIVATE);
         boolean checkFirst = pref.getBoolean("checkFirst", false);
         if (checkFirst == false)
@@ -90,6 +79,7 @@ public class MainActivity extends AppCompatActivity
             mDbOpenHelper.insertCate("조미료", 0);
             mDbOpenHelper.insertCate("야채", 0);
             mDbOpenHelper.insertCate("냉동식품", 0);
+            mDbOpenHelper.insertSort(sort);
 
         } else
         {
@@ -107,6 +97,18 @@ public class MainActivity extends AppCompatActivity
         ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line, sort_opt);
         spinner = (Spinner) findViewById(R.id.spinner);
         spinner.setAdapter(arrayAdapter);
+
+        String[] columns = new String[]{DBActivity.COL_SORT};
+        Cursor cursor1 = mDbOpenHelper.selectSort(columns,null, null, null, null, null);
+        if(cursor1 != null)
+        {
+            while (cursor1.moveToNext())
+            {
+                sort = cursor1.getInt(0);
+            }
+        }
+        spinner.setSelection(sort);
+
 
         rv = findViewById(R.id.ProductRecycle);
         GridLayoutManager layoutManager = new GridLayoutManager(this, 1);
@@ -131,8 +133,7 @@ public class MainActivity extends AppCompatActivity
             public void onItemClick(MainAdapter.ViewHolder holder, View view, int position)
             {
                 Product item = adapter.getItem(position);
-                Toast.makeText(getApplicationContext(), "제품 선택됨 : " + item.getName(),
-                        Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getApplicationContext(), "제품 선택됨 : " + item.getName(),Toast.LENGTH_SHORT).show();
 
                 Intent intent = new Intent(getApplicationContext(), InfoActivity.class);
 
@@ -157,7 +158,7 @@ public class MainActivity extends AppCompatActivity
                             @Override
                             public void onClick(int pos)
                             {
-                                Toast.makeText(MainActivity.this, "Delete click", Toast.LENGTH_SHORT).show();
+                                //Toast.makeText(MainActivity.this, "Delete click", Toast.LENGTH_SHORT).show();
                                 Product item = adapter.getItem(pos);
                                 int id = item.getID();
                                 String cate = item.getCategory();
@@ -174,7 +175,7 @@ public class MainActivity extends AppCompatActivity
                                 if (amount>0){
                                     mDbOpenHelper.updateCate(cate, amount-1);
                                 }
-                                Toast.makeText(MainActivity.this, "id : "+id,Toast.LENGTH_LONG).show();
+                                //Toast.makeText(MainActivity.this, "id : "+id,Toast.LENGTH_LONG).show();
                                 adapter.removeItem(pos);
                             }
                         }));
@@ -191,15 +192,23 @@ public class MainActivity extends AppCompatActivity
                 {
                     case 0:
                         adapter.nameAsc();
+                        mDbOpenHelper.updateSort(position);
+                        sort = position;
                         break;
                     case 1:
                         adapter.nameDsc();
+                        mDbOpenHelper.updateSort(position);
+                        sort = position;
                         break;
                     case 2:
                         adapter.dateAsc();
+                        mDbOpenHelper.updateSort(position);
+                        sort = position;
                         break;
                     case 3:
                         adapter.dateDsc();
+                        mDbOpenHelper.updateSort(position);
+                        sort = position;
                         break;
                 }
             }
@@ -340,17 +349,17 @@ public class MainActivity extends AppCompatActivity
         switch (item.getItemId())
         {
             case R.id.show_all:
-                Toast.makeText(getApplicationContext(), "전체 클릭", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getApplicationContext(), "전체 클릭", Toast.LENGTH_SHORT).show();
                 itemListToAdapter(allItems);
                 rv.setAdapter(adapter);
                 break;
             case R.id.show_remain:
-                Toast.makeText(getApplicationContext(), "남은거 클릭", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getApplicationContext(), "남은거 클릭", Toast.LENGTH_SHORT).show();
                 itemListToAdapter(remainItems);
                 rv.setAdapter(adapter);
                 break;
             case R.id.show_pass:
-                Toast.makeText(getApplicationContext(), "지난거 클릭", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getApplicationContext(), "지난거 클릭", Toast.LENGTH_SHORT).show();
                 itemListToAdapter(goneItmes);
                 rv.setAdapter(adapter);
                 break;
@@ -367,7 +376,7 @@ public class MainActivity extends AppCompatActivity
         {
             if (resultCode == RESULT_OK)
             {
-                Toast.makeText(getApplicationContext(), "102 Result OK", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getApplicationContext(), "102 Result OK", Toast.LENGTH_SHORT).show();
 
                 Intent intent = getIntent();
                 Product mProduct = (Product) intent.getSerializableExtra("product");
@@ -380,14 +389,14 @@ public class MainActivity extends AppCompatActivity
             }
             else
             {
-                Toast.makeText(getApplicationContext(), "Failed", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getApplicationContext(), "Failed", Toast.LENGTH_SHORT).show();
             }
         }
         else if (requestCode == 111)
         {
             if (resultCode == RESULT_OK)
             {
-                Toast.makeText(getApplicationContext(), "112 Result OK", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getApplicationContext(), "112 Result OK", Toast.LENGTH_SHORT).show();
 
                 Intent intent1 = getIntent();
                 Product mProduct = (Product) intent1.getSerializableExtra("product");
@@ -409,7 +418,7 @@ public class MainActivity extends AppCompatActivity
         if (System.currentTimeMillis() - time >= 2000)
         {
             time = System.currentTimeMillis();
-            Toast.makeText(getApplicationContext(), "한번 더 누르면 종료됩니다.", Toast.LENGTH_SHORT).show();
+            //Toast.makeText(getApplicationContext(), "한번 더 누르면 종료됩니다.", Toast.LENGTH_SHORT).show();
         }
         else if (System.currentTimeMillis() - time < 2000)
         {

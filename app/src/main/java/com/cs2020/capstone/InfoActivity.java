@@ -55,7 +55,7 @@ public class InfoActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         id = intent.getIntExtra("id", 0);
-        Toast.makeText(getApplicationContext(), "id :" + id, Toast.LENGTH_LONG).show();
+        //Toast.makeText(getApplicationContext(), "id :" + id, Toast.LENGTH_LONG).show();
         mDbOpenHelper = new DBActivityHelper(this);
         mDbOpenHelper.open();
         String[] coulumns = new String[]{DBActivity.COL_NAME, DBActivity.COL_CATE
@@ -152,8 +152,7 @@ public class InfoActivity extends AppCompatActivity {
                     return true;
                 }
                 case R.id.modify :{
-                    Toast.makeText(getApplicationContext(), "수정 제품 id : " + id,
-                            Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(getApplicationContext(), "수정 제품 id : " + id,Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent(getApplicationContext(), ModActivity.class);
                     intent.putExtra("id", id);
                     //finish();
