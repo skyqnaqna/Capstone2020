@@ -52,15 +52,17 @@
 
                 <TextView
                     android:layout_width="100dp"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
                     android:gravity="center"
-                    android:text="상품명" />
+                    android:text="상품명"
+                    android:textSize="22dp"/>
 
                 <TextView
                     android:id="@+id/pName"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center"
+                    android:textSize="20dp"
                     android:text="초코파이" />
             </LinearLayout>
 
@@ -77,14 +79,16 @@
                     android:layout_width="98dp"
                     android:layout_height="match_parent"
                     android:gravity="center"
-                    android:text="카테고리" />
+                    android:text="카테고리"
+                    android:textSize="22dp"/>
 
                 <TextView
                     android:id="@+id/pCategory"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:gravity="center"
-                    android:text="과자" />
+                    android:text="과자"
+                    android:textSize="20dp"/>
             </LinearLayout>
 
             <LinearLayout
@@ -100,14 +104,16 @@
                     android:layout_width="100dp"
                     android:layout_height="wrap_content"
                     android:gravity="center"
-                    android:text="유통기한" />
+                    android:text="유통기한"
+                    android:textSize="22dp"/>
 
                 <TextView
                     android:id="@+id/pDate"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:gravity="center"
-                    android:text="유통기한 : 2021.08.13" />
+                    android:text="유통기한 : 2021.08.13"
+                    android:textSize="20dp"/>
             </LinearLayout>
 
             <LinearLayout
@@ -123,14 +129,16 @@
                     android:layout_width="100dp"
                     android:layout_height="wrap_content"
                     android:gravity="center"
-                    android:text="알람일" />
+                    android:text="알람일"
+                    android:textSize="22dp"/>
 
                 <TextView
                     android:id="@+id/pAlarm"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:gravity="center"
-                    android:text="알림일 : 2021.08.01" />
+                    android:text="알림일 : 2021.08.01"
+                    android:textSize="20dp"/>
             </LinearLayout>
 
             <LinearLayout
@@ -144,16 +152,18 @@
 
                 <TextView
                     android:layout_width="100dp"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
                     android:gravity="center"
-                    android:text="제조업체" />
+                    android:text="제조업체"
+                    android:textSize="22dp"/>
 
                 <TextView
                     android:id="@+id/pCompany"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center"
-                    android:text="오리온" />
+                    android:text="오리온"
+                    android:textSize="20dp"/>
 
             </LinearLayout>
 
@@ -170,14 +180,15 @@
                     android:layout_width="100dp"
                     android:layout_height="match_parent"
                     android:gravity="center"
-                    android:text="메모" />
+                    android:text="메모"
+                    android:textSize="22dp"/>
 
                 <TextView
                     android:id="@+id/pMemo"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="ㅇ아초코파이ㅇ아초코파이ㅇ아초코파ㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇ이ㅇ아초코파이ㅇ아초코파이ㅇ아초코파이ㅇ아초코파이ㅇ아초코파이ㅇ아초코파이ㅇ아초2착각하기 쉬우나, 실제로는 스모어에 가깝다. 원래는 딱딱한 비스킷에 제조 후 며칠 동안 마시멜로의 수분이 비스킷으로 옮겨가 촉촉하고 부드러운 식감으로 변하는 것이다. 웹툰 역전! 야매요리에서도 이를 인지하고 수제 초코파이를 만든 바 있다. 계절과 소비지역을 감안해야 하는 이 습기의 조절이 비밀 노하우라고 한다. 실제로 롯데의 초코파이는 오리온에 비해 식감이 좀 더 바삭해 제조사별 차이를 보여준다."
-                    android:textSize="15sp" />
+                    android:textSize="20dp"/>
             </LinearLayout>
 
         </LinearLayout>
