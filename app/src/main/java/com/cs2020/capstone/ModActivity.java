@@ -245,9 +245,7 @@ public class ModActivity extends AppCompatActivity{
                 integrator.initiateScan();
             }
         });
-
-        //push 알람 실행
-        //this.calendar = Calendar.getInstance();//현재 시간 불러오기
+        
 
         calendar.set(Calendar.YEAR, Ayear);
         calendar.set(Calendar.MONTH, Amonth);

@@ -278,14 +278,14 @@ public class AddActivity extends AppCompatActivity{
         calendar.set(Calendar.DATE, Aday);
         //시간 설정
 
-        //Toast.makeText(getApplicationContext(), Ayear + "년" + Amonth + "월" + Aday +"일 시간 설정", Toast.LENGTH_SHORT).show();
+        Toast.makeText(getApplicationContext(), Ayear + "년" + Amonth + "월" + Aday +"일 시간 설정", Toast.LENGTH_SHORT).show();
         this.calendar.set(Calendar.HOUR_OF_DAY, 05);
         this.calendar.set(Calendar.MINUTE, 44);
         this.calendar.set(Calendar.SECOND, 00);
 
         // 현재일보다 이전이면 등록 실패
         if (this.calendar.before(Calendar.getInstance())) {
-            //Toast.makeText(this, "현재시간 이후로 알람을 설정해주세요",Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "현재시간 이후로 알람을 설정해주세요",Toast.LENGTH_LONG).show();
             return;
         }
         // Receiver 설정
