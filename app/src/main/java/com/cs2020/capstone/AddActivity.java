@@ -285,7 +285,7 @@ public class AddActivity extends AppCompatActivity{
 
         // 현재일보다 이전이면 등록 실패
         if (this.calendar.before(Calendar.getInstance())) {
-            //Toast.makeText(this, "현재시간 이후로 알람을 설정해주세요",Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "현재시간 이후로 알람을 설정해주세요",Toast.LENGTH_LONG).show();
             return;
         }
         // Receiver 설정
