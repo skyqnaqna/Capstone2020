@@ -3,7 +3,9 @@ package com.cs2020.capstone;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.net.Uri;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +13,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.io.IOException;
@@ -41,7 +44,9 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.ViewHolder>
         TextView textView1;
         TextView textView2;
         ImageView drag;
+        CardView cardView;
         Bitmap bm;
+
 
         public ViewHolder(View itemView, final OnProductItemClickListener listener)
         {
@@ -50,6 +55,7 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.ViewHolder>
             imageView = itemView.findViewById(R.id.product_image);
             textView1 = itemView.findViewById(R.id.product_name);
             textView2 = itemView.findViewById(R.id.product_date);
+            cardView = itemView.findViewById(R.id.product_cardView);
             drag = itemView.findViewById(R.id.drag);
 
             itemView.setOnClickListener(new View.OnClickListener()
@@ -68,9 +74,18 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.ViewHolder>
         {
             textView1.setText(item.getName());
             textView2.setText(String.format(Locale.KOREA, "유통기한 %d-%d-%d 까지", item.getEnd_year(), item.getEnd_month(), item.getEnd_day()));
-            // TODO : 이미지 경로 지정하여 이미지뷰에 반영하기
-            final String image = item.getImage_src();
 
+            // 유통기한 지난 제품 배경색 변경
+            if (item.isPassed)
+            {
+                Log.d("color", "color is changed");
+                cardView.setBackgroundColor(Color.parseColor("#828282"));
+            }
+            else
+                cardView.setBackgroundColor(Color.parseColor("#FFFFFF"));
+
+            // 이미지 불러와서 적용하기
+            final String image = item.getImage_src();
             if(image == null){ //이미지 경로가 null
                 imageView.setImageResource(R.drawable.no_picture_icon);
             }else if(image.indexOf("http")==-1){ //이미지 경로가 sd카드 내부
@@ -129,7 +144,6 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.ViewHolder>
     {
         Product item = items.get(position);
         holder.setItem(item);
-
     }
 
     public void addProduct(Product item)

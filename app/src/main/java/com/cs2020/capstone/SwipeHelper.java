@@ -49,31 +49,35 @@ public abstract class SwipeHelper extends ItemTouchHelper.SimpleCallback
         }
     };
 
-    private View.OnTouchListener onTouchListener= new View.OnTouchListener() {
+    private View.OnTouchListener onTouchListener = new View.OnTouchListener() {
         @Override
         public boolean onTouch(View v, MotionEvent motionEvent) {
             if(swipePosition<0) return false;
             Point point =new Point((int)motionEvent.getRawX(),(int)motionEvent.getRawY());
 
-            RecyclerView.ViewHolder swipeViewHolder = recyclerView.findViewHolderForAdapterPosition(swipePosition);
-            View swipedItem=swipeViewHolder.itemView;
-            Rect rect= new Rect();
-            swipedItem.getGlobalVisibleRect(rect);
-            if(swipedItem==null){
+            if (recyclerView.findViewHolderForAdapterPosition(swipePosition) != null)
+            {
+                RecyclerView.ViewHolder swipeViewHolder = recyclerView.findViewHolderForAdapterPosition(swipePosition);
+                View swipedItem = swipeViewHolder.itemView;
+                Rect rect= new Rect();
                 swipedItem.getGlobalVisibleRect(rect);
-            }
+//            if(swipedItem==null){
+//                swipedItem.getGlobalVisibleRect(rect);
+//            }
 
-            if(motionEvent.getAction() == MotionEvent.ACTION_DOWN ||
-                    motionEvent.getAction() == MotionEvent.ACTION_UP ||
-                    motionEvent.getAction() == MotionEvent.ACTION_MOVE){
+                if(motionEvent.getAction() == MotionEvent.ACTION_DOWN ||
+                        motionEvent.getAction() == MotionEvent.ACTION_UP ||
+                        motionEvent.getAction() == MotionEvent.ACTION_MOVE){
 
-                if (rect.top<point.y && rect.bottom> point.y) gestureDetector.onTouchEvent(motionEvent);
-                else {
-                    removerQueue.add(swipePosition);
-                    swipePosition = -1;
-                    recoverSwipedItem();
+                    if (rect.top<point.y && rect.bottom> point.y) gestureDetector.onTouchEvent(motionEvent);
+                    else {
+                        removerQueue.add(swipePosition);
+                        swipePosition = -1;
+                        recoverSwipedItem();
+                    }
                 }
             }
+
             return false;
         }
     };

@@ -16,8 +16,11 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 public class SelectedCategoryActivity extends AppCompatActivity
 {
@@ -154,9 +157,10 @@ public class SelectedCategoryActivity extends AppCompatActivity
             }
             cursor.close();
         }
+        divideItemList();
     }
 
-    // adapter에 있는 item리스트 초기화
+    // adapter에 있는 item리스트 초기화하고 items를 adapter에 있는 제품리스트에 반영
     protected void itemListToAdapter()
     {
         if (adapter.items != null && !adapter.items.isEmpty())
@@ -165,6 +169,30 @@ public class SelectedCategoryActivity extends AppCompatActivity
         for (int i = 0; i < items.size(); ++i)
         {
             adapter.addProduct(items.get(i));
+        }
+    }
+
+    // 유통기한 지난 제품과 남은 제품들 나누기
+    protected void divideItemList()
+    {
+        SimpleDateFormat format1 = new SimpleDateFormat("yyyy-MM-dd", Locale.KOREA);
+        Date time = new Date();
+        String today = format1.format(time);
+        int compareDate;
+
+        for (int i = 0; i < items.size(); ++i)
+        {
+            compareDate = today.compareTo(items.get(i).getDate());
+
+            if (compareDate <= 0)
+            {
+                Log.d("date", today + " <= " +items.get(i).getDate());
+                items.get(i).isPassed = false;
+            }
+            else
+            {
+                items.get(i).setIsPassed();
+            }
         }
     }
 

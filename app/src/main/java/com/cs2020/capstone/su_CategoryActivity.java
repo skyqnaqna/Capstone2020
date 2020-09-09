@@ -64,14 +64,7 @@ public class su_CategoryActivity extends AppCompatActivity
 
          adapter = new su_CategoryAdapter(this);
 
-        // TODO : DB에서 카테고리 읽어오도록 수정하기 / DB에 기본 카테고리 넣기
-//        adapter.addCategory(new su_Category("육류"));
-//        adapter.addCategory(new su_Category("해산물"));
-//        adapter.addCategory(new su_Category("음료"));
-//        adapter.addCategory(new su_Category("조미료"));
-//        adapter.addCategory(new su_Category("야채"));
-//        adapter.addCategory(new su_Category("냉동식품"));
-
+        // DB에서 카테고리 가져오기
         String[] columns = new String[] { DBActivity.COL_CATE};
         Cursor cursor = mDbOpenHelper.selectCate(columns, null, null, null, null, null);
         if (cursor != null)

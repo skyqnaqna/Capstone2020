@@ -33,6 +33,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity
 {
@@ -109,13 +110,14 @@ public class MainActivity extends AppCompatActivity
         }
         spinner.setSelection(sort);
 
-
+        // 리사이클러뷰 설정
         rv = findViewById(R.id.ProductRecycle);
         GridLayoutManager layoutManager = new GridLayoutManager(this, 1);
         rv.setLayoutManager(layoutManager);
 
         adapter = new MainAdapter(this);
 
+        // 제품 목록 설정
         initItemList();
         itemListToAdapter(allItems);
 
@@ -313,10 +315,10 @@ public class MainActivity extends AppCompatActivity
     // 유통기한 지난 제품과 남은 제품들 나누기
     protected void divideItemList()
     {
-        SimpleDateFormat format1 = new SimpleDateFormat("yyyy-MM-dd");
+        SimpleDateFormat format1 = new SimpleDateFormat("yyyy-MM-dd", Locale.KOREA);
         Date time = new Date();
         String today = format1.format(time);
-        int compare;
+        int compareDate;
 
         if (remainItems != null && !remainItems.isEmpty())
             remainItems.clear();
@@ -325,10 +327,19 @@ public class MainActivity extends AppCompatActivity
 
         for (int i = 0; i < allItems.size(); ++i)
         {
-           compare = today.compareTo(allItems.get(i).getDate());
+           compareDate = today.compareTo(allItems.get(i).getDate());
 
-           if (compare <= 0) remainItems.add(allItems.get(i));
-           else goneItmes.add(allItems.get(i));
+           if (compareDate <= 0)
+           {
+               Log.d("date", today + " <= " +allItems.get(i).getDate());
+               allItems.get(i).isPassed = false;
+               remainItems.add(allItems.get(i));
+           }
+           else
+           {
+               allItems.get(i).setIsPassed();
+               goneItmes.add(allItems.get(i));
+           }
         }
     }
 
@@ -418,7 +429,7 @@ public class MainActivity extends AppCompatActivity
         if (System.currentTimeMillis() - time >= 2000)
         {
             time = System.currentTimeMillis();
-            //Toast.makeText(getApplicationContext(), "한번 더 누르면 종료됩니다.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), "한번 더 누르면 종료됩니다.", Toast.LENGTH_SHORT).show();
         }
         else if (System.currentTimeMillis() - time < 2000)
         {
