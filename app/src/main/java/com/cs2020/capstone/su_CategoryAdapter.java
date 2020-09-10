@@ -30,6 +30,7 @@ public class su_CategoryAdapter extends RecyclerView.Adapter<su_CategoryAdapter.
     Context mContext;
     DBActivityHelper mDbOpenHelper;
     private int amount =0;
+    private int addCheck = 0;
     private String cate = null;
 
     public su_CategoryAdapter(Context context)
@@ -192,17 +193,34 @@ public class su_CategoryAdapter extends RecyclerView.Adapter<su_CategoryAdapter.
                 if (editText.getText().toString().equals(""))
                 {
                     Toast.makeText(mContext, "카테고리명을 입력하세요", Toast.LENGTH_SHORT).show();
-                    //dialog.dismiss();
                 }
                 else
                 {
+
                     cate = editText.getText().toString();
-                    addCategory(new su_Category(cate));
                     mDbOpenHelper = new DBActivityHelper(mContext);
                     mDbOpenHelper.open();
-                    mDbOpenHelper.insertCate(cate, 0);
-                    notifyDataSetChanged();
-                    dialog.dismiss();
+                    String[] columns = new String[]{DBActivity.COL_CATE};
+                    Cursor cursor = mDbOpenHelper.selectCate(columns,"category = "+"'"+ cate+"'", null, null, null, null);
+                    if(cursor != null)
+                    {
+                        while (cursor.moveToNext())
+                        {
+                            String check = cursor.getString(0);
+                            if(check.equals(cate)){
+                                addCheck=1;
+                            }
+                        }
+                    }
+                    if(addCheck == 1){
+                        Toast.makeText(mContext, "해당 카테고리는 존재합니다.", Toast.LENGTH_LONG).show();
+                    }else{
+                        addCategory(new su_Category(cate));
+                        mDbOpenHelper.insertCate(cate, 0);
+                        notifyDataSetChanged();
+                        dialog.dismiss();
+                    }
+
                 }
 
             }
