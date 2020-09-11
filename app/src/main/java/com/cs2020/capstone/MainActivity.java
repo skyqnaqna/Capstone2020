@@ -397,6 +397,11 @@ public class MainActivity extends AppCompatActivity
                 itemListToAdapter(allItems);
                 rv.setAdapter(adapter);
 
+                if (sort == 0) adapter.nameAsc();
+                else if (sort == 1) adapter.nameDsc();
+                else if (sort == 2) adapter.dateAsc();
+                else adapter.dateDsc();
+
             }
             else
             {
