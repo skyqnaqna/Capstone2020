@@ -247,12 +247,15 @@ public class ModActivity extends AppCompatActivity{
         });
 
         //push 알람 실행
-        //this.calendar = Calendar.getInstance();//현재 시간 불러오기
+        this.calendar = Calendar.getInstance();//현재 시간 불러오기
 
-        calendar.set(Calendar.YEAR, Ayear);
-        calendar.set(Calendar.MONTH, Amonth);
-        calendar.set(Calendar.DATE, Aday);
-        displayDate();
+        if(Ayear!=0){
+            calendar.set(Calendar.YEAR, Ayear);
+            calendar.set(Calendar.MONTH, Amonth);
+            calendar.set(Calendar.DATE, Aday);
+            displayDate();
+        }
+
         //날짜 설정
         TextView txtDate=findViewById(R.id.txtDate);
         txtDate.setOnClickListener(new View.OnClickListener() {
@@ -313,10 +316,42 @@ public class ModActivity extends AppCompatActivity{
         }
     }
 
+    //달력 보여주기
+    private void showDatePicker() {
+        DatePickerDialog dialog = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker view, int cYear, int cMonth, int cDay) {
+                // 알람 날짜 설정
+
+                calendar.set(Calendar.YEAR, cYear);
+                calendar.set(Calendar.MONTH, cMonth);
+                calendar.set(Calendar.DATE, cDay);
+
+                Ayear = cYear;
+                Amonth = cMonth;
+                Aday = cDay;
+                Toast.makeText(getApplicationContext(), Ayear + "년" + Amonth + "월" + Aday +"일DB", Toast.LENGTH_SHORT).show();
+                // 날짜 표시
+                displayDate();
+
+            }
+        }, this.calendar.get(Calendar.YEAR),
+                this.calendar.get(Calendar.MONTH),
+                this.calendar.get(Calendar.DAY_OF_MONTH));
+        dialog.show();
+    }
+
+    //날짜 보여주기
+    private void displayDate() {
+        SimpleDateFormat format = new SimpleDateFormat
+                ("yyyy년 MM월 dd일", Locale.getDefault());
+        ((TextView) findViewById(R.id.txtDate)).setText(format.format(this.calendar.getTime()));
+    }
+
     private void setAlarm() {
         //시간 설정
-        this.calendar.set(Calendar.HOUR_OF_DAY, 16);
-        this.calendar.set(Calendar.MINUTE,20);
+        this.calendar.set(Calendar.HOUR_OF_DAY, 8);
+        this.calendar.set(Calendar.MINUTE,30);
         this.calendar.set(Calendar.SECOND, 0);
 
         // 현재일보다 이전이면 등록 실패
@@ -361,34 +396,6 @@ public class ModActivity extends AppCompatActivity{
         }
     }
 
-    //달력 보여주기
-    private void showDatePicker() {
-        DatePickerDialog dialog = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
-            @Override
-            public void onDateSet(DatePicker view, int year, int month, int day) {
-                // 알람 날짜 설정
-
-                calendar.set(Calendar.YEAR, year);
-                calendar.set(Calendar.MONTH, month);
-                calendar.set(Calendar.DATE, day);
-
-                Ayear = calendar.get(calendar.YEAR);
-                Amonth = calendar.get(Calendar.MONTH);
-                Aday = calendar.get(Calendar.DAY_OF_MONTH);
-                // 날짜 표시
-                displayDate();
-
-            }
-        }, Ayear, Amonth, Aday);
-        dialog.show();
-    }
-
-    //날짜 보여주기
-    private void displayDate() {
-        SimpleDateFormat format = new SimpleDateFormat
-                ("yyyy년 MM월 dd일", Locale.getDefault());
-        ((TextView) findViewById(R.id.txtDate)).setText(format.format(this.calendar.getTime()));
-    }
 
 
     //권한에 대한 응답이 있을때 작동하는 함수

@@ -143,23 +143,29 @@
                 android:gravity="center"
                 android:text="알람일"
                 android:textSize="20dp"/>
+
             <TextView
                 android:id="@+id/txtDate"
-                android:layout_width="0px"
+                android:layout_width="187dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="9"
-                android:textStyle="bold"
-                android:clickable="true"/>
+                android:clickable="true"
+                android:enabled="true"
+                android:text="날짜를 선택해주세요."
+                android:textStyle="bold" />
             <Button
+                android:gravity="center"
                 android:id="@+id/btnAlarm"
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal|center_vertical"
                 android:layout_weight="1"
-                android:background="@drawable/button_activity"
-                android:text="등록"
-                android:textColor="@color/ButtonTextColor"
+                android:enabled="false"
+                android:background="@drawable/button_selector"
+                android:text="PUSH 등록"
+                android:textColor="@drawable/button_text_color"
                 android:textStyle="bold"/>
+
 
         </LinearLayout>
 
