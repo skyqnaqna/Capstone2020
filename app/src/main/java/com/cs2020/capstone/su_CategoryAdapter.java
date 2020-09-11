@@ -213,7 +213,8 @@ public class su_CategoryAdapter extends RecyclerView.Adapter<su_CategoryAdapter.
                         }
                     }
                     if(addCheck == 1){
-                        Toast.makeText(mContext, "해당 카테고리는 존재합니다.", Toast.LENGTH_LONG).show();
+                        Toast.makeText(mContext, "해당 카테고리는 이미 존재합니다.", Toast.LENGTH_LONG).show();
+                        addCheck = 0;
                     }else{
                         addCategory(new su_Category(cate));
                         mDbOpenHelper.insertCate(cate, 0);
