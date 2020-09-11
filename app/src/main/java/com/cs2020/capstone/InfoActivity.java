@@ -86,7 +86,10 @@ public class InfoActivity extends AppCompatActivity {
         Nname.setText(name);
         Ncate.setText(cate);
         Ndate.setText(Ldate);
-        Nalarm.setText(Adate);
+        if(Ayear == 0){
+            Nalarm.setText("설정된 알람이 없습니다");
+        }else
+            Nalarm.setText(Adate);
         Ncom.setText(com);
         Nmemo.setText(memo);
 
