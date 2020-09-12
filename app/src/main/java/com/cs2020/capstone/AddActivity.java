@@ -299,7 +299,7 @@ public class AddActivity extends AppCompatActivity{
         // Toast 보여주기 (알람 시간 표시)
         SimpleDateFormat format =
                 new SimpleDateFormat("yyyy.MM.dd", Locale.getDefault());
-        Toast.makeText(this, Ayear+"년 "+Amonth+"월 "+Aday+"일"+" AM 08:30에 PUSH",Toast.LENGTH_LONG).show();
+        Toast.makeText(this, format.format(calendar.getTime())+" AM 08:30에 PUSH",Toast.LENGTH_LONG).show();
 
         NotificationSomething(calendar);
     }
