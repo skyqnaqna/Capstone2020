@@ -258,14 +258,15 @@ public class ModActivity extends AppCompatActivity{
 
         //날짜 설정
         TextView txtDate=findViewById(R.id.txtDate);
+        final Button btnAlarm = findViewById(R.id.btnAlarm);
         txtDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 showDatePicker();//달력 불러오기
+                btnAlarm.setEnabled(true);
             }
         });
 
-        Button btnAlarm = findViewById(R.id.btnAlarm);
         btnAlarm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
