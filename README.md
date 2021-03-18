@@ -28,8 +28,7 @@
 ## 기능 소개
 - 전체 기능
 
-<iframe width="640" height="360" src="https://youtu.be/fjrPj80BSHs" frameborder="0" gesture="media" allowfullscreen=""></iframe>
-
+<iframe width="1280" height="721" src="https://www.youtube.com/embed/fjrPj80BSHs" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
 - 바코드 인식, 그래프
 
