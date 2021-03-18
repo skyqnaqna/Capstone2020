@@ -26,7 +26,10 @@
 - Zxing : 바코드 스캔을 위해 사용한 라이브러리
 
 ## 기능 소개
-https://user-images.githubusercontent.com/31722496/111634046-79a06400-8839-11eb-9efc-36bcbb75079a.mp4
+![소개영상](https://user-images.githubusercontent.com/31722496/111638915-1fee6880-883e-11eb-9fc5-0a7ca54ec141.mp4)
+
+https://user-images.githubusercontent.com/31722496/111638915-1fee6880-883e-11eb-9fc5-0a7ca54ec141.mp4
+
 
 <p align="center">
     <img src="https://user-images.githubusercontent.com/31722496/111635193-94bfa380-883a-11eb-9606-51882e61151b.gif" />
