@@ -26,18 +26,12 @@
 - Zxing : 바코드 스캔을 위해 사용한 라이브러리
 
 ## 기능 소개
-![소개영상](https://user-images.githubusercontent.com/31722496/111638915-1fee6880-883e-11eb-9fc5-0a7ca54ec141.mp4)
+- 전체 기능
 
-https://user-images.githubusercontent.com/31722496/111638915-1fee6880-883e-11eb-9fc5-0a7ca54ec141.mp4
+![ezgif com-gif-maker](https://user-images.githubusercontent.com/31722496/111640591-ab1c2e00-883f-11eb-8c58-e96b6309406f.gif)
 
 
-<p align="center">
-    <img src="https://user-images.githubusercontent.com/31722496/111635193-94bfa380-883a-11eb-9606-51882e61151b.gif" />
-    바코드 인식
-    <img src="https://user-images.githubusercontent.com/31722496/111635117-84a7c400-883a-11eb-9642-7879bf16393a.gif" />
-    그래프
-    <img src="https://user-images.githubusercontent.com/31722496/111635670-16afcc80-883b-11eb-9161-0a49e2dccfe7.gif" />
-    PUSH 알림 등록
-    <img src="https://user-images.githubusercontent.com/31722496/111635786-36df8b80-883b-11eb-97e1-03b533833dd5.jpg", width=232 />
-    PUSH 알림
-</p>
+- 바코드 인식, 그래프, PUSH 알림 등록
+
+![바코드 인식](https://user-images.githubusercontent.com/31722496/111635193-94bfa380-883a-11eb-9606-51882e61151b.gif "바코드 인식") ![그래프](https://user-images.githubusercontent.com/31722496/111635117-84a7c400-883a-11eb-9642-7879bf16393a.gif "그래프")
+![PUSH등록](https://user-images.githubusercontent.com/31722496/111635670-16afcc80-883b-11eb-9161-0a49e2dccfe7.gif "PUSH 알림 등록") <img src="https://user-images.githubusercontent.com/31722496/111635786-36df8b80-883b-11eb-97e1-03b533833dd5.jpg" width="232"/>
