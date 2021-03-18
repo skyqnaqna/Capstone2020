@@ -28,6 +28,8 @@
 ## 기능 소개
 - 전체 기능
 
+https://user-images.githubusercontent.com/31722496/111638915-1fee6880-883e-11eb-9fc5-0a7ca54ec141.mp4
+
 ![ezgif com-gif-maker](https://user-images.githubusercontent.com/31722496/111640591-ab1c2e00-883f-11eb-8c58-e96b6309406f.gif)
 
 
