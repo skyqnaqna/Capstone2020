@@ -26,14 +26,16 @@
 - Zxing : 바코드 스캔을 위해 사용한 라이브러리
 
 ## 기능 소개
-- 전체 기능
+> 아래 영상을 누르면 영상 페이지로 이동합니다.
 
-<iframe width="1280" height="721" src="https://www.youtube.com/embed/fjrPj80BSHs" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+<p align="middle"><a href="https://www.youtube.com/embed/fjrPj80BSHs"><img src="https://user-images.githubusercontent.com/31722496/111646552-187e8d80-8845-11eb-8087-4b70bc7f0abb.gif"
+ /></a></p>
 
-- 바코드 인식, 그래프
+
+> 바코드 인식, 그래프
 
 ![바코드 인식](https://user-images.githubusercontent.com/31722496/111635193-94bfa380-883a-11eb-9606-51882e61151b.gif "바코드 인식") ![그래프](https://user-images.githubusercontent.com/31722496/111635117-84a7c400-883a-11eb-9642-7879bf16393a.gif "그래프")
 
-- PUSH 알림
+> PUSH 알림
 
 ![PUSH등록](https://user-images.githubusercontent.com/31722496/111635670-16afcc80-883b-11eb-9161-0a49e2dccfe7.gif "PUSH 알림 등록") <img src="https://user-images.githubusercontent.com/31722496/111635786-36df8b80-883b-11eb-97e1-03b533833dd5.jpg" width="232"/>
