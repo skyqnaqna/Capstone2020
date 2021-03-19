@@ -28,7 +28,7 @@
 ## 기능 소개
 > 아래 영상을 누르면 영상 페이지로 이동합니다.
 
-<p align="middle"><a href="https://www.youtube.com/embed/fjrPj80BSHs"><img src="https://user-images.githubusercontent.com/31722496/111646552-187e8d80-8845-11eb-8087-4b70bc7f0abb.gif"
+<p align="left"><a href="https://www.youtube.com/embed/fjrPj80BSHs"><img src="https://user-images.githubusercontent.com/31722496/111646552-187e8d80-8845-11eb-8087-4b70bc7f0abb.gif"
  /></a></p>
 
 
