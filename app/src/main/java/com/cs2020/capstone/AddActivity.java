@@ -285,7 +285,7 @@ public class AddActivity extends AppCompatActivity{
 
         // 현재일보다 이전이면 등록 실패
         if (this.calendar.before(Calendar.getInstance())) {
-            Toast.makeText(this, "현재시간 이후로 알람을 설정해주세요",Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "해당날짜 이후로 알람을 설정해주세요",Toast.LENGTH_LONG).show();
             return;
         }
         // Receiver 설정
@@ -296,10 +296,11 @@ public class AddActivity extends AppCompatActivity{
                         intent,
                         PendingIntent.FLAG_UPDATE_CURRENT);
 
+        int sMonth = Amonth+1;
         // Toast 보여주기 (알람 시간 표시)
         SimpleDateFormat format =
                 new SimpleDateFormat("yyyy.MM.dd", Locale.getDefault());
-        Toast.makeText(this, format.format(calendar.getTime())+" AM 08:30에 PUSH",Toast.LENGTH_LONG).show();
+        Toast.makeText(this, Ayear+"년 "+sMonth+"월 "+Aday+"일 "+"AM 08:30에 PUSH",Toast.LENGTH_LONG).show();
 
         NotificationSomething(calendar);
     }

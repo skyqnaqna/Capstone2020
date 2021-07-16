@@ -258,14 +258,15 @@ public class ModActivity extends AppCompatActivity{
 
         //날짜 설정
         TextView txtDate=findViewById(R.id.txtDate);
+        final Button btnAlarm = findViewById(R.id.btnAlarm);
         txtDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 showDatePicker();//달력 불러오기
+                btnAlarm.setEnabled(true);
             }
         });
 
-        Button btnAlarm = findViewById(R.id.btnAlarm);
         btnAlarm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -330,7 +331,7 @@ public class ModActivity extends AppCompatActivity{
                 Ayear = cYear;
                 Amonth = cMonth;
                 Aday = cDay;
-                Toast.makeText(getApplicationContext(), Ayear + "년" + Amonth + "월" + Aday +"일DB", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getApplicationContext(), Ayear + "년" + Amonth + "월" + Aday +"일DB", Toast.LENGTH_SHORT).show();
                 // 날짜 표시
                 displayDate();
 
@@ -366,11 +367,11 @@ public class ModActivity extends AppCompatActivity{
                         0,
                         intent,
                         PendingIntent.FLAG_UPDATE_CURRENT);
-
+        int sMonth = Amonth+1;
         // Toast 보여주기 (알람 시간 표시)
         SimpleDateFormat format =
                 new SimpleDateFormat("yyyy.MM.dd", Locale.getDefault());
-        Toast.makeText(this, format.format(calendar.getTime())+" AM 08:30에 PUSH",Toast.LENGTH_LONG).show();
+        Toast.makeText(this, Ayear+"년 "+sMonth+"월 "+Aday+"일 "+"AM 08:30에 PUSH",Toast.LENGTH_LONG).show();
 
         NotificationSomething(calendar);
     }
